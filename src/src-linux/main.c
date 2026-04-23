@@ -7,7 +7,6 @@ char *input = NULL;
 
 int main()
 {
-
     clear;
     main_menu();
 

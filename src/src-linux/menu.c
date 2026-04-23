@@ -1,9 +1,11 @@
 #include "menu.h"
 #include "var.h"
 #include "coco.h"
+#include "game.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+void gamemod_menu();
 void set_menu();
 void about_menu();
 
@@ -25,7 +27,7 @@ void main_menu()
 
         if(strcmp(input, "1"))
         {
-
+            gamemod_menu();
         }
         else if(strcmp(input, "2"))
         {
@@ -44,17 +46,37 @@ void main_menu()
         else
         {
             clear;
-            free(input);
         }
     }
 }
 
+//遊戲模式選擇
+void gamemod_menu()
+{
+    while(1)
+    {
+        clear;
+        printf("[1]Two player mode\n[0]return\n");
+        *input = getchar();
+        if(strcmp(input, "1"))
+        {
+            clear;
+            two_people_game();
+        }
+        else if(strcmp(input, "0")) 
+        {
+            return;
+        }
+    }
+}
+
+//設定
 void set_menu()
 {
     while(1)
     {
         clear;
-        printf("Nothing in there\n[0]return");
+        printf("Nothing in there\n[0]return\n");
         *input = getchar();
         if(strcmp(input, "0")) 
         {
@@ -63,13 +85,13 @@ void set_menu()
     }
 }
 
-//對應第三項
+//關於
 void about_menu()
 {
     while(1)
     {
         clear;
-        printf("Version:\tV0.1-alpha.1\nDevelopers:\t06712L (Blue Cat)\n[0]return");
+        printf("Version:\tV0.1-alpha.1\nDevelopers:\t06712L (Blue Cat)\ntranslator:Google Translate\n[0]return\n");
         *input = getchar();
         if(strcmp(input, "0")) 
         {
