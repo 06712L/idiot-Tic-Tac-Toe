@@ -2,6 +2,6 @@
 #define COCO_H
 
 #define clear system("clear");
-#define play_click system("aplay ./click.wav > ./log.log 2>&1 &");
+#define play_click system("aplay ./sound/click.wav > ./log.log 2>&1 &");
 
 #endif

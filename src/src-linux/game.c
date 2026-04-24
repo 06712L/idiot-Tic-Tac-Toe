@@ -1,5 +1,4 @@
 #include "game.h"
-#include "var.h"
 #include "coco.h"
 #include <string.h>
 #include <time.h>
@@ -13,6 +12,7 @@ int rands(int max, int min)
 
 void two_people_game()
 {
+    char *input = calloc(4, sizeof(char));
     srand(time(NULL));
 
     int who_round = rands(1, 0);
@@ -44,6 +44,7 @@ void two_people_game()
 
     while(round < 9 && who_win == 2)
     {
+        re:
         printf("round %d\nTurn:%c\n\n", round, player_round[who_round]);
         for(int i = 0; i < 5; i++)
         {
@@ -57,15 +58,20 @@ void two_people_game()
         fgets(input, 4, stdin);
         input[strcspn(input, "\n")] = '\0';
         play_click;
+        if(strlen(input) != 2) {goto re;}
         char px[2] = {input[0], '\0'};
         char py[2] = {input[1], '\0'};
+        if(strlen(px) == 0 || strlen(py) == 0) {goto re;}
         int x = atoi(px);
         int y = atoi(py);
+        if(x == 0 || y == 0) {goto re;}
 
-        tic[x][y] = who_round;
-        if(x != 0) {x = x + 2;}
-        if(y != 0) {y = y + 2;}
-        player_ui[x][y] = player_round[who_round];
+        tic[x - 1][y -1] = who_round;
+        if(x == 2) {x++;}
+        else if(x == 3) {x = x + 2;}
+        if(y == 2) {y++;}
+        else if(y == 3) {y = y + 2;}
+        player_ui[x - 1][y - 1] = player_round[who_round];
 
         int s[3];
         //橫排
@@ -77,8 +83,8 @@ void two_people_game()
             }
             if(s[0] != 2 && s[1] != 2 && s[2] != 2)
             {
-                if(s[0] == 0 && s[1] == 0 && s[2] == 0) {who_win = who_round;}
-                else if(s[0] == 1 && s[1] == 1 && s[2] == 1) {who_win = who_round;}
+                if(s[0] == 0 && s[1] == 0 && s[2] == 0) {who_win = 0;}
+                else if(s[0] == 1 && s[1] == 1 && s[2] == 1) {who_win = 1;}
             }
         }
 
@@ -91,8 +97,8 @@ void two_people_game()
             }
             if(s[0] != 2 && s[1] != 2 && s[2] != 2)
             {
-                if(s[0] == 0 && s[1] == 0 && s[2] == 0) {who_win = who_round;}
-                else if(s[0] == 1 && s[1] == 1 && s[2] == 1) {who_win = who_round;}
+                if(s[0] == 0 && s[1] == 0 && s[2] == 0) {who_win = 0;}
+                else if(s[0] == 1 && s[1] == 1 && s[2] == 1) {who_win = 1;}
             }
         }
 
@@ -102,8 +108,8 @@ void two_people_game()
         s[2] = tic[2][2];
         if(s[0] != 2 && s[1] != 2 && s[2] != 2)
         {
-            if(s[0] == 0 && s[1] == 0 && s[2] == 0) {who_win = who_round;}
-            else if(s[0] == 1 && s[1] == 1 && s[2] == 1) {who_win = who_round;}
+            if(s[0] == 0 && s[1] == 0 && s[2] == 0) {who_win = 0;}
+            else if(s[0] == 1 && s[1] == 1 && s[2] == 1) {who_win = 1;}
         }
 
         //右斜(/)
@@ -112,13 +118,28 @@ void two_people_game()
         s[2] = tic[2][0];
         if(s[0] != 2 && s[1] != 2 && s[2] != 2)
         {
-            if(s[0] == 0 && s[1] == 0 && s[2] == 0) {who_win = who_round;}
-            else if(s[0] == 1 && s[1] == 1 && s[2] == 1) {who_win = who_round;}
+            if(s[0] == 0 && s[1] == 0 && s[2] == 0) {who_win = 0;}
+            else if(s[0] == 1 && s[1] == 1 && s[2] == 1) {who_win = 1;}
         }
 
         //回合結束
         if(who_round == 0) {who_round = 1;}
         else {who_round = 0;}
         round++;
+    }
+
+    clear;
+
+    if(who_win == 2)
+    {
+        printf("Oh no\n\nyou've tied.");
+        (void)getchar();
+        return;
+    }
+    else
+    {
+        printf("Congratulations\n\n%c win!!!", player_round[who_win]);
+        (void)getchar();
+        return;
     }
 }
