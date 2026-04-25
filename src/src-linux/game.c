@@ -1,6 +1,7 @@
 #include "game.h"
 #include "coco.h"
 #include <string.h>
+#include <unistd.h>
 #include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -12,7 +13,7 @@ int rands(int max, int min)
 
 void two_people_game()
 {
-    char *input = calloc(4, sizeof(char));
+    char *input = malloc(3 *sizeof(char));
     srand(time(NULL));
 
     int who_round = rands(1, 0);
@@ -45,6 +46,7 @@ void two_people_game()
     while(round < 9 && who_win == 2)
     {
         re:
+        clear;
         printf("round %d\nTurn:%c\n\n", round, player_round[who_round]);
         for(int i = 0; i < 5; i++)
         {
@@ -55,9 +57,8 @@ void two_people_game()
             printf("\n");
         }
         printf("\n");
-        fgets(input, 4, stdin);
+        fgets(input, 3, stdin);
         input[strcspn(input, "\n")] = '\0';
-        play_click;
         if(strlen(input) != 2) {goto re;}
         char px[2] = {input[0], '\0'};
         char py[2] = {input[1], '\0'};
@@ -65,13 +66,18 @@ void two_people_game()
         int x = atoi(px);
         int y = atoi(py);
         if(x == 0 || y == 0) {goto re;}
+        play_click;
 
-        tic[x - 1][y -1] = who_round;
-        if(x == 2) {x++;}
-        else if(x == 3) {x = x + 2;}
-        if(y == 2) {y++;}
-        else if(y == 3) {y = y + 2;}
-        player_ui[x - 1][y - 1] = player_round[who_round];
+        if(tic[x - 1][y -1] == 2)
+        {
+            tic[x - 1][y -1] = who_round;
+            if(x == 2) {x++;}
+            else if(x == 3) {x = x + 2;}
+            if(y == 2) {y++;}
+            else if(y == 3) {y = y + 2;}
+            player_ui[x - 1][y - 1] = player_round[who_round];
+        }
+        else {goto re;}
 
         int s[3];
         //橫排
@@ -126,20 +132,32 @@ void two_people_game()
         if(who_round == 0) {who_round = 1;}
         else {who_round = 0;}
         round++;
+        setbuf(stdin, NULL);
     }
 
     clear;
+    free(input);
 
+    //勝利結算
     if(who_win == 2)
     {
-        printf("Oh no\n\nyou've tied.");
-        (void)getchar();
-        return;
+        printf("Oh no...\n\nyou've tied.\n\n");
+        for(int i = 5; i >= 0; i--)
+        {
+            printf("waiting... %ds\r", i);
+            fflush(stdout);
+            sleep(1);
+        }
     }
     else
     {
-        printf("Congratulations\n\n%c win!!!", player_round[who_win]);
-        (void)getchar();
-        return;
+        printf("Congratulations!\n\n%c win!!!\n\n", player_round[who_win]);
+        for(int i = 5; i >= 0; i--)
+        {
+            printf("waiting... %ds\r", i);
+            fflush(stdout);
+            sleep(1);
+        }
     }
+    return;
 }
