@@ -7,7 +7,7 @@
 char input;
 
 //遊戲模式選擇
-void gamemod_menu()
+static void gamemod_menu()
 {
     while(1)
     {
@@ -16,20 +16,19 @@ void gamemod_menu()
         input = getchar();
         while(getchar() != '\n');
         play_click;
+
         if(input == '1')
         {
             clear;
             two_people_game();
+            input = getchar();
         }
-        else if(input == '0')
-        {
-            return;
-        }
+        else if(input == '0') {return;}
     }
 }
 
 //設定
-void set_menu()
+static void set_menu()
 {
     while(1)
     {
@@ -38,15 +37,13 @@ void set_menu()
         input = getchar();
         while(getchar() != '\n');
         play_click;
-        if(input == '0')
-        {
-            return;
-        }
+
+        if(input == '0') {return;}
     }
 }
 
 //關於
-void about_menu()
+static void about_menu()
 {
     while(1)
     {
@@ -55,14 +52,12 @@ void about_menu()
         input = getchar();
         while(getchar() != '\n');
         play_click;
-        if(input == '0')
-        {
-            return;
-        }
+
+        if(input == '0') {return;}
     }
 }
 
-void how_to_play_text()
+static void how_to_play_text()
 {
     printf("How to play?\n");
     printf("y x:1 2 3\n");
@@ -74,15 +69,15 @@ void how_to_play_text()
     printf("3    | | \n\n");
     printf("coordinate format:xy\n\n");
     printf("examplez:\n");
-    printf("input:12\n");
-    printf("x = 1\ty = 2\n");
+    printf("input:21\n");
+    printf("x = 2\ty = 1\n");
     printf(" | | \n-+-+-\n | | \n-+-+-\n | | \n  |\n  v\n");
     printf(" |O| \n-+-+-\n | | \n-+-+-\n | | \n\n");
     printf("[0]return\n");
 }
 
 //如何遊玩
-void how_to_play()
+static void how_to_play()
 {
     while(1)
     {
@@ -91,10 +86,8 @@ void how_to_play()
         input = getchar();
         while(getchar() != '\n');
         play_click;
-        if(input == '0')
-        {
-            return;
-        }
+
+        if(input == '0') {return;}
     }
 }
 

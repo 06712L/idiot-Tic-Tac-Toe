@@ -1,6 +1,6 @@
 CC ?= gcc
-CFLAGS = -Wall -O2 -static
-CFLAGS-debug = -Wall -O0 -g -static
+CFLAGS ?= -Wall -O2 -static
+CFLAGS-debug ?= -Wall -O0 -g -static
 TARGET = I-TTT
 SRCLINUX_DIR = ./src/src-linux
 OBJS_DIR = oiia
@@ -28,8 +28,8 @@ linuxdebug: $(OBJS)
 
 
 cleanlinux:
-	rm -rf ./$(OBJS_DIR) ./$(ELF_DIR)
+	rm -rf ./$(OBJS_DIR) ./$(ELF_DIR) ./*.log
 
 
 clean:
-	rm -rf ./$(OBJS_DIR) ./$(ELF_DIR)
+	rm -rf ./$(OBJS_DIR) ./$(ELF_DIR) ./*.log
