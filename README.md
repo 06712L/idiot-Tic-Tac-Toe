@@ -7,6 +7,8 @@
 A stupid Tic-Tac-Toe game
 </div>
 
+[[简体中文]](https://github.com/06712L/idiot-Tic-Tac-Toe/blob/main/README-zh_CN.md) [[繁體中文]](https://github.com/06712L/idiot-Tic-Tac-Toe/blob/main/README-zh_HK.md) [[English]](https://github.com/06712L/idiot-Tic-Tac-Toe/blob/main/README.md)
+
 ## Intro
 
 This Tic-Tac-Toe project is pointless. No GUI. English only. Download only if you know basic English.
