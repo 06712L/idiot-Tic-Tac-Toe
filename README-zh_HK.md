@@ -1,14 +1,11 @@
-<center>
-
+<div align="center">
+<br />
 <img src=./art/logo/iTTT-logo-1.png width=200>
-
-
-# idiot-Tic-Tac-Toe
-### i-TTT
+<h1>idiot-Tic-Tac-Toe</h1>
+<h3>i-TTT</h3>
 
 一個很白痴的井字棋遊戲
-
-</center>
+</div>
 
 
 ## 介紹
@@ -32,6 +29,12 @@
 
 - 能雙人對戰
 - CLI界面
+
+## 如何玩？
+
+<br />
+<img src="./art/readme-how/how-to-play.jpg" width="250">
+<br />
 
 ## 建議配置
 

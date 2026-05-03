@@ -1,13 +1,11 @@
-<center>
-
+<div align="center">
+<br />
 <img src=./art/logo/iTTT-logo-1.png width=200>
-
-# idiot-Tic-Tac-Toe
-### i-TTT
+<h1>idiot-Tic-Tac-Toe</h1>
+<h3>i-TTT</h3>
 
 A stupid Tic-Tac-Toe game
-
-</center>
+</div>
 
 ## Intro
 
@@ -21,7 +19,7 @@ This Tic-Tac-Toe project is pointless. No GUI. English only. Download only if yo
     - [ ] Online mode *(no server, won't build)*
 - [x] Menu
     - [x] Mode select
-    - [x] Settings *(dummy only, no function)*
+    - [x] Settings *(dummy only)*
     - [x] About
     - [x] How to play
 - [ ] Release build
@@ -31,6 +29,12 @@ This Tic-Tac-Toe project is pointless. No GUI. English only. Download only if yo
 - Two-player battle
 - CLI interface
 
+## How to play?
+
+<br />
+<img src="./art/readme-how/how-to-play.jpg" width="250">
+<br />
+
 ## Recommended Specs
 
 | Hardware | Minimum |
@@ -39,7 +43,7 @@ This Tic-Tac-Toe project is pointless. No GUI. English only. Download only if yo
 | GPU | Any display-capable |
 | RAM | 512MB+ |
 | Storage | 2MiB+ |
-| OS | Windows / Linux X86_64 |
+| OS | Windows X86_64 / Linux X86_64 |
 
 ## Platforms
 

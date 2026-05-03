@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <windows.h>
 
-char *version = "V0.1";
+char *version = "V0.1.1";
 
 int main()
 {
