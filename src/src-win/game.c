@@ -5,6 +5,10 @@
 #include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <windows.h>
+#include <mmsystem.h>
+
+#pragma comment(lib, "winmm.lib")
 
 static int rands(int max, int min)
 {
@@ -58,6 +62,7 @@ void two_people_game()
             printf("\n");
         }
         printf("\ninput:");
+        fflush(stdout);
         //input "XY"
         fgets(input, 3, stdin);
         input[strcspn(input, "\n")] = '\0';

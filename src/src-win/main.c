@@ -1,6 +1,7 @@
 #include "menu.h"
 #include "coco.h"
 #include <stdlib.h>
+#include <windows.h>
 
 char *version = "V0.1";
 

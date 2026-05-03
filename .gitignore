@@ -1,4 +1,13 @@
+*.a
+*.exe
+*.log
+*.o
+*.tar.gz
+*.zip
+*.swp
+Build.sh
 /elf
+/exe
 /oiia
 /Bulid
-*.a
+/.vscode
