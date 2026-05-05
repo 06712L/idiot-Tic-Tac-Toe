@@ -6,8 +6,6 @@
 #include <windows.h>
 #include <mmsystem.h>
 
-#pragma comment(lib, "winmm.lib")
-
 char input;
 
 //遊戲模式選擇

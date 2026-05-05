@@ -8,8 +8,6 @@
 #include <windows.h>
 #include <mmsystem.h>
 
-#pragma comment(lib, "winmm.lib")
-
 static int rands(int max, int min)
 {
     return rand() % (max - min + 1) + min;
