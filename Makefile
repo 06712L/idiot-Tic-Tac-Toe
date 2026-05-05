@@ -1,46 +1,40 @@
 CC ?= gcc
-CFLAGS ?= -Wall -O2 -static
-CFLAGS-debug ?= -Wall -O0 -g -static
-CCwin ?= x86_64-w64-mingw32-gcc
-CFLAGS ?= -Wall -O2 -static
-CFLAGS-debug ?= -Wall -O0 -g -static
+CCWIN ?= x86_64-w64-mingw32-gcc
+DEBUG ?= 0
+CFLAGS := -Wall -std=gnu99 -static
+ifeq ($(DEBUG),1)
+CFLAGS += -O0 -g
+OBJS_DIR := oiia-debug
+VERSION := debug
+else
+CFLAGS += -O2 -s
+OBJS_DIR := oiia
+VERSION := release
+endif
 LIBS =
-LIBSwin = -lwinmm
+LIBSWIN = -lwinmm
 TARGET = idiot-tic-tac-toe
 SRCLINUX_DIR = ./src/src-linux
 SRCWIN_DIR = ./src/src-win
-OBJS_DIR = oiia
 ELF_DIR = elf
 EXE_DIR = exe
 OBJS = ./$(OBJS_DIR)/main.o ./$(OBJS_DIR)/menu.o ./$(OBJS_DIR)/game.o
-OBJSwin = ./$(OBJS_DIR)/main-win.o ./$(OBJS_DIR)/menu-win.o ./$(OBJS_DIR)/game-win.o
+OBJSWIN = ./$(OBJS_DIR)/main-win.o ./$(OBJS_DIR)/menu-win.o ./$(OBJS_DIR)/game-win.o
 
-.PHONY: linux linuxdebug win windebug cleanlinux cleanwin clean
+.PHONY: linux win cleanlinux cleanwin clean
 all: linux
 
 
 linux: $(OBJS)
 	@mkdir -p $(ELF_DIR)
 	@cp -n -r ./sound ./$(ELF_DIR)
-	$(CC) $(CFLAGS) $(OBJS) -o ./$(ELF_DIR)/$(TARGET)-release $(LIBS)
+	$(CC) $(CFLAGS) $(OBJS) -o ./$(ELF_DIR)/$(TARGET)-$(VERSION) $(LIBS)
 
 
-linuxdebug: $(OBJS)
-	@mkdir -p $(ELF_DIR)
-	@cp -n -r ./sound ./$(ELF_DIR)
-	$(CC) $(CFLAGS-debug) $(OBJS) -o ./$(ELF_DIR)/$(TARGET)-debug $(LIBS)
-
-
-win: $(OBJSwin)
+win: $(OBJSWIN)
 	@mkdir -p $(EXE_DIR)
 	@cp -n -r ./sound ./$(EXE_DIR)
-	$(CCwin) $(CFLAGS) $(OBJSwin) -o ./$(EXE_DIR)/$(TARGET)-release.exe $(LIBSwin)
-
-
-windebug: $(OBJSwin)
-	@mkdir -p $(EXE_DIR)
-	@cp -n -r ./sound ./$(EXE_DIR)
-	$(CCwin) $(CFLAGS-debug) $(OBJSwin) -o ./$(EXE_DIR)/$(TARGET)-debug.exe $(LIBSwin)
+	$(CCWIN) $(CFLAGS) $(OBJSWIN) -o ./$(EXE_DIR)/$(TARGET)-$(VERSION).exe $(LIBSWIN)
 
 
 ./$(OBJS_DIR)/%.o: $(SRCLINUX_DIR)/%.c
@@ -50,7 +44,7 @@ windebug: $(OBJSwin)
 
 ./$(OBJS_DIR)/%-win.o: $(SRCWIN_DIR)/%.c
 	@mkdir -p $(OBJS_DIR)
-	$(CCwin) $(CFLAGS) -c $< -o $@
+	$(CCWIN) $(CFLAGS) -c $< -o $@
 
 
 cleanlinux:

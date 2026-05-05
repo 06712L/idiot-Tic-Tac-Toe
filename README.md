@@ -24,7 +24,7 @@ This Tic-Tac-Toe project is pointless. No GUI. English only. Download only if yo
     - [x] Settings *(dummy only)*
     - [x] About
     - [x] How to play
-- [ ] Release build
+- [x] Release build
 
 ## Highlights
 
