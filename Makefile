@@ -48,11 +48,11 @@ win: $(OBJSWIN)
 
 
 cleanlinux:
-	rm -rf ./$(OBJS_DIR) ./$(ELF_DIR) ./*.log
+	rm -rf $(OBJS) ./$(ELF_DIR) ./*.log
 
 
 cleanwin:
-	rm -rf ./$(OBJS_DIR) ./$(EXE_DIR)
+	rm -rf $(OBJSWIN) ./$(EXE_DIR)
 
 
 clean:

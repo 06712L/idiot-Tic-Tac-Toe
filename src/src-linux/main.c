@@ -2,7 +2,7 @@
 #include "coco.h"
 #include <stdlib.h>
 
-char *version = "V0.1.1";
+char *version = "V0.2 Early release version";
 
 int main()
 {

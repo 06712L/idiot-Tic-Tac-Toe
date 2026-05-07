@@ -17,7 +17,7 @@ This Tic-Tac-Toe project is pointless. No GUI. English only. Download only if yo
 
 - [x] Core game
     - [x] Two-player mode
-    - [ ] AI vs Human
+    - [ ] AI vs Human *(coming soon)*
     - [ ] Online mode *(no server, won't build)*
 - [x] Menu
     - [x] Mode select
@@ -30,6 +30,7 @@ This Tic-Tac-Toe project is pointless. No GUI. English only. Download only if yo
 
 - Two-player battle
 - CLI interface
+- egg egg egg egg egg egg egg egg egg
 
 ## How to play?
 

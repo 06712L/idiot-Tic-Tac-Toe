@@ -7,9 +7,10 @@
 *.zip
 *.swp
 *.kdev4
+callgrind.out.*
 Build.sh
 /elf
 /exe
 /oiia
-/Bulid
+/Build
 /.vscode

@@ -12,7 +12,7 @@ static void gamemod_menu()
     while(1)
     {
         clear;
-        printf("[1]Two player mode\n[0]return\n");
+        printf("[1]Two player mode\n[2]AI vs Human (coming soon)\n[0]return\n");
         input = getchar();
         while(getchar() != '\n');
         play_click;
@@ -21,8 +21,13 @@ static void gamemod_menu()
         {
             clear;
             two_people_game();
-            input = getchar();
         }
+/*        else if(input == '2')
+*        {
+*            clear;
+*            ai_vs_human();
+*        }
+*/
         else if(input == '0') {return;}
     }
 }
