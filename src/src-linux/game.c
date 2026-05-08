@@ -62,6 +62,7 @@ void two_people_game()
             printf("\n");
         }
         printf("\ninput:");
+        fflush(stdout);
         //input "XY"
         getline(&input, &siz_text, stdin);
         input[strcspn(input, "\n")] = '\0';
@@ -86,11 +87,11 @@ void two_people_game()
 
         if(strstr(input, "Egg") != NULL)
         {
-            printf("\nplayer %c threw some Egg!\n", player_round[who_round]);
+            printf("\nplayer %c threw some Eggs!\n", player_round[who_round]);
             sleep(1);
             for(int i =0; i < 30; i++)
             {
-                puts("Eggs");
+                puts("Egg");
                 usleep(20000);
             }
             sleep(1);
@@ -246,6 +247,7 @@ void ai_vs_human()
         if(who_round == who_player)
         {
             printf("\ninput:");
+            fflush(stdout);
             //input "XY"
             getline(&input, &siz_text, stdin);
             input[strcspn(input, "\n")] = '\0';
@@ -270,11 +272,11 @@ void ai_vs_human()
 
             if(strstr(input, "Egg") != NULL)
             {
-                printf("\nplayer %c threw some Egg!\n", player_round[who_round]);
+                printf("\nplayer %c threw some Eggs!\n", player_round[who_round]);
                 sleep(1);
                 for(int i =0; i < 30; i++)
                 {
-                    puts("Eggs");
+                    puts("Egg");
                     usleep(20000);
                 }
                 sleep(1);
@@ -284,18 +286,91 @@ void ai_vs_human()
         }
         else
         {
+            //報"input:程式記憶體區段錯誤(核心已傾印)" 待解決
             printf("\ninput:");
             fflush(stdout);
             sleep(rands(5, 2));
             //Zheng-De-AI Pro
-            if(tic[2][2] == 2 && round <= 1)
+            if(tic[2][2] == 2)
             {
                 strcpy(ai_input, "22");
                 ai_input[strlen(ai_input)] = '\0';
             }
+            else if(tic[2][2] != 2)
+            {
+                int check = 0;
+                //橫
+                for(int i = 0; i < 3; i++)
+                {
+                    int ss = 0;
+                    for(int j = 0; j < 3; j++)
+                    {
+                        if(tic[i][j] == who_player) {ss++;}
+                    }
+                    if(ss > 1)
+                    {
+                        int x;
+                        for(int j = 0; j < 3; j++)
+                        {
+                            if(tic[i][j] == 2)
+                            {
+                                x = j;
+                                check++;
+                                sprintf(ai_input, "%d%d",x, i);
+                                break;
+                            }
+                        }
+                    }
+                }
+                if(check == 0)
+                {
+                    //縱
+                    for(int i = 0; i < 3; i++)
+                    {
+                        int ss = 0;
+                        for(int j = 0; j < 3; j++)
+                        {
+                            if(tic[j][i] == who_player) {ss++;}
+                        }
+                        if(ss > 1)
+                        {
+                            int y;
+                            for(int j = 0; j < 3; j++)
+                            {
+                                if(tic[j][i] == 2)
+                                {
+                                    y = j;
+                                    check++;
+                                    sprintf(ai_input, "%d%d",y, i);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+                else if(check == 0)
+                {
+                    //待施工
+                }
+                else
+                {
+                    //待施工
+                }
+            }
             else
             {
-                //此區域待施工
+                int ok = 0;
+                while(ok == 0)
+                {
+                    int x = rands(3, 1);
+                    int y = rands(3, 1);
+
+                    if(tic[y][x] == 2)
+                    {
+                        sprintf(ai_input, "%d%d",x, y);
+                        ok = 1;
+                    }
+                }
             }
             printf("%s", ai_input);
             fflush(stdout);
