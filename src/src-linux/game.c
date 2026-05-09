@@ -340,9 +340,9 @@ void ai_vs_human()
                                     y = j;
                                     ai_check = 1;
                                     sprintf(ai_input, "%d%d",(i + 1), (y + 1));
+                                    break;
                                 }
                             }
-                            break;
                         }
                     }
                 }
