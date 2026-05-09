@@ -22,13 +22,13 @@ static void gamemod_menu()
             clear;
             two_people_game();
         }
-
-        else if(input == '2')
-        {
-            clear;
-            ai_vs_human();
-        }
-
+/*
+*        else if(input == '2')
+*        {
+*            clear;
+*            ai_vs_human();
+*        }
+*/
         else if(input == '0') {return;}
     }
 }
