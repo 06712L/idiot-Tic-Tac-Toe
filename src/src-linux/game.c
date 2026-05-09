@@ -2,7 +2,6 @@
 #include "coco.h"
 #include <string.h>
 #include <unistd.h>
-#include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
 #ifndef _DEFAULT_SOURCE
@@ -16,8 +15,7 @@ static int rands(int max, int min)
 
 void two_people_game()
 {
-    char *input;
-    srand(time(NULL));
+    char *input = NULL;
 
     int who_round = rands(1, 0);
     /*
@@ -190,9 +188,8 @@ void two_people_game()
 
 void ai_vs_human()
 {
-    char *input;
+    char *input = NULL;
     char *ai_input = calloc(4, sizeof(char));
-    srand(time(NULL));
 
     int who_round = rands(1, 0);
     /*
@@ -286,19 +283,20 @@ void ai_vs_human()
         }
         else
         {
-            //報"input:程式記憶體區段錯誤(核心已傾印)" 待解決
+            ai_input = calloc(4, sizeof(char));
+            int ai_check = 0;
             printf("\ninput:");
             fflush(stdout);
             sleep(rands(5, 2));
+            ai_check = 0;
             //Zheng-De-AI Pro
-            if(tic[2][2] == 2)
+            if(tic[1][1] == 2)
             {
                 strcpy(ai_input, "22");
                 ai_input[strlen(ai_input)] = '\0';
             }
-            else if(tic[2][2] != 2)
+            else if(tic[1][1] != 2)
             {
-                int check = 0;
                 //橫
                 for(int i = 0; i < 3; i++)
                 {
@@ -315,14 +313,14 @@ void ai_vs_human()
                             if(tic[i][j] == 2)
                             {
                                 x = j;
-                                check++;
-                                sprintf(ai_input, "%d%d",x, i);
+                                ai_check = 1;
+                                sprintf(ai_input, "%d%d", (x + 1), (i + 1));
                                 break;
                             }
                         }
                     }
                 }
-                if(check == 0)
+                if(ai_check == 0)
                 {
                     //縱
                     for(int i = 0; i < 3; i++)
@@ -340,24 +338,24 @@ void ai_vs_human()
                                 if(tic[j][i] == 2)
                                 {
                                     y = j;
-                                    check++;
-                                    sprintf(ai_input, "%d%d",y, i);
-                                    break;
+                                    ai_check = 1;
+                                    sprintf(ai_input, "%d%d",(i + 1), (y + 1));
                                 }
                             }
+                            break;
                         }
                     }
                 }
-                else if(check == 0)
+                if(ai_check == 0)
                 {
                     //待施工
                 }
-                else
+                if(ai_check == 0)
                 {
                     //待施工
                 }
             }
-            else
+            if(ai_check == 0 && tic[1][1] != 2)
             {
                 int ok = 0;
                 while(ok == 0)
@@ -365,7 +363,7 @@ void ai_vs_human()
                     int x = rands(3, 1);
                     int y = rands(3, 1);
 
-                    if(tic[y][x] == 2)
+                    if(tic[y-1][x-1] == 2)
                     {
                         sprintf(ai_input, "%d%d",x, y);
                         ok = 1;
@@ -446,6 +444,7 @@ void ai_vs_human()
 
     clear;
     free(input);
+    free(ai_input);
     usleep(180000);
 
     //勝利結算
