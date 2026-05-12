@@ -17,7 +17,7 @@
 
 - [x] 井字棋核心
     - [x] 雙人模式
-    - [ ] AI vs 人類模式 *(很快就來)*
+    - [x] AI vs 人類模式 *(DEMO)*
     - [ ] 連網對戰模式 *(沒服務器我也不想做)*
 - [x] 菜單
     - [x] 模式選擇
@@ -29,6 +29,7 @@
 ## 特色功能
 
 - 能雙人對戰
+- 能和AI對戰
 - CLI界面
 - egg egg egg egg egg egg egg egg
 
@@ -38,17 +39,27 @@
 <img src="./art/readme-how/how-to-play.jpg" width="250">
 <br />
 
-## 建議配置
+## 如何下載？
 
-| 硬件 | 建議配置 |
-| :--: | :--: |
-| CPU | 任意一個 X86_64 架構處理器 |
-| GPU | 能渲染就行 |
-| RAM | 512MB+ |
-| 儲存空間 | 2MiB+ |
-| 作業系統 | windows X86_64 / linux X86_64 |
+1. 前往[下載頁面](https://github.com/06712L/idiot-Tic-Tac-Toe/releases/tag/V0.2-alpha.1)
+2. 下載對應系統的檔案
 
 ## 支援平台
 
-- Linux *(`.elf`)*
+- Linux *(``)*
 - windows *(`.exe`)*
+
+## 如何編譯？
+
+### Makefile
+
+- `make linux` / `make`: 編譯linux可執行檔
+- `make win`: 編譯windows可執行檔
+- `make cleanlinux`: 清理所有linux編譯產物
+- `make cleanwin`: 清理所有windows編譯產物
+- `make clean`: 清理所有編譯產物
+- `make *** DEBUG=1`: 編譯/清理 除錯版 可執行檔/編譯產物
+
+### CMake
+
+NULL

@@ -3,6 +3,10 @@
 #include "game.h"
 #include <stdio.h>
 #include <stdlib.h>
+#ifdef _WIN32
+#include <windows.h>
+#include <mmsystem.h>
+#endif
 
 char input;
 
@@ -11,8 +15,14 @@ static void gamemod_menu()
 {
     while(1)
     {
+        int mod = 0;
+        /*
+         * mod
+         * 0 = two-persons-game
+         * 1 = ai-vs-human
+        */
         clear;
-        printf("[1]Two player mode\n[2]AI vs Human (coming soon)\n[0]return\n");
+        printf("[1]Two player mode\n[2]AI vs Human DEMO\n[0]return\n");
         input = getchar();
         while(getchar() != '\n');
         play_click;
@@ -20,15 +30,17 @@ static void gamemod_menu()
         if(input == '1')
         {
             clear;
-            two_people_game();
+            mod = 0;
+            tic_tac_toe_game(mod);
         }
-/*
-*        else if(input == '2')
-*        {
-*            clear;
-*            ai_vs_human();
-*        }
-*/
+
+        else if(input == '2')
+        {
+            clear;
+            mod = 1;
+            tic_tac_toe_game(mod);
+        }
+
         else if(input == '0') {return;}
     }
 }

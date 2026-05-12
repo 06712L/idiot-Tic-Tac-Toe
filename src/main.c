@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-char *version = "V0.2 Early release version.3";
+char *version = "V0.2-alpha.1";
 
 int main()
 {

@@ -14,8 +14,7 @@ endif
 LIBS =
 LIBSWIN = -lwinmm
 TARGET = idiot-tic-tac-toe
-SRCLINUX_DIR = ./src/src-linux
-SRCWIN_DIR = ./src/src-win
+SRC_DIR = ./src
 ELF_DIR = elf
 EXE_DIR = exe
 OBJS = ./$(OBJS_DIR)/main.o ./$(OBJS_DIR)/menu.o ./$(OBJS_DIR)/game.o
@@ -37,12 +36,12 @@ win: $(OBJSWIN)
 	$(CCWIN) $(CFLAGS) $(OBJSWIN) -o ./$(EXE_DIR)/$(TARGET)-$(VERSION).exe $(LIBSWIN)
 
 
-./$(OBJS_DIR)/%.o: $(SRCLINUX_DIR)/%.c
+./$(OBJS_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(OBJS_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 
-./$(OBJS_DIR)/%-win.o: $(SRCWIN_DIR)/%.c
+./$(OBJS_DIR)/%-win.o: $(SRC_DIR)/%.c
 	@mkdir -p $(OBJS_DIR)
 	$(CCWIN) $(CFLAGS) -c $< -o $@
 
