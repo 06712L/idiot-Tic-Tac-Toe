@@ -41,7 +41,7 @@
 
 ## 如何下载？
 
-1. 前往[下载页面](https://github.com/06712L/idiot-Tic-Tac-Toe/releases/tag/V0.2-alpha.1)
+1. 前往[下载页面](https://github.com/06712L/idiot-Tic-Tac-Toe/releases/tag/V0.2-WHAT?)
 2. 下载对应系统的文件
 
 ## 支持平台
