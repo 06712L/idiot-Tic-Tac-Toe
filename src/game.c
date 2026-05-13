@@ -12,10 +12,7 @@
 #define _DEFAULT_SOURCE
 #endif
 
-static int rands(int max, int min)
-{
-    return rand() % (max - min + 1) + min;
-}
+static int rands(int max, int min) {return rand() % (max - min + 1) + min;}
 
 static void wait_some_time(int time)
 {
@@ -95,7 +92,7 @@ void tic_tac_toe_game(int mod)
         clear;
         printf("round %d\nTurn:%c\n", (round + 1), player_round[who_round]);
         if(mod == 1) {printf("you're: %c\n\n", player_round[who_player]);}
-        else {printf("\n");}
+        else {putchar('\n');}
 
         for(int i = 0; i < 5; i++)
         {
@@ -103,7 +100,7 @@ void tic_tac_toe_game(int mod)
             {
                 printf("%c", player_ui[i][j]);
             }
-            printf("\n");
+            putchar('\n');
         }
         if(who_round == who_player || mod == 0)
         {
@@ -142,7 +139,7 @@ void tic_tac_toe_game(int mod)
                 for(int i = 0; i < 30; i++)
                 {
                     int s = rands(5, 0);
-                    for(int j = 0; j < s; j++) {printf("\t");}
+                    for(int j = 0; j < s; j++) {putchar('\t');}
                     puts("Egg");
                     usleep(20000);
                 }
@@ -401,5 +398,151 @@ void tic_tac_toe_game(int mod)
         wait_some_time(5);
     }
     setbuf(stdin, NULL);
+    return;
+}
+
+
+
+void what()
+{
+    int rooms[20][20];
+    char input[30];
+    for(int i = 0; i < 20; i++) {for(int j = 0; j < 20; j++){rooms[i][j] = 0;}}
+
+    //X,Y
+    int where_player[2];
+    for(int i = 0; i < 2; i++) {where_player[i] = rands(19, 0);}
+    int where_exit[2];
+    for(int i = 0; i < 2; i++) {where_exit[i] = rands(19, 0);}
+    while(where_player[0] == where_exit[0] || where_player[1] == where_exit[1] || rooms[where_player[1]][where_player[0]] == 1) {for(int i = 0; i < 2; i++){where_player[i] = rands(19, 0);}}
+    rooms[where_exit[1]][where_exit[0]] = 1;
+
+    /*
+     * 0 = empty room
+     * 1 = exit
+     * 2 = X
+    */
+
+    int time = rands(375, 150);
+
+    puts("you open a door");
+    usleep(500000);
+    puts("A room is inside the door");
+    usleep(550000);
+    puts("you walk into the room");
+    usleep(800000);
+    puts("Suddenly the door behind you closed");
+    usleep(700000);
+    puts("There are four doors in the room");
+    sleep(1);
+    printf("\nYou must escape from here before it's too late\n");
+    sleep(3);
+
+    while(rooms[where_player[1]][where_player[0]] == 0 && time > 1)
+    {
+        re_what:
+        clear;
+        int your_ahead = 0;
+        int your_rear = 0;
+        int your_left = 0;
+        int your_right = 0;
+
+        if((where_player[1] + 1) < 20 && rooms[(where_player[1] + 1)][where_player[0]] != 2)
+        {
+            your_ahead = 1;
+            printf("\t\t[1]The door leading ahead\n");
+        }
+        else {putchar('\n');}
+        if((where_player [0] - 1) >= 0  && rooms[where_player[1]][(where_player[0] - 1)] != 2)
+        {
+            your_left = 1;
+            printf("[2]Go to the door on the left\t\t\t");
+        }
+        else {printf("\t\t\t");}
+        if((where_player[0] + 1) < 20 && rooms[where_player[1]][(where_player[0] + 1)] != 2)
+        {
+            your_right = 1;
+            printf("[3]Go to the door on the right\n");
+        }
+        else {putchar('\n');}
+        if((where_player[1] - 1) >= 0 && rooms[(where_player[1] - 1)][where_player[0]] != 2)
+        {
+            your_rear = 1;
+            printf("\t\t[4]To the back door\n");
+        }
+        else {putchar('\n');}
+        fflush(stdout);
+        /*
+         *       ahead
+         *   left  ^  right
+         *       rear
+        */
+
+        int error = 0;
+        fgets(input, 30, stdin);
+        input[strcspn(input, "\n")] = '\0';
+        if(strlen(input) != 1) {error = 1;}
+        if(atoi(input) < 1 || atoi(input) > 4) {error = 1;}
+
+        int splayer[2];
+        for(int i = 0; i < 2; i++) {splayer[i] = where_player[i];}
+
+        if(input[0] == '1' && your_ahead == 1) {where_player[1] += 1;}
+        if(input[0] == '2' && your_left == 1) {where_player[0] -= 1;}
+        if(input[0] == '3' && your_right == 1) {where_player[0] += 1;}
+        if(input[0] == '4' && your_rear == 1) {where_player[1] -= 1;}
+        if(splayer[0] == where_player[0] && splayer[1] == where_player[1]) {error = 1;}
+
+        if(error == 1) {goto re_what;}
+
+        int something_i_can_turn_to = 0;
+        while(something_i_can_turn_to == 0)
+        {
+            int x = rands(19, 0);
+            int y = rands(19, 0);
+
+            if(rooms[y][x] == 0 && x != where_player[0] && y != where_player[1])
+            {
+                rooms[y][x] = 2;
+                something_i_can_turn_to = 1;
+            }
+        }
+        time--;
+        play_click;
+        puts("you are move...");
+        usleep(350000);
+    }
+    if(rooms[where_player[1]][where_player[0]] == 1)
+    {
+        play_win;
+        puts("You found a strange door");
+        sleep(1);
+        puts("You open that door");
+        usleep(750000);
+        puts("Wait, why is there an egg inside?");
+        usleep(800000);
+        puts("My God! That egg knocked you out!");
+        sleep(2);
+        puts("To be continued");
+        sleep(5);
+    }
+    else
+    {
+        int s = rands(670, 67);
+        clear;
+        play_lose;
+        printf("oh,oh...\n\n");
+        sleep(1);
+        puts("Some noise has started...");
+        sleep(rands(5, 3));
+        for(int i = 0; i < s; i++)
+        {
+            int ss = rands(5, 0);
+            for(int j = 0; j < ss; j++) {putchar('\t');}
+            puts("Egg");
+            usleep(10000);
+        }
+        sleep(1);
+    }
     return;
 }

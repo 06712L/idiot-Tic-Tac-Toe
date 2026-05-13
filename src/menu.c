@@ -41,6 +41,12 @@ static void gamemod_menu()
             tic_tac_toe_game(mod);
         }
 
+        else if(input == '8')
+        {
+            clear;
+            what();
+        }
+
         else if(input == '0') {return;}
     }
 }
