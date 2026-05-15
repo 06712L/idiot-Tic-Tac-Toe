@@ -11,6 +11,6 @@ callgrind.out.*
 Build.sh
 /elf
 /exe
-/oiia
+/oiia*
 /Build
 /.vscode

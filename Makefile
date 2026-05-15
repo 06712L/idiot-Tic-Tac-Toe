@@ -17,8 +17,8 @@ TARGET = idiot-tic-tac-toe
 SRC_DIR = ./src
 ELF_DIR = elf
 EXE_DIR = exe
-OBJS = ./$(OBJS_DIR)/main.o ./$(OBJS_DIR)/menu.o ./$(OBJS_DIR)/game.o
-OBJSWIN = ./$(OBJS_DIR)/main-win.o ./$(OBJS_DIR)/menu-win.o ./$(OBJS_DIR)/game-win.o
+OBJS = ./$(OBJS_DIR)/main.o ./$(OBJS_DIR)/menu.o ./$(OBJS_DIR)/game.o ./$(OBJS_DIR)/tool.o
+OBJSWIN = ./$(OBJS_DIR)/main-win.o ./$(OBJS_DIR)/menu-win.o ./$(OBJS_DIR)/game-win.o ./$(OBJS_DIR)/tool-win.o
 
 .PHONY: linux win cleanlinux cleanwin clean
 all: linux

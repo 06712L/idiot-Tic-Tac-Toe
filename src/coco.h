@@ -16,6 +16,9 @@
 #define play_lose system("aplay ./sound/lose.wav > ./log.log 2>&1 &")
 #endif
 
+int rands(int max, int min);
+int pow_int(int x, int y);
+
 extern char *version;
 
 #endif

@@ -3,12 +3,111 @@
 #include "game.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 #ifdef _WIN32
 #include <windows.h>
 #include <mmsystem.h>
 #endif
 
 char input;
+
+static void what_menu()
+{
+    char ui[5];
+    char what_c[5] = {'W', 'H', 'A', 'T', '?'};
+    int what_what[5];
+    for(int i = 0; i < 4;)
+    {
+        int can = 0;
+        int s = rands(4, 0);
+        for(int j = 0; j < 5; j++)
+        {
+            if(what_what[j] != s) {can = 1;}
+            else
+            {
+                can = 0;
+                break;
+            }
+        }
+
+        if(can == 1)
+        {
+            what_what[i] = s;
+            i++;
+        }
+    }
+
+    int done = 0;
+
+    while(!done)
+    {
+        re_input:
+        for(int i = 0; i < 5; i++) {ui[i] = ' ';}
+        clear;
+        for(int i = 0; i < 5; i++)
+        {
+            if(what_what[i] == i) {printf("%c", what_c[i]);}
+            else {putchar('?');}
+        }
+        putchar('\n');
+
+        printf("input(1~5):");
+        fflush(stdout);
+        input = getchar();
+        while(getchar() != '\n');
+        char sinput[2] = {input, '\0'};
+        int s_num = atoi(sinput);
+        s_num--;
+        if(s_num < 0 || s_num > 4) {goto re_input;}
+        ui[s_num] = '^';
+        play_click;
+
+        re_in:
+        clear;
+        for(int i = 0; i < 5; i++)
+        {
+            if(what_what[i] == i) {printf("%c", what_c[i]);}
+            else {putchar('?');}
+        }
+        putchar('\n');
+        for(int i = 0; i < 5; i++) {printf("%c", ui[i]);}
+        putchar('\n');
+
+        printf("input(1~5):");
+        fflush(stdout);
+        input = getchar();
+        while(getchar() != '\n');
+        char ssinput[2] = {input, '\0'};
+        int ss_num = atoi(ssinput);
+        ss_num--;
+        if(ss_num < 0 || ss_num > 4 || ss_num == s_num) {goto re_in;}
+
+        int s = what_what[s_num];
+        what_what[s_num] = what_what[ss_num];
+        what_what[ss_num] = s;
+
+        for(int i = 0; i < 5; i++)
+        {
+            if(what_what[i] == i) {done = 1;}
+            else
+            {
+                done = 0;
+                break;
+            }
+        }
+    }
+    clear;
+    puts("Password passed");
+    sleep(1);
+
+    if(done == 1)
+    {
+        clear;
+        what();
+    }
+
+    return;
+}
 
 //遊戲模式選擇
 static void gamemod_menu()
@@ -22,7 +121,7 @@ static void gamemod_menu()
          * 1 = ai-vs-human
         */
         clear;
-        printf("[1]Two player mode\n[2]AI vs Human DEMO\n[0]return\n");
+        printf("[1]Two player mode\n[2]AI vs Human DEMO 2\n[0]return\n");
         input = getchar();
         while(getchar() != '\n');
         play_click;
@@ -44,7 +143,7 @@ static void gamemod_menu()
         else if(input == '8')
         {
             clear;
-            what();
+            what_menu();
         }
 
         else if(input == '0') {return;}

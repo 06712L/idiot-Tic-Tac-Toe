@@ -12,8 +12,6 @@
 #define _DEFAULT_SOURCE
 #endif
 
-static int rands(int max, int min) {return rand() % (max - min + 1) + min;}
-
 static void wait_some_time(int time)
 {
     for(int i = time; i >= 0; i--)
@@ -174,8 +172,74 @@ void tic_tac_toe_game(int mod)
                 ai_input[strlen(ai_input)] = '\0';
                 which_mod = 1;
             }
+            //第二代臨時攻擊方案
+            else if(round != 0)
+            {
+                //橫
+                for(int i = 0; i < 3; i++)
+                {
+                    int ss = 0;
+                    for(int j = 0; j < 3; j++) {if(tic[i][j] == who_round && tic[i][j] != who_player) {ss++;}}
+                    
+                    if(ss == 2)
+                    {
+                        int x;
+                        for(int j = 0; j < 3; j++)
+                        {
+                            if(tic[i][j] == 2)
+                            {
+                                x = j;
+                                ai_check = 1;
+                                sprintf(ai_input, "%d%d", (x + 1), (i + 1));
+                                break;
+                            }
+                        }
+                        which_q = 1;
+                        break;
+                    }
+                }
+                if(ai_check == 0)
+                {
+                    //縱
+                    for(int i = 0; i < 3; i++)
+                    {
+                        int ss = 0;
+                        for(int j = 0; j < 3; j++) {if(tic[j][i] == who_round && tic[j][i] != who_player) {ss++;}}
+                        if(ss == 2)
+                        {
+                            int y;
+
+                            for(int j = 0; j < 3; j++)
+                            {
+                                if(tic[j][i] == 2)
+                                {
+                                    y = j;
+                                    ai_check = 1;
+                                    sprintf(ai_input, "%d%d",(i + 1), (y + 1));
+                                    break;
+                                }
+                            }
+                            which_q = 2;
+                            break;
+                        }
+                    }
+                }
+                /*
+                //左斜(\)
+                if(ai_check == 0)
+                {
+                    施工中
+                }
+                //右斜(/)
+                if (ai_check == 0)
+                {
+                    施工中
+                }
+                */
+                which_mod = 2;
+            }
             //抵禦玩家攻擊
-            else
+            else if(ai_check == 0)
             {
                 //橫
                 for(int i = 0; i < 3; i++)
@@ -274,10 +338,10 @@ void tic_tac_toe_game(int mod)
                         which_q = 4;
                     }
                 }
-                which_mod = 2;
+                which_mod = 3;
             }
-            //初代攻擊方案
-            if(ai_check == 0 && tic[1][1] != 2)
+
+            if(ai_check == 0 && round != 0)
             {
                 int ok = 0;
                 while(ok == 0)
@@ -289,7 +353,7 @@ void tic_tac_toe_game(int mod)
                     {
                         sprintf(ai_input, "%d%d",x, y);
                         ok = 1;
-                        which_mod = 3;
+                        which_mod = 4;
                     }
                 }
             }
@@ -392,7 +456,7 @@ void tic_tac_toe_game(int mod)
         }
         else
         {
-            printf("oh no...\n\n you lose.by a idiot AI\n\n");
+            printf("oh no...\n\n you lose.by an idiot AI\n\n");
             play_lose;
         }
         wait_some_time(5);
@@ -402,7 +466,7 @@ void tic_tac_toe_game(int mod)
 }
 
 
-
+//Inspired by Gravity Falls
 void what()
 {
     int rooms[20][20];
@@ -417,6 +481,8 @@ void what()
     while(where_player[0] == where_exit[0] || where_player[1] == where_exit[1] || rooms[where_player[1]][where_player[0]] == 1) {for(int i = 0; i < 2; i++){where_player[i] = rands(19, 0);}}
     rooms[where_exit[1]][where_exit[0]] = 1;
 
+    int X = 0;
+
     /*
      * 0 = empty room
      * 1 = exit
@@ -426,11 +492,11 @@ void what()
     int time = rands(375, 150);
 
     puts("you open a door");
-    usleep(500000);
+    sleep(1);
     puts("A room is inside the door");
-    usleep(550000);
+    usleep(950000);
     puts("you walk into the room");
-    usleep(800000);
+    usleep(1250000);
     puts("Suddenly the door behind you closed");
     usleep(700000);
     puts("There are four doors in the room");
@@ -456,8 +522,9 @@ void what()
         if((where_player [0] - 1) >= 0  && rooms[where_player[1]][(where_player[0] - 1)] != 2)
         {
             your_left = 1;
-            printf("[2]Go to the door on the left\t\t\t");
+            printf("[2]Go to the door on the left");
         }
+        if(pow_int(abs((where_exit[0] - where_player[0])), 2) + pow_int(abs((where_exit[1] - where_player[1])), 2) < 2) {printf("\tI sensed something nearby\t");}
         else {printf("\t\t\t");}
         if((where_player[0] + 1) < 20 && rooms[where_player[1]][(where_player[0] + 1)] != 2)
         {
@@ -501,24 +568,32 @@ void what()
             int x = rands(19, 0);
             int y = rands(19, 0);
 
-            if(rooms[y][x] == 0 && x != where_player[0] && y != where_player[1])
+            if(rooms[y][x] == 0 && x != where_player[0] && y != where_player[1] && X >= 3)
             {
                 rooms[y][x] = 2;
+                something_i_can_turn_to = 1;
+                X = 0;
+            }
+            else if (X < 3)
+            {
+                X++;
                 something_i_can_turn_to = 1;
             }
         }
         time--;
         play_click;
+        clear;
         puts("you are move...");
         usleep(350000);
     }
     if(rooms[where_player[1]][where_player[0]] == 1)
     {
+        clear;
         play_win;
         puts("You found a strange door");
         sleep(1);
         puts("You open that door");
-        usleep(750000);
+        usleep(1500000);
         puts("Wait, why is there an egg inside?");
         usleep(800000);
         puts("My God! That egg knocked you out!");

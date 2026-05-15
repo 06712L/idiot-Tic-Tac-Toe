@@ -7,7 +7,7 @@
 一個很白痴的井字棋遊戲
 </div>
 
-[[简体中文]](https://github.com/06712L/idiot-Tic-Tac-Toe/blob/main/README-zh_CN.md) [[繁體中文]](https://github.com/06712L/idiot-Tic-Tac-Toe/blob/main/README-zh_HK.md) [[English]](https://github.com/06712L/idiot-Tic-Tac-Toe/blob/main/README-en_US.md)
+[[简体中文]](https://github.com/06712L/idiot-Tic-Tac-Toe/blob/main/README-zh_CN.md) [[繁體中文]](https://github.com/06712L/idiot-Tic-Tac-Toe/blob/main/README-zh_HK.md) [[English]](https://github.com/06712L/idiot-Tic-Tac-Toe/blob/main/README.md) [[what]](https://github.com/06712L/idiot-Tic-Tac-Toe/blob/main/README-what.md)
 
 ## 介紹
 
@@ -17,7 +17,7 @@
 
 - [x] 井字棋核心
     - [x] 雙人模式
-    - [x] AI vs 人類模式 *(DEMO)*
+    - [x] AI vs 人類模式 *(DEMO 2)*
     - [ ] 連網對戰模式 *(沒服務器我也不想做)*
 - [x] 菜單
     - [x] 模式選擇
@@ -46,7 +46,7 @@
 
 ## 支援平台
 
-- Linux *(``)*
+- Linux *(無副檔名)*
 - windows *(`.exe`)*
 
 ## 如何編譯？

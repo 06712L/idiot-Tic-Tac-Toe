@@ -3,12 +3,11 @@
 #include <stdlib.h>
 #include <time.h>
 
-char *version = "V0.2-WHAT?";
+char *version = "V0.2-alpha.3";
 
 int main()
 {
     srand(time(NULL));
-    clear;
     main_menu();
 
     return 0;
