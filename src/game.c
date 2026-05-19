@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #ifdef _WIN32
 #include <windows.h>
 #include <mmsystem.h>
@@ -146,18 +147,27 @@ void tic_tac_toe_game(int mod)
             }
             else if(error == 1) {goto re;}
         }
-/*        AI
-          |
-          v
+/*      AI
+        |
+        v
 */
         else if(mod == 1)
         {
-            int which_mod; //debug
+            int which_mod = 0; //debug
             int which_q = 0; //debug
             //mix debug
             (void)which_mod;
             (void)which_q;
+            /*
+            * mod    number
+            * Egg  =   5
+            * 先手占中=1
+            * 攻   =   2
+            * 守   =   3
+            * 隨機 =   4
+            */
 
+            int want_egg = rands(100, 0);
             int ai_check = 0;
             printf("\ninput:");
             fflush(stdout);
@@ -165,15 +175,25 @@ void tic_tac_toe_game(int mod)
             ai_check = 0;
             //Zheng-De-AI Pro
 
+
+            //ai will Egg!
+            if(want_egg >= 99)
+            {
+                strcpy(ai_input, "Egg");
+                ai_input[strlen(ai_input)] = '\0';
+                ai_check = 1;
+                which_mod = 5;
+            }
+
             //先手佔領中心
-            if(tic[1][1] == 2 && round == 0)
+            else if(tic[1][1] == 2 && round == 0)
             {
                 strcpy(ai_input, "22");
                 ai_input[strlen(ai_input)] = '\0';
                 which_mod = 1;
             }
             //第二代臨時攻擊方案
-            else if(round != 0)
+            if(which_mod == 0)
             {
                 //橫
                 for(int i = 0; i < 3; i++)
@@ -224,22 +244,62 @@ void tic_tac_toe_game(int mod)
                         }
                     }
                 }
-                /*
+                
                 //左斜(\)
                 if(ai_check == 0)
                 {
-                    施工中
+                    int ss = 0;
+
+                    for(int i = 0; i < 3; i++)
+                    {
+                        if(tic[i][i] == who_round && tic[i][i] != who_player) {ss++;}
+                        if(ss == 2) {ai_check = 1;}
+                    }
+                    if(ai_check == 1)
+                    {
+                        for(int i = 0; i < 3; i++)
+                        {
+                            if(tic[i][i] == 2)
+                            {
+                                sprintf(ai_input, "%d%d", (i + 1), (i + 1));
+                                break;
+                            }
+                        }
+                        which_q = 3;
+                    }
                 }
                 //右斜(/)
                 if (ai_check == 0)
                 {
-                    施工中
+                    int sx = 2;
+                    int ss = 0;
+
+                    for(int i = 0; i < 3; i++)
+                    {
+                        if(tic[i][sx] == who_round && tic[i][sx] != who_player) {ss++;}
+                        if(ss == 2) {ai_check = 1;}
+                        sx--;
+                    }
+                    if(ai_check == 1)
+                    {
+                        sx = 2;
+                        for(int i = 0; i < 3; i++)
+                        {
+                            if(tic[i][sx] == 2)
+                            {
+                                sprintf(ai_input, "%d%d", (sx + 1), (i + 1));
+                                break;
+                            }
+                            sx--;
+                        }
+                        which_q = 4;
+                    }
                 }
-                */
+                
                 which_mod = 2;
             }
             //抵禦玩家攻擊
-            else if(ai_check == 0)
+            if(ai_check == 0 && which_mod == 0)
             {
                 //橫
                 for(int i = 0; i < 3; i++)
@@ -357,6 +417,7 @@ void tic_tac_toe_game(int mod)
                     }
                 }
             }
+
             printf("%s", ai_input);
             fflush(stdout);
             sleep(1);
@@ -366,11 +427,27 @@ void tic_tac_toe_game(int mod)
             int y = atoi(py);
             x--;
             y--;
-
-            tic[y][x] = who_round;
-            x *= 2;
-            y *= 2;
-            player_ui[y][x] = player_round[who_round];
+            if(strstr(ai_input, "Egg") != NULL)
+            {
+                printf("\nAI threw some Eggs!\n");
+                sleep(1);
+                for(int i = 0; i < 30; i++)
+                {
+                    int s = rands(5, 0);
+                    for(int j = 0; j < s; j++) {putchar('\t');}
+                    puts("Egg");
+                    usleep(20000);
+                }
+                sleep(1);
+                who_win = who_round;
+            }
+            else
+            {
+                tic[y][x] = who_round;
+                x *= 2;
+                y *= 2;
+                player_ui[y][x] = player_round[who_round];
+            }
         }
 
         int s[3];
@@ -432,7 +509,8 @@ void tic_tac_toe_game(int mod)
 
     clear;
     free(input);
-    usleep(180000);
+    if(mod == 1) {free(ai_input);}
+        usleep(180000);
 
     //勝利結算
     if(who_win == 2)
@@ -513,7 +591,7 @@ void what()
         int your_left = 0;
         int your_right = 0;
 
-        if((where_player[1] + 1) < 20 && rooms[(where_player[1] + 1)][where_player[0]] != 2)
+        if((where_player[1] - 1) >= 0 && rooms[(where_player[1] - 1)][where_player[0]] != 2)
         {
             your_ahead = 1;
             printf("\t\t[1]The door leading ahead\n");
@@ -524,15 +602,18 @@ void what()
             your_left = 1;
             printf("[2]Go to the door on the left");
         }
-        if(pow_int(abs((where_exit[0] - where_player[0])), 2) + pow_int(abs((where_exit[1] - where_player[1])), 2) < 2) {printf("\tI sensed something nearby\t");}
+
+        double s = sqrt(pow_int(abs((where_exit[0] - where_player[0])), 2) + pow_int(abs((where_exit[1] - where_player[1])), 2));
+        if(s < 2.01) {printf("\tI sensed something nearby\t");}
         else {printf("\t\t\t");}
+
         if((where_player[0] + 1) < 20 && rooms[where_player[1]][(where_player[0] + 1)] != 2)
         {
             your_right = 1;
             printf("[3]Go to the door on the right\n");
         }
         else {putchar('\n');}
-        if((where_player[1] - 1) >= 0 && rooms[(where_player[1] - 1)][where_player[0]] != 2)
+        if((where_player[1] + 1) < 20 && rooms[(where_player[1] + 1)][where_player[0]] != 2)
         {
             your_rear = 1;
             printf("\t\t[4]To the back door\n");
@@ -554,10 +635,10 @@ void what()
         int splayer[2];
         for(int i = 0; i < 2; i++) {splayer[i] = where_player[i];}
 
-        if(input[0] == '1' && your_ahead == 1) {where_player[1] += 1;}
+        if(input[0] == '1' && your_ahead == 1) {where_player[1] -= 1;}
         if(input[0] == '2' && your_left == 1) {where_player[0] -= 1;}
         if(input[0] == '3' && your_right == 1) {where_player[0] += 1;}
-        if(input[0] == '4' && your_rear == 1) {where_player[1] -= 1;}
+        if(input[0] == '4' && your_rear == 1) {where_player[1] += 1;}
         if(splayer[0] == where_player[0] && splayer[1] == where_player[1]) {error = 1;}
 
         if(error == 1) {goto re_what;}

@@ -81,6 +81,7 @@ static void what_menu()
         int ss_num = atoi(ssinput);
         ss_num--;
         if(ss_num < 0 || ss_num > 4 || ss_num == s_num) {goto re_in;}
+        play_click;
 
         int s = what_what[s_num];
         what_what[s_num] = what_what[ss_num];
@@ -121,7 +122,7 @@ static void gamemod_menu()
          * 1 = ai-vs-human
         */
         clear;
-        printf("[1]Two player mode\n[2]AI vs Human DEMO 2\n[0]return\n");
+        printf("[1]Two player mode\n[2]AI vs Human\n[0]return\n");
         input = getchar();
         while(getchar() != '\n');
         play_click;

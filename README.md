@@ -11,24 +11,26 @@ A very stupid Tic-Tac-Toe game
 
 ## Introduction
 
-This Tic-Tac-Toe project is meaningless. It has no GUI, and it is entirely in English, so it is recommended to download only if you understand basic English.
+This Tic-Tac-Toe project is meaningless. It has no GUI, and it's entirely in English, so it's recommended to download only if you understand basic English.
 
 ## Implemented Features
 
 - [x] Tic-Tac-Toe core
     - [x] Two-player mode
-    - [x] AI vs Human mode *(DEMO 2)*
-    - [ ] Online multiplayer mode *(No server, and I don't want to do it)*
+    - [x] AI vs Human mode
+    - [ ] Online multiplayer mode *(No server, and I don't want to do it either)*
 - [x] Menu
     - [x] Mode selection
-    - [x] Settings *(only the appearance, no functionality)*
+    - [x] Settings *(Completely useless)*
     - [x] About
     - [x] How to play tutorial
+- [x] Release build
 
 ## Features
 
 - Two-player battle
 - Battle against AI
+- Something is happening
 - CLI interface
 - egg egg egg egg egg egg egg egg
 
@@ -40,12 +42,12 @@ This Tic-Tac-Toe project is meaningless. It has no GUI, and it is entirely in En
 
 ## How to download?
 
-1. Go to the [download page](https://github.com/06712L/idiot-Tic-Tac-Toe/releases/tag/V0.2-WHAT?)
+1. Go to the [download page](https://github.com/06712L/idiot-Tic-Tac-Toe/releases/tag/V0.2)
 2. Download the file for your operating system
 
 ## Supported Platforms
 
-- Linux *(No file extension)*
+- Linux *(no file extension)*
 - Windows *(`.exe`)*
 
 ## How to compile?
@@ -54,9 +56,9 @@ This Tic-Tac-Toe project is meaningless. It has no GUI, and it is entirely in En
 
 - `make linux` / `make`: Compile Linux executable
 - `make win`: Compile Windows executable
-- `make cleanlinux`: Remove all Linux build artifacts
-- `make cleanwin`: Remove all Windows build artifacts
-- `make clean`: Remove all build artifacts
+- `make cleanlinux`: Clean all Linux build artifacts
+- `make cleanwin`: Clean all Windows build artifacts
+- `make clean`: Clean all build artifacts
 - `make *** DEBUG=1`: Compile/clean debug version executable/build artifacts
 
 ### CMake

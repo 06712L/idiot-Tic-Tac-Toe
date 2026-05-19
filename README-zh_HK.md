@@ -17,11 +17,11 @@
 
 - [x] 井字棋核心
     - [x] 雙人模式
-    - [x] AI vs 人類模式 *(DEMO 2)*
+    - [x] AI vs 人類模式
     - [ ] 連網對戰模式 *(沒服務器我也不想做)*
 - [x] 菜單
     - [x] 模式選擇
-    - [x] 設定 *(只有外表,沒有功能)*
+    - [x] 設定 *(毫無作用)*
     - [x] 關於
     - [x] 如何玩教學
 - [x] 發行版
@@ -30,6 +30,7 @@
 
 - 能雙人對戰
 - 能和AI對戰
+- 某些事正在發生
 - CLI界面
 - egg egg egg egg egg egg egg egg
 
@@ -41,7 +42,7 @@
 
 ## 如何下載？
 
-1. 前往[下載頁面](https://github.com/06712L/idiot-Tic-Tac-Toe/releases/tag/V0.2-WHAT?)
+1. 前往[下載頁面](https://github.com/06712L/idiot-Tic-Tac-Toe/releases/tag/V0.2)
 2. 下載對應系統的檔案
 
 ## 支援平台

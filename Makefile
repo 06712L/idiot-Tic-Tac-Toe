@@ -11,7 +11,7 @@ CFLAGS += -O2 -s
 OBJS_DIR := oiia
 VERSION := release
 endif
-LIBS =
+LIBS = -lm
 LIBSWIN = -lwinmm
 TARGET = idiot-tic-tac-toe
 SRC_DIR = ./src
