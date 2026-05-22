@@ -17,7 +17,7 @@ static void wait_some_time(int time)
 {
     for(int i = time; i >= 0; i--)
     {
-        printf("waiting... %ds\r", i);
+        printf("waiting %d second to leif\r", i);
         fflush(stdout);
         sleep(1);
     }
@@ -559,7 +559,7 @@ void what()
     while(where_player[0] == where_exit[0] || where_player[1] == where_exit[1] || rooms[where_player[1]][where_player[0]] == 1) {for(int i = 0; i < 2; i++){where_player[i] = rands(19, 0);}}
     rooms[where_exit[1]][where_exit[0]] = 1;
 
-    int X = 0;
+    int walk = 1;
 
     /*
      * 0 = empty room
@@ -582,7 +582,7 @@ void what()
     printf("\nYou must escape from here before it's too late\n");
     sleep(3);
 
-    while(rooms[where_player[1]][where_player[0]] == 0 && time > 1)
+    while(rooms[where_player[1]][where_player[0]] == 0 && time > 0)
     {
         re_what:
         clear;
@@ -604,7 +604,7 @@ void what()
         }
 
         double s = sqrt(pow_int(abs((where_exit[0] - where_player[0])), 2) + pow_int(abs((where_exit[1] - where_player[1])), 2));
-        if(s < 2.01) {printf("\tI sensed something nearby\t");}
+        if(s < (sqrt(2) + 0.01)) {printf("\tI sensed something nearby\t");}
         else {printf("\t\t\t");}
 
         if((where_player[0] + 1) < 20 && rooms[where_player[1]][(where_player[0] + 1)] != 2)
@@ -649,15 +649,15 @@ void what()
             int x = rands(19, 0);
             int y = rands(19, 0);
 
-            if(rooms[y][x] == 0 && x != where_player[0] && y != where_player[1] && X >= 3)
+            if(rooms[y][x] == 0 && x != where_player[0] && y != where_player[1] && (walk % 3) == 0)
             {
                 rooms[y][x] = 2;
                 something_i_can_turn_to = 1;
-                X = 0;
+                walk = 0;
             }
-            else if (X < 3)
+            else
             {
-                X++;
+                walk++;
                 something_i_can_turn_to = 1;
             }
         }
@@ -681,6 +681,9 @@ void what()
         sleep(2);
         puts("To be continued");
         sleep(5);
+        clear;
+        printf("Overview\n\n%d second remaining\nYou took %d steps\n\n", time, walk);
+        wait_some_time(10);
     }
     else
     {
@@ -699,6 +702,15 @@ void what()
             usleep(10000);
         }
         sleep(1);
+        printf("Overview\n\n%d second remaining\nYou took %d steps\n\n", time, walk);
+        wait_some_time(10);
     }
     return;
 }
+
+/*
+static void what_chapter_two()
+{
+
+}
+*/

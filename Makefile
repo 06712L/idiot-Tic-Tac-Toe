@@ -1,7 +1,8 @@
 CC ?= gcc
 CCWIN ?= x86_64-w64-mingw32-gcc
 DEBUG ?= 0
-CFLAGS := -Wall -std=gnu99 -static
+STATIC ?= 0
+CFLAGS := -Wall -std=gnu99
 ifeq ($(DEBUG),1)
 CFLAGS += -O0 -g
 OBJS_DIR := oiia-debug
@@ -10,6 +11,9 @@ else
 CFLAGS += -O2 -s
 OBJS_DIR := oiia
 VERSION := release
+endif
+ifeq ($(STATIC),1)
+CFLAGS += -static
 endif
 LIBS = -lm
 LIBSWIN = -lwinmm

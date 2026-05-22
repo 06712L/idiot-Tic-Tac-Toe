@@ -31,7 +31,7 @@ This WHAT project is WHAT. It has WHAT, and it is entirely in WHAT, so it is rec
 - WHAT?
 - WHAT?
 - WHAT?
-- Something is happening
+- Something is happening...
 - egg egg egg egg egg egg egg egg
 
 ## How to WHAT??

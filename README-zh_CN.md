@@ -30,8 +30,8 @@
 
 - 能双人对战
 - 能和AI对战
-- 某些事正在发生
 - CLI界面
+- 某些事正在发生...
 - egg egg egg egg egg egg egg egg
 
 ## 如何玩？
@@ -42,7 +42,7 @@
 
 ## 如何下载？
 
-1. 前往[下载页面](https://github.com/06712L/idiot-Tic-Tac-Toe/releases/tag/V0.2)
+1. 前往[下载页面](https://github.com/06712L/idiot-Tic-Tac-Toe/releases/tag/V0.2.1)
 2. 下载对应系统的文件
 
 ## 支持平台
@@ -60,6 +60,7 @@
 - `make cleanwin`: 清理所有windows编译产物
 - `make clean`: 清理所有编译产物
 - `make *** DEBUG=1`: 编译/清理 调试版 可执行文件/编译产物
+- `make *** STATIC=1`: 打包静态库
 
 ### CMake
 

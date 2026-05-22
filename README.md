@@ -30,8 +30,8 @@ This Tic-Tac-Toe project is meaningless. It has no GUI, and it's entirely in Eng
 
 - Two-player battle
 - Battle against AI
-- Something is happening
 - CLI interface
+- Something is happening...
 - egg egg egg egg egg egg egg egg
 
 ## How to play?
@@ -42,7 +42,7 @@ This Tic-Tac-Toe project is meaningless. It has no GUI, and it's entirely in Eng
 
 ## How to download?
 
-1. Go to the [download page](https://github.com/06712L/idiot-Tic-Tac-Toe/releases/tag/V0.2)
+1. Go to the [download page](https://github.com/06712L/idiot-Tic-Tac-Toe/releases/tag/V0.2.1)
 2. Download the file for your operating system
 
 ## Supported Platforms
@@ -60,6 +60,7 @@ This Tic-Tac-Toe project is meaningless. It has no GUI, and it's entirely in Eng
 - `make cleanwin`: Clean all Windows build artifacts
 - `make clean`: Clean all build artifacts
 - `make *** DEBUG=1`: Compile/clean debug version executable/build artifacts
+- `make *** STATIC=1`: Package static library
 
 ### CMake
 
