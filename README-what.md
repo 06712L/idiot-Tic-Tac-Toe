@@ -42,7 +42,7 @@ This WHAT project is WHAT. It has WHAT, and it is entirely in WHAT, so it is rec
 
 ## How to WHAT?
 
-1. Go to the [WHAT?](https://github.com/06712L/idiot-Tic-Tac-Toe/releases/tag/V0.2)
+1. Go to the [WHAT?](https://github.com/06712L/idiot-Tic-Tac-Toe/releases/tag/V0.2.2)
 2. Download the WHAT for your WHAT?
 
 ## Supported Platforms
@@ -56,10 +56,11 @@ This WHAT project is WHAT. It has WHAT, and it is entirely in WHAT, so it is rec
 
 - `make linux` / `make`: Compile Linux executable
 - `make win`: Compile Windows executable
-- `make cleanlinux`: Remove all Linux build artifacts
-- `make cleanwin`: Remove all Windows build artifacts
-- `make clean`: Remove all build artifacts
+- `make cleanlinux`: Clean all Linux build artifacts
+- `make cleanwin`: Clean all Windows build artifacts
+- `make clean`: Clean all build artifacts
 - `make *** DEBUG=1`: Compile/clean debug version executable/build artifacts
+- `make *** STATIC=1`: Package static library
 
 ### CMake
 

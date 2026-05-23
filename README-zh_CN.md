@@ -21,7 +21,7 @@
     - [ ] 联网对战模式 *(没服务器我也不想做)*
 - [x] 菜单
     - [x] 模式选择
-    - [x] 设置 *(毫无作用)*
+    - [x] 设置
     - [x] 关于
     - [x] 如何玩教学
 - [x] 发行版
@@ -42,7 +42,7 @@
 
 ## 如何下载？
 
-1. 前往[下载页面](https://github.com/06712L/idiot-Tic-Tac-Toe/releases/tag/V0.2.1)
+1. 前往[下载页面](https://github.com/06712L/idiot-Tic-Tac-Toe/releases/tag/V0.2.2)
 2. 下载对应系统的文件
 
 ## 支持平台
@@ -65,3 +65,8 @@
 ### CMake
 
 NULL
+
+<div align="center">
+<h1>广告</h1>
+<img src=./art/ad/ad-egg-v0.2.2.jpg width=250>
+</div>

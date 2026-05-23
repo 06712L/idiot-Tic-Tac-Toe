@@ -21,7 +21,7 @@ This Tic-Tac-Toe project is meaningless. It has no GUI, and it's entirely in Eng
     - [ ] Online multiplayer mode *(No server, and I don't want to do it either)*
 - [x] Menu
     - [x] Mode selection
-    - [x] Settings *(Completely useless)*
+    - [x] Settings
     - [x] About
     - [x] How to play tutorial
 - [x] Release build
@@ -42,7 +42,7 @@ This Tic-Tac-Toe project is meaningless. It has no GUI, and it's entirely in Eng
 
 ## How to download?
 
-1. Go to the [download page](https://github.com/06712L/idiot-Tic-Tac-Toe/releases/tag/V0.2.1)
+1. Go to the [download page](https://github.com/06712L/idiot-Tic-Tac-Toe/releases/tag/V0.2.2)
 2. Download the file for your operating system
 
 ## Supported Platforms
@@ -65,3 +65,8 @@ This Tic-Tac-Toe project is meaningless. It has no GUI, and it's entirely in Eng
 ### CMake
 
 NULL
+
+<div align="center">
+<h1>Advertise</h1>
+<img src=./art/ad/ad-egg-v0.2.2.jpg width=250>
+</div>

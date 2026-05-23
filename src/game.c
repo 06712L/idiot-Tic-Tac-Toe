@@ -31,7 +31,7 @@ void tic_tac_toe_game(int mod)
     input = malloc(4 * sizeof(char));
     #endif
     char *ai_input = NULL;
-    int who_player;
+    int who_player = 2;
     if(mod == 1)
     {
         ai_input = calloc(4, sizeof(char));
@@ -500,11 +500,11 @@ void tic_tac_toe_game(int mod)
         }
 
         //回合結束
-        if(who_round == 0) {who_round = 1;}
+        if(!who_round) {who_round = 1;}
         else {who_round = 0;}
         round++;
         setbuf(stdin, NULL);
-        play_click;
+        play_click
     }
 
     clear;
@@ -516,13 +516,13 @@ void tic_tac_toe_game(int mod)
     if(who_win == 2)
     {
         printf("Oh no...\n\nyou two are tied.\n\n");
-        play_tied;
+        play_tied
         wait_some_time(5);
     }
     else if(mod == 0)
     {
         printf("Congratulations!\n\n%c win!!!\n\n", player_round[who_win]);
-        play_win;
+        play_win
         wait_some_time(5);
     }
     else if(mod == 1)
@@ -530,12 +530,12 @@ void tic_tac_toe_game(int mod)
         if(who_win == who_player)
         {
             printf("Congratulations!\n\nyou win!!!\n\n");
-            play_win;
+            play_win
         }
         else
         {
-            printf("oh no...\n\n you lose.by an idiot AI\n\n");
-            play_lose;
+            printf("oh no...\n\nyou lose.by an idiot AI\n\n");
+            play_lose
         }
         wait_some_time(5);
     }
@@ -596,14 +596,16 @@ void what()
             your_ahead = 1;
             printf("\t\t[1]The door leading ahead\n");
         }
+        else if(rooms[(where_player[1] - 1)][where_player[0]] == 2) {puts("X");}
         else {putchar('\n');}
         if((where_player [0] - 1) >= 0  && rooms[where_player[1]][(where_player[0] - 1)] != 2)
         {
             your_left = 1;
             printf("[2]Go to the door on the left");
         }
+        else if(rooms[where_player[1]][(where_player[0] - 1)] == 2) {putchar('X');}
 
-        double s = sqrt(pow_int(abs((where_exit[0] - where_player[0])), 2) + pow_int(abs((where_exit[1] - where_player[1])), 2));
+        double s = hypot(abs(where_exit[0] - where_player[0]), abs(where_exit[1] - where_player[1]));
         if(s < (sqrt(2) + 0.01)) {printf("\tI sensed something nearby\t");}
         else {printf("\t\t\t");}
 
@@ -612,12 +614,14 @@ void what()
             your_right = 1;
             printf("[3]Go to the door on the right\n");
         }
+        else if(rooms[where_player[1]][(where_player[0] + 1)] == 2) {puts("X");}
         else {putchar('\n');}
         if((where_player[1] + 1) < 20 && rooms[(where_player[1] + 1)][where_player[0]] != 2)
         {
             your_rear = 1;
             printf("\t\t[4]To the back door\n");
         }
+        else if(rooms[(where_player[1] + 1)][where_player[0]] == 2) {printf("\t\t\tX");}
         else {putchar('\n');}
         fflush(stdout);
         /*
@@ -653,24 +657,23 @@ void what()
             {
                 rooms[y][x] = 2;
                 something_i_can_turn_to = 1;
-                walk = 0;
             }
             else
             {
-                walk++;
                 something_i_can_turn_to = 1;
             }
+            walk++;
         }
         time--;
-        play_click;
+        play_click
         clear;
-        puts("you are move...");
+        puts("you are moveing...");
         usleep(350000);
     }
     if(rooms[where_player[1]][where_player[0]] == 1)
     {
         clear;
-        play_win;
+        play_win
         puts("You found a strange door");
         sleep(1);
         puts("You open that door");
@@ -689,7 +692,7 @@ void what()
     {
         int s = rands(670, 67);
         clear;
-        play_lose;
+        play_lose
         printf("oh,oh...\n\n");
         sleep(1);
         puts("Some noise has started...");
@@ -711,6 +714,6 @@ void what()
 /*
 static void what_chapter_two()
 {
-
+    預計V0.3完成
 }
 */

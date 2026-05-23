@@ -7,6 +7,7 @@
 *.zip
 *.swp
 *.kdev4
+*.json
 callgrind.out.*
 Build.sh
 /elf
