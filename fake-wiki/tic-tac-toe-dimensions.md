@@ -1,22 +1,22 @@
 <div align="center">
 <img src="./img/tic-tac-toe-dimensions.png" width="200">
 <h1>Tic-Tac-Toe Dimensions</h1>
-玩家所在維度
+The Dimension the Player Resides In
 </div>
 
-## 概述
+## Overview
 
-玩家所存在的維度,眾多維度之一,但似乎某些事情開始發生了
+The dimension in which the player resides—one among many, yet it seems something has begun to happen.
 
-## 維度資訊
+## Dimension Information
 
-| 項目　　　　　　 | 種類　　 | 說明 |
-| :----------------:| :--------:| :----:|
-| 維度種類　　　　 | 規則維度 | 　　 |
-| 維度規則依賴性　 | 極度依賴 | 　　 |
-| 維度現狀　　　　 | 較健康　 | 不錯 |
-| 維度內已知生命體 | 玩家　　 | 　　 |
+| Item                          | Type                 | Description |
+| :----------------------------: | :------------------: | :---------: |
+| Type of Dimension             | Rule-Based Dimension |             |
+| Dimensional Rule Dependency   | Highly Dependent     |             |
+| Current Status of Dimension   | Relatively Healthy   | Not bad     |
+| Known Lifeforms Within Dimension | Player               |             |
 
-## 歷史
+## History
 
-- 暫無
+- None at present
