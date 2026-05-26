@@ -10,10 +10,10 @@
 
 #else
 #define clear system("clear")
-#define play_click if(sound) {system("aplay ./sound/click.wav > ./log.log 2>&1 &");}
-#define play_tied if(sound) {system("aplay ./sound/tied.wav > ./log.log 2>&1 &");}
-#define play_win if(sound) {system("aplay ./sound/winner.wav > ./log.log 2>&1 &");}
-#define play_lose if(sound) {system("aplay ./sound/lose.wav > ./log.log 2>&1 &");}
+#define play_click if(sound) {system("aplay ./sound/click.wav > /dev/null 2>&1 &");}
+#define play_tied if(sound) {system("aplay ./sound/tied.wav > /dev/null 2>&1 &");}
+#define play_win if(sound) {system("aplay ./sound/winner.wav > /dev/null 2>&1 &");}
+#define play_lose if(sound) {system("aplay ./sound/lose.wav > /dev/null 2>&1 &");}
 #endif
 
 int rands(int max, int min);

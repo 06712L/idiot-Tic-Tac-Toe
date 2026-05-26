@@ -711,9 +711,25 @@ void what()
     return;
 }
 
-/*
+/*參考午夜後宮
 static void what_chapter_two()
 {
-    預計V0.3完成
+    int you_ok = 1;
+    *
+    * 1 = live
+    * 0 = die
+    *
+
+    int where_egg = 3;
+    *
+    * 0 = <-
+    * 1 = ^
+    *     |
+    *
+    * 2 = ->
+    * 3 = NULL
+    *
+
+    
 }
 */

@@ -51,7 +51,7 @@ win: $(OBJSWIN)
 
 
 cleanlinux:
-	rm -rf $(OBJS) ./$(ELF_DIR) ./*.log
+	rm -rf $(OBJS) ./$(ELF_DIR)
 
 
 cleanwin:
@@ -59,4 +59,4 @@ cleanwin:
 
 
 clean:
-	rm -rf ./$(OBJS_DIR) ./$(ELF_DIR) ./$(EXE_DIR) ./*.log
+	rm -rf ./$(OBJS_DIR) ./$(ELF_DIR) ./$(EXE_DIR)
