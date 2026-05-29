@@ -840,30 +840,78 @@ void what()
 //Inspired by Baldi's Basic
 static void what_chapter_two()
 {
-    char map[11] = {'#', '#', '#', '^', '#', '#', '#', '#', '#', '#', '#', };
+    char map[11] = {'#', '#', '#', '#', '#', '^', '#', '#', '#', '#', '#'};
     int egg_king_distance = rands(30, 17); //Egg king初始距離玩家
-    int stamina = 100; //體力
-    int ammo = 10; //彈藥初始10顆
-    int distance_exit = 100; //初始100米，就是100步
+    int stamina = 10; //體力
+    int ammo = 15; //雞蛋初始10顆
+    int distance_exit = rands(105, 95); //初始距離
+    int block = rands(30, 25);
 
-    char *input = NULL;
-    #ifdef _WIN32
-    input = malloc(3 * sizeof(char));
-    #endif
+    char *input = calloc(2, sizeof(char));
 
     clear;
-    puts("You wake up in a slightly dark corridor");
+    puts("You wake up in a somewhat dark corridor.");
     sleep(1);
-    puts("Wait, why is there some noise?");
-    usleep(800000);
-    puts("Oh no! It's an egg, and it's wearing a crown! It looks a bit silly.");
-    sleep(2);
-    puts("It's coming! RUNNNNNN!");
+    puts("You see a window");
+    usleep(850000);
+    puts("You go over and take a look");
     usleep(670000);
+    puts("You saw all sorts of eggs as tall as a person on the street.");
+    sleep(2);
+    puts("Some sounds appeared...");
+    usleep(1500000);
+    printf("An egg wearing a crown has found you.\n\n");
+    sleep(1);
+    puts("You have to run fast!");
+    sleep(5);
+
 
     while(egg_king_distance <= 0 && distance_exit > 0)
     {
-        //預計V0.3-alpha.2開始施工
+        int can_hit_block = 0;
+        if(block <= 1) {can_hit_block = 1;}
+
+        printf("stamina[");
+        for(int i = 0; i < 10; i++)
+        {
+            if(i < stamina) {putchar('#');}
+            else {putchar('-');}
+        }
+        printf("] %d%%\n", (stamina * 10));
+
+        printf("Eggs[");
+        for(int i = 0; i < 15; i++)
+        {
+            if(i < ammo) {putchar('O');}
+            else {putchar('X');}
+        }
+        printf("] %d\n\n@", ammo);
+
+        for(int i = 0; i < 11; i++)
+        {
+            char sc;
+            if((block - 5) == i && i < 5) {sc = 'X';}
+            else if((egg_king_distance + 5) == i && i > 5) {sc = 'O';}
+            else {sc = map[i];}
+            printf("\t\t\t%c\n", sc);
+        }
+        printf("@\n\n");
+
+        if((block - 5) > 3) {puts("[1]Run(-20 stamina)");}
+        else {puts("X");}
+
+        if((block - 5) > 4) {puts("[2]Walk(+10 stamina)");}
+        else {puts("X");}
+
+        puts("[3]take a rest(+30 stamina)");
+        
+        if(ammo > 0) {puts("[4]Throw an egg(-1 Egg, Knockback 3 tiles)");}
+        else {puts("X");}
+
+        if(block == 1) {puts("[5]Kick Obstacle");}
+        else {puts("X");}
+
+        //V0.3-alpha.2繼續施工
     }
 }
 */
