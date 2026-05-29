@@ -42,7 +42,7 @@ This Tic-Tac-Toe project is meaningless. It has no GUI, and it's entirely in Eng
 
 ## How to download?
 
-1. Go to the [download page](https://github.com/06712L/idiot-Tic-Tac-Toe/releases/tag/V0.2.2)
+1. Go to the [download page](https://github.com/06712L/idiot-Tic-Tac-Toe/releases/tag/V0.3-alpha.1)
 2. Download the file for your operating system
 
 ## Supported Platforms
