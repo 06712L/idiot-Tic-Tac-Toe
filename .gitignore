@@ -15,3 +15,5 @@ Build.sh
 /oiia*
 /Build
 /.vscode
+.kagent/
+.cursor/
