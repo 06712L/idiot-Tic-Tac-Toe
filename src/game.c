@@ -31,10 +31,35 @@ void tic_tac_toe_game(int mod)
     input = malloc(4 * sizeof(char));
     #endif
     char *ai_input = NULL;
+    char *ai_mode_text = NULL;
+
     int who_player = 2;
     if(mod == 1)
     {
         ai_input = calloc(4, sizeof(char));
+
+        /*
+        * ai mode  number
+        *  idiot  =  0
+        *  ordinary= 1
+        *  expert =  2
+        */
+        if(ai_mode == 0) 
+        {
+            ai_mode_text = calloc(6, sizeof(char));
+            strcpy(ai_mode_text, "idiot");
+        }
+        else if(ai_mode == 1)
+        {
+            ai_mode_text = calloc(9, sizeof(char));
+            strcpy(ai_mode_text, "ordinary");
+        }
+        else if(ai_mode == 2)
+        {
+            ai_mode_text = calloc(7, sizeof(char));
+            strcpy(ai_mode_text, "expert");
+        }
+
         who_player = rands(100, 0);
 
         if(who_player < 50) {who_player = 0;}
@@ -75,6 +100,10 @@ void tic_tac_toe_game(int mod)
         sleep(1);
         printf("%c player\n", player_round[who_player]);
         usleep(500000);
+        puts("Your opponent is...");
+        sleep(1);
+        printf("%s\n", ai_mode_text);
+        sleep(1);
         puts("Be careful not to get defeated...");
         sleep(3);
     }
@@ -161,12 +190,12 @@ void tic_tac_toe_game(int mod)
             (void)which_q;
             /*
             * mod    number
-            * Egg  =   5
-            * 先手占中=1
-            * 攻   =   2
-            * 守   =   3
-            * 建立攻 = 6
-            * 隨機 =   4
+            * Egg  =   5 (ai_mode 2)
+            * 先手占中=1 (ai_mode 0)
+            * 攻   =   2 (ai_mode 1)
+            * 守   =   3 (ai_mode 2)
+            * 建立攻 = 6 (ai_mode 2)
+            * 隨機 =   4 (ai_mode 0)
             */
 
             int want_egg = rands(100, 0);
@@ -179,7 +208,7 @@ void tic_tac_toe_game(int mod)
 
 
             //ai will Egg!
-            if(want_egg >= 99)
+            if(want_egg >= 95 && ai_mode >= 2)
             {
                 strcpy(ai_input, "Egg");
                 ai_input[strlen(ai_input)] = '\0';
@@ -188,7 +217,7 @@ void tic_tac_toe_game(int mod)
             }
 
             //先手佔領中心
-            else if(tic[1][1] == 2 && round == 0 && ai_check == 0)
+            else if(tic[1][1] == 2 && round == 0 && ai_check == 0 && ai_mode >= 0)
             {
                 strcpy(ai_input, "22");
                 ai_input[strlen(ai_input)] = '\0';
@@ -197,7 +226,7 @@ void tic_tac_toe_game(int mod)
             }
 
             //第二代攻擊方案
-            if(ai_check == 0)
+            if(ai_check == 0 && ai_mode >= 1)
             {
                 //橫
                 for(int i = 0; i < 3; i++)
@@ -303,7 +332,7 @@ void tic_tac_toe_game(int mod)
                 which_mod = 2;
             }
             //抵禦玩家攻擊
-            if(ai_check == 0)
+            if(ai_check == 0 && ai_mode >= 2)
             {
                 //橫
                 for(int i = 0; i < 3; i++)
@@ -406,7 +435,7 @@ void tic_tac_toe_game(int mod)
             }
 
             //第三代攻擊方案
-            if(ai_check == 0)
+            if(ai_check == 0 && ai_mode >= 2)
             {
                 //橫
                 for(int i = 0; i < 3; i++)
@@ -526,7 +555,7 @@ void tic_tac_toe_game(int mod)
             }
 
             //亂下
-            if(ai_check == 0)
+            if(ai_check == 0 && ai_mode >= 0)
             {
                 int ok = 0;
                 while(ok == 0)
@@ -633,8 +662,6 @@ void tic_tac_toe_game(int mod)
     }
 
     clear;
-    free(input);
-    if(mod == 1) {free(ai_input);}
         usleep(180000);
 
     //勝利結算
@@ -659,10 +686,16 @@ void tic_tac_toe_game(int mod)
         }
         else
         {
-            printf("oh no...\n\nyou lose.by an idiot AI\n\n");
+            printf("oh no...\n\nyou lose.by an %s AI\n\n", ai_mode_text);
             play_lose
         }
         wait_some_time(5);
+    }
+
+    free(input);
+    if(mod == 1){
+        free(ai_input);
+        free(ai_mode_text);
     }
     setbuf(stdin, NULL);
     return;

@@ -2,6 +2,7 @@
 #include "coco.h"
 #include "game.h"
 #include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
 #ifdef _WIN32
@@ -155,14 +156,42 @@ static void set_menu()
     while(1)
     {
         clear;
-        printf("[1]silent mode(%c)\n[0]return\n", sound ? 'X':'V');
+        /*
+        * ai mode  number
+        *  idiot  =  0
+        *  ordinary= 1
+        *  expert =  2
+        */
+        char *ai_mode_text = NULL;
+        if(ai_mode == 0) 
+        {
+            ai_mode_text = calloc(6, sizeof(char));
+            strcpy(ai_mode_text, "idiot");
+        }
+        else if(ai_mode == 1)
+        {
+            ai_mode_text = calloc(9, sizeof(char));
+            strcpy(ai_mode_text, "ordinary");
+        }
+        else if(ai_mode == 2)
+        {
+            ai_mode_text = calloc(7, sizeof(char));
+            strcpy(ai_mode_text, "expert");
+        }
+        printf("[1]silent mode(%c)\n[2]AI Mode(%s(mode%d))\n[0]return\n", sound ? 'X':'V', ai_mode_text, (ai_mode + 1));
         input = getchar();
         while(getchar() != '\n');
         play_click
+        free(ai_mode_text);
         if(input == '1')
         {
             if(!sound) {sound = 1;}
             else {sound = 0;}
+        }
+        if(input == '2')
+        {
+            if((ai_mode + 1) > 2) {ai_mode = 0;}
+            else {ai_mode++;}
         }
         if(input == '0') {return;}
     }

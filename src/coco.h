@@ -1,6 +1,8 @@
 #ifndef COCO_H
 #define COCO_H
 
+#include <stdio.h>
+
 #ifdef _WIN32
 #define clear system("cls")
 #define play_click PlaySound(TEXT(".\\sound\\click.wav"), NULL, SND_FILENAME | SND_ASYNC);
@@ -18,8 +20,10 @@
 
 int rands(int max, int min);
 int pow_int(int x, int y);
+int check_file(FILE **file);
 
 extern char *version;
 extern int sound;
+extern int ai_mode;
 
 #endif

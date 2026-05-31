@@ -22,6 +22,9 @@
 - [x] 菜單
     - [x] 模式選擇
     - [x] 設定
+        - [x] 靜音模式
+        - [x] AI智商選擇
+        - [x] 自動保存設定
     - [x] 關於
     - [x] 如何玩教學
 - [x] 發行版
@@ -42,7 +45,7 @@
 
 ## 如何下載？
 
-1. 前往[下載頁面](https://github.com/06712L/idiot-Tic-Tac-Toe/releases/tag/V0.3-alpha.1)
+1. 前往[下載頁面](https://github.com/06712L/idiot-Tic-Tac-Toe/releases/tag/V0.3)
 2. 下載對應系統的檔案
 
 ## 支援平台

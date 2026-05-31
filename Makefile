@@ -59,4 +59,4 @@ cleanwin:
 
 
 clean:
-	rm -rf ./$(OBJS_DIR) ./$(ELF_DIR) ./$(EXE_DIR)
+	rm -rf ./$(OBJS_DIR) ./$(ELF_DIR) ./$(EXE_DIR) ./*.txt

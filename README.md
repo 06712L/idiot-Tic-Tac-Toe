@@ -4,53 +4,56 @@
 <h1>idiot-Tic-Tac-Toe</h1>
 <h3>i-TTT</h3>
 
-A very stupid Tic-Tac-Toe game
+A very idiotic Tic-Tac-Toe game
 </div>
 
-[[简体中文]](https://github.com/06712L/idiot-Tic-Tac-Toe/blob/main/README-zh_CN.md) [[繁體中文]](https://github.com/06712L/idiot-Tic-Tac-Toe/blob/main/README-zh_HK.md) [[English]](https://github.com/06712L/idiot-Tic-Tac-Toe/blob/main/README.md) [[what]](https://github.com/06712L/idiot-Tic-Tac-Toe/blob/main/README-what.md)
+[[Simplified Chinese]](https://github.com/06712L/idiot-Tic-Tac-Toe/blob/main/README-zh_CN.md) [[Traditional Chinese]](https://github.com/06712L/idiot-Tic-Tac-Toe/blob/main/README-zh_HK.md) [[English]](https://github.com/06712L/idiot-Tic-Tac-Toe/blob/main/README.md) [[what]](https://github.com/06712L/idiot-Tic-Tac-Toe/blob/main/README-what.md)
 
 ## Introduction
 
-This Tic-Tac-Toe project is meaningless. It has no GUI, and it's entirely in English, so it's recommended to download only if you understand basic English.
+This is a meaningless Tic-Tac-Toe project. It has no GUI, and it's entirely in English, so it is recommended to download only if you understand basic English.
 
 ## Implemented Features
 
-- [x] Tic-Tac-Toe core
-    - [x] Two-player mode
-    - [x] AI vs Human mode
-    - [ ] Online multiplayer mode *(No server, and I don't want to do it either)*
+- [x] Tic-Tac-Toe Core
+    - [x] Two-Player Mode
+    - [x] AI vs Human Mode
+    - [ ] Online Multiplayer Mode *(no server and I don't want to make one)*
 - [x] Menu
-    - [x] Mode selection
+    - [x] Mode Selection
     - [x] Settings
+        - [x] Mute Mode
+        - [x] AI Difficulty Selection
+        - [x] Auto-save Settings
     - [x] About
-    - [x] How to play tutorial
-- [x] Release build
+    - [x] How to Play Tutorial
+- [x] Release Build
 
 ## Features
 
-- Two-player battle
+- Two-player battles
 - Battle against AI
 - CLI interface
 - Something is happening...
 - egg egg egg egg egg egg egg egg
 
-## How to play?
+## How to Play?
 
 <br />
 <img src="./art/readme-how/how-to-play.jpg" width="250">
 <br />
 
-## How to download?
+## How to Download?
 
-1. Go to the [download page](https://github.com/06712L/idiot-Tic-Tac-Toe/releases/tag/V0.3-alpha.1)
+1. Go to the [Download Page](https://github.com/06712L/idiot-Tic-Tac-Toe/releases/tag/V0.3)
 2. Download the file for your operating system
 
 ## Supported Platforms
 
-- Linux *(no file extension)*
+- Linux *(no extension)*
 - Windows *(`.exe`)*
 
-## How to compile?
+## How to Compile?
 
 ### Makefile
 
@@ -59,14 +62,14 @@ This Tic-Tac-Toe project is meaningless. It has no GUI, and it's entirely in Eng
 - `make cleanlinux`: Clean all Linux build artifacts
 - `make cleanwin`: Clean all Windows build artifacts
 - `make clean`: Clean all build artifacts
-- `make *** DEBUG=1`: Compile/clean debug version executable/build artifacts
-- `make *** STATIC=1`: Package static library
+- `make *** DEBUG=1`: Compile/Clean debug version executable/build artifacts
+- `make *** STATIC=1`: Link static libraries
 
 ### CMake
 
 NULL
 
 <div align="center">
-<h1>Advertise</h1>
+<h1>Advertisement</h1>
 <img src=./art/ad/ad-egg-v0.2.2.jpg width=250>
 </div>
