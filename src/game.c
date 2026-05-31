@@ -532,7 +532,7 @@ void tic_tac_toe_game(int mod)
                     for(int i = 0; i < 3; i++)
                     {
                         if(tic[i][sx] == who_round && tic[i][sx] != who_player) {ss++;}
-                        else if(tic[i][sx]) {xs++;}
+                        else if(tic[i][sx] == who_player) {xs++;}
                         sx--;
                     }
                     if(ss > 0 && xs < 1)
