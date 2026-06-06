@@ -5,7 +5,7 @@
 #include <unistd.h>
 #include <time.h>
 
-char *version = "V0.3";
+char *version = "V0.3.1";
 int sound = 4;
 int ai_mode = 4;
 
@@ -69,8 +69,7 @@ int main()
         if(check_file(&fi))
         {
             printf("Repair failed\nPlease manually copy the following content to set.txt :\n1\n2\n");
-            sleep(1);
-            return 1;
+            sleep(10);
         }
         fputs("1\n2\n", fi); //sound, ai_mode
         fclose(fi);

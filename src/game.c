@@ -31,7 +31,7 @@ void tic_tac_toe_game(int mod)
     input = malloc(4 * sizeof(char));
     #endif
     char *ai_input = NULL;
-    char *ai_mode_text = NULL;
+    char *ai_mode_text;
 
     int who_player = 2;
     if(mod == 1)
@@ -44,20 +44,17 @@ void tic_tac_toe_game(int mod)
         *  ordinary= 1
         *  expert =  2
         */
-        if(ai_mode == 0) 
+        switch (ai_mode)
         {
-            ai_mode_text = calloc(6, sizeof(char));
-            strcpy(ai_mode_text, "idiot");
-        }
-        else if(ai_mode == 1)
-        {
-            ai_mode_text = calloc(9, sizeof(char));
-            strcpy(ai_mode_text, "ordinary");
-        }
-        else if(ai_mode == 2)
-        {
-            ai_mode_text = calloc(7, sizeof(char));
-            strcpy(ai_mode_text, "expert");
+            case 0:
+                ai_mode_text = "idiot";
+                break;
+            case 1:
+                ai_mode_text = "ordinary";
+                break;
+            case 2:
+                ai_mode_text = "expert";
+                break;
         }
 
         who_player = rands(100, 0);
@@ -475,8 +472,8 @@ void tic_tac_toe_game(int mod)
                         int xs = 0;
                         for(int j = 0; j < 3; j++)
                         {
-                            if(tic[i][j] == who_round && tic[i][j] != who_player) {ss++;}
-                            else if(tic[i][j] == who_player) {xs++;}
+                            if(tic[j][i] == who_round && tic[j][i] != who_player) {ss++;}
+                            else if(tic[j][i] == who_player) {xs++;}
                         }
                         if(ss > 0 && xs < 1)
                         {
@@ -899,7 +896,7 @@ static void what_chapter_two()
     sleep(5);
 
 
-    while(egg_king_distance <= 0 && distance_exit > 0)
+    while(egg_king_distance >= 0 && distance_exit > 0)
     {
         int can_hit_block = 0;
         if(block <= 1) {can_hit_block = 1;}
@@ -944,7 +941,7 @@ static void what_chapter_two()
         if(block == 1) {puts("[5]Kick Obstacle");}
         else {puts("X");}
 
-        //V0.3-alpha.2繼續施工
+        
     }
 }
 */

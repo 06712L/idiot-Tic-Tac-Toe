@@ -19,7 +19,7 @@
 #endif
 
 int rands(int max, int min);
-int pow_int(int x, int y);
+//int pow_int(int x, int y);
 int check_file(FILE **file);
 
 extern char *version;
