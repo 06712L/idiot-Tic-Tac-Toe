@@ -166,20 +166,19 @@ static void set_menu()
         switch (ai_mode)
         {
             case 0:
-                ai_mode_text = "idiot";
+                ai_mode_text = "Mr.HotDog";
                 break;
             case 1:
-                ai_mode_text = "ordinary";
+                ai_mode_text = "Mr.Dog";
                 break;
             case 2:
-                ai_mode_text = "expert";
+                ai_mode_text = "Mr.Egg";
                 break;
         }
         printf("[1]silent mode(%c)\n[2]AI Mode(%s(mode%d))\n[0]return\n", sound ? 'X':'V', ai_mode_text, (ai_mode + 1));
         input = getchar();
         while(getchar() != '\n');
         play_click
-        free(ai_mode_text);
         if(input == '1')
         {
             if(!sound) {sound = 1;}

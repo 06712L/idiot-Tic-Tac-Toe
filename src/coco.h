@@ -3,15 +3,15 @@
 
 #include <stdio.h>
 
+#define clear printf("\033[2J\033[H")
+
 #ifdef _WIN32
-#define clear system("cls")
 #define play_click if(sound) {PlaySound(TEXT(".\\sound\\click.wav"), NULL, SND_FILENAME | SND_ASYNC);}
 #define play_tied if(sound) {PlaySound(TEXT(".\\sound\\tied.wav"), NULL, SND_FILENAME | SND_ASYNC);}
 #define play_win if(sound) {PlaySound(TEXT(".\\sound\\winner.wav"), NULL, SND_FILENAME | SND_ASYNC);}
 #define play_lose if(sound) {PlaySound(TEXT(".\\sound\\lose.wav"), NULL, SND_FILENAME | SND_ASYNC);}
 
 #else
-#define clear system("clear")
 #define play_click if(sound) {system("aplay ./sound/click.wav > /dev/null 2>&1 &");}
 #define play_tied if(sound) {system("aplay ./sound/tied.wav > /dev/null 2>&1 &");}
 #define play_win if(sound) {system("aplay ./sound/winner.wav > /dev/null 2>&1 &");}
@@ -19,10 +19,10 @@
 #endif
 
 int rands(int max, int min);
-//int pow_int(int x, int y);
 int check_file(FILE **file);
+void wait_some_time(int time);
 
-extern char *version;
+extern const char *version;
 extern int sound;
 extern int ai_mode;
 

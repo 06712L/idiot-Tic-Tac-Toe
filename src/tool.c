@@ -3,25 +3,21 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-/*
-int pow_int(int x, int y)
+void wait_some_time(int time)
 {
-    int s = x;
-    for(int i = 1; i < y; i++) {x *= s;}
-    return x;
+    for(int i = time; i >= 0; i--)
+    {
+        printf("waiting %d second to leif\r", i);
+        fflush(stdout);
+        sleep(1);
+    }
+    return;
 }
-*/
 
 int check_file(FILE **file)
 {
     int s = 0;
-    if(*file == NULL)
-    {
-        puts("Loading failed");
-        sleep(1);
-        s = 1;
-    }
-
+    if(*file == NULL) {s = 1;}
     return s;
 }
 

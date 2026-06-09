@@ -4,7 +4,7 @@ DEBUG ?= 0
 STATIC ?= 0
 CFLAGS := -Wall -std=gnu99
 ifeq ($(DEBUG),1)
-CFLAGS += -O0 -g
+CFLAGS += -O0 -g2
 OBJS_DIR := oiia-debug
 VERSION := debug
 else
@@ -51,12 +51,12 @@ win: $(OBJSWIN)
 
 
 cleanlinux:
-	rm -rf $(OBJS) ./$(ELF_DIR)
+	rm -rf $(OBJS) ./$(ELF_DIR)/*-$(VERSION)
 
 
 cleanwin:
-	rm -rf $(OBJSWIN) ./$(EXE_DIR)
+	rm -rf $(OBJSWIN) ./$(EXE_DIR)/*-$(VERSION).exe
 
 
 clean:
-	rm -rf ./$(OBJS_DIR) ./$(ELF_DIR) ./$(EXE_DIR) ./*.txt
+	rm -rf ./$(OBJS_DIR)* ./$(ELF_DIR) ./$(EXE_DIR) ./*.txt

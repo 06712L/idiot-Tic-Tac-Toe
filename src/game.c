@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <stdint.h>
 #ifdef _WIN32
 #include <windows.h>
 #include <mmsystem.h>
@@ -13,27 +14,15 @@
 #define _DEFAULT_SOURCE
 #endif
 
-static void wait_some_time(int time)
-{
-    for(int i = time; i >= 0; i--)
-    {
-        printf("waiting %d second to leif\r", i);
-        fflush(stdout);
-        sleep(1);
-    }
-    return;
-}
-
 void tic_tac_toe_game(int mod)
 {
-    char *input = NULL;
     #ifdef _WIN32
-    input = malloc(4 * sizeof(char));
+    char *input = malloc(20 * sizeof(char));
     #endif
     char *ai_input = NULL;
     char *ai_mode_text;
 
-    int who_player = 2;
+    uint8_t who_player = 2;
     if(mod == 1)
     {
         ai_input = calloc(4, sizeof(char));
@@ -47,13 +36,13 @@ void tic_tac_toe_game(int mod)
         switch (ai_mode)
         {
             case 0:
-                ai_mode_text = "idiot";
+                ai_mode_text = "Mr.HotDog";
                 break;
             case 1:
-                ai_mode_text = "ordinary";
+                ai_mode_text = "Mr.Dog";
                 break;
             case 2:
-                ai_mode_text = "expert";
+                ai_mode_text = "Mr.Egg";
                 break;
         }
 
@@ -63,7 +52,7 @@ void tic_tac_toe_game(int mod)
         else {who_player = 1;}
     }
 
-    int who_round = 1;
+    uint8_t who_round = 1;
     /*
     *number  player
     * 0    =  O
@@ -72,24 +61,33 @@ void tic_tac_toe_game(int mod)
     */
     const char player_round[2] = {'O', 'X'};
 
-    char player_ui[5][5] = 
+    char player_ui[5][5]; 
+    for(uint8_t i = 0; i < 5; i++)
     {
-        {' ', '|', ' ', '|', ' '},
-        {'-', '+', '-', '+', '-'},
-        {' ', '|', ' ', '|', ' '},
-        {'-', '+', '-', '+', '-'},
-        {' ', '|', ' ', '|', ' '}
-    };
+        if(i & 1)
+        {
+            for(uint8_t j = 0; j < 5; j++)
+            {
+                if(j & 1) {player_ui[i][j] = '+';}
+                else {player_ui[i][j] = '-';}
+            }
+        }
 
-    int tic[3][3] = 
-    {
-        {2, 2, 2},
-        {2, 2, 2},
-        {2, 2, 2}
-    };
+        else
+        {
+            for(uint8_t j = 0; j < 5; j++)
+            {
+                if(j & 1) {player_ui[i][j] = '|';}
+                else {player_ui[i][j] = ' ';}
+            }
+        }
+    }
 
-    int round = 0;
-    int who_win = 2;
+    uint8_t tic[3][3];
+    for(uint8_t i = 0; i < 3; i++) {for(uint8_t j = 0; j < 3; j++) {tic[i][j] = 2;}}
+
+    uint8_t round = 0;
+    uint8_t who_win = 2;
 
     if(mod == 1)
     {
@@ -111,8 +109,9 @@ void tic_tac_toe_game(int mod)
         re:
         setbuf(stdin, NULL);
         #ifdef _WIN32
-        int siz_text = 4;
-        #else
+        int siz_text = 20;
+        #else 
+        char *input = NULL;
         size_t siz_text = 0;
         #endif
         clear;
@@ -143,13 +142,13 @@ void tic_tac_toe_game(int mod)
             if(strlen(input) != 2) {error = 1;}
             char px[2] = {input[0], '\0'};
             char py[2] = {input[1], '\0'};
-            int x = atoi(px);
-            int y = atoi(py);
+            int8_t x = atoi(px);
+            int8_t y = atoi(py);
             x--;
             y--;
             if(x < 0 || y < 0 || x > 2 || y > 2) {error = 1;}
 
-            if(tic[y][x] == 2 && error == 0)
+            if(tic[y][x] == 2 && error == 0 && x >= 0 && y >= 0 && x < 3 && y < 3)
             {
                 tic[y][x] = who_round;
                 x *= 2;
@@ -656,6 +655,9 @@ void tic_tac_toe_game(int mod)
         round++;
         setbuf(stdin, NULL);
         play_click
+        #ifdef __linux__
+        free(input);
+        #endif
     }
 
     clear;
@@ -689,11 +691,10 @@ void tic_tac_toe_game(int mod)
         wait_some_time(5);
     }
 
+    #ifdef _WIN32
     free(input);
-    if(mod == 1){
-        free(ai_input);
-        free(ai_mode_text);
-    }
+    #endif
+    if(mod == 1) {free(ai_input);}
     setbuf(stdin, NULL);
     return;
 }
@@ -702,19 +703,19 @@ void tic_tac_toe_game(int mod)
 //Inspired by Gravity Falls
 void what()
 {
-    int rooms[20][20];
+    uint8_t rooms[20][20];
     char input[30];
-    for(int i = 0; i < 20; i++) {for(int j = 0; j < 20; j++){rooms[i][j] = 0;}}
+    for(uint8_t i = 0; i < 20; i++) {for(uint8_t j = 0; j < 20; j++){rooms[i][j] = 0;}}
 
     //X,Y
     int where_player[2];
-    for(int i = 0; i < 2; i++) {where_player[i] = rands(19, 0);}
+    for(uint8_t i = 0; i < 2; i++) {where_player[i] = rands(19, 0);}
     int where_exit[2];
-    for(int i = 0; i < 2; i++) {where_exit[i] = rands(19, 0);}
+    for(uint8_t i = 0; i < 2; i++) {where_exit[i] = rands(19, 0);}
     while(where_player[0] == where_exit[0] || where_player[1] == where_exit[1] || rooms[where_player[1]][where_player[0]] == 1) {for(int i = 0; i < 2; i++){where_player[i] = rands(19, 0);}}
     rooms[where_exit[1]][where_exit[0]] = 1;
 
-    int walk = 1;
+    uint8_t walk = 1;
 
     /*
      * 0 = empty room
@@ -722,7 +723,7 @@ void what()
      * 2 = X
     */
 
-    int time = rands(375, 150);
+    uint16_t time = rands(225, 125);
 
     puts("you open a door");
     sleep(1);
@@ -741,17 +742,17 @@ void what()
     {
         re_what:
         clear;
-        int your_ahead = 0;
-        int your_rear = 0;
-        int your_left = 0;
-        int your_right = 0;
+        uint8_t your_ahead = 0;
+        uint8_t your_rear = 0;
+        uint8_t your_left = 0;
+        uint8_t your_right = 0;
 
         if((where_player[1] - 1) >= 0 && rooms[(where_player[1] - 1)][where_player[0]] != 2)
         {
             your_ahead = 1;
             printf("\t\t[1]The door leading ahead\n");
         }
-        else if(rooms[(where_player[1] - 1)][where_player[0]] == 2) {puts("X");}
+        else if(rooms[(where_player[1] - 1)][where_player[0]] == 2) {printf("\t\tX\n");}
         else {putchar('\n');}
         if((where_player [0] - 1) >= 0  && rooms[where_player[1]][(where_player[0] - 1)] != 2)
         {
@@ -776,7 +777,7 @@ void what()
             your_rear = 1;
             printf("\t\t[4]To the back door\n");
         }
-        else if(rooms[(where_player[1] + 1)][where_player[0]] == 2) {printf("\t\t\tX");}
+        else if(rooms[(where_player[1] + 1)][where_player[0]] == 2) {printf("\t\t\tX\n");}
         else {putchar('\n');}
         fflush(stdout);
         /*
@@ -845,16 +846,16 @@ void what()
     }
     else
     {
-        int s = rands(670, 67);
+        uint8_t s = rands(670, 67);
         clear;
         play_lose
         printf("oh,oh...\n\n");
         sleep(1);
         puts("Some noise has started...");
         sleep(rands(5, 3));
-        for(int i = 0; i < s; i++)
+        for(uint8_t i = 0; i < s; i++)
         {
-            int ss = rands(5, 0);
+            uint8_t ss = rands(5, 0);
             for(int j = 0; j < ss; j++) {putchar('\t');}
             puts("Egg");
             usleep(10000);
