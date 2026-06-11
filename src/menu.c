@@ -111,6 +111,23 @@ static void what_menu()
     return;
 }
 
+//維度彩蛋選擇
+static void discovered_what_menu()
+{
+    while(1)
+    {
+        clear;
+
+        printf("[1]First time entering the 'border area'\n[#]unknown area\n\n[0]return\n");
+        input = getchar();
+        while(getchar() != '\n');
+
+        if (input == '1') {what();}
+        else if(0) {what_chapter_two();}
+        else if(input == '0') {return;}
+    }
+}
+
 //遊戲模式選擇
 static void gamemod_menu()
 {
@@ -122,7 +139,17 @@ static void gamemod_menu()
          * 1 = ai-vs-human
         */
         clear;
-        printf("[1]Two player mode\n[2]AI vs Human\n[0]return\n");
+        printf("[1]Two player mode\n[2]AI vs Human");
+        if(discovered_what)
+        {
+            char glitch[5] = {'!', '?', '#', '@', '$'};
+            uint8_t s = rands(32, 8);
+            printf("\n[8]");
+            for(uint8_t i = 0; i <= s; i++) {printf("%c", glitch[rands(4, 0)]);}
+            printf("\n\n");
+        }
+        else {printf("\n\n");}
+        puts("[0]return");
         input = getchar();
         while(getchar() != '\n');
         play_click
@@ -141,8 +168,8 @@ static void gamemod_menu()
 
         else if(input == '8')
         {
-            clear;
-            what_menu();
+            if(discovered_what) {discovered_what_menu();}
+            else {what_menu();}
         }
 
         else if(input == '0') {return;}

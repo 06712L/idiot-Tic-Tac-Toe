@@ -1,7 +1,9 @@
 #ifndef COCO_H
 #define COCO_H
 
+#include "game.h"
 #include <stdio.h>
+#include <stdint.h>
 
 #define clear printf("\033[2J\033[H")
 
@@ -18,12 +20,13 @@
 #define play_lose if(sound) {system("aplay ./sound/lose.wav > /dev/null 2>&1 &");}
 #endif
 
-int rands(int max, int min);
+int rands(int32_t max, int32_t min);
 int check_file(FILE **file);
 void wait_some_time(int time);
 
 extern const char *version;
-extern int sound;
-extern int ai_mode;
+extern int32_t sound;
+extern int32_t ai_mode;
+extern int32_t discovered_what;
 
 #endif

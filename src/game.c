@@ -171,7 +171,11 @@ void tic_tac_toe_game(int mod)
                 sleep(1);
                 who_win = who_round;
             }
-            else if(error == 1) {goto re;}
+            else if(error == 1)
+            {
+                free(input);
+                goto re;
+            }
         }
 /*      AI
         |
@@ -685,7 +689,7 @@ void tic_tac_toe_game(int mod)
         }
         else
         {
-            printf("oh no...\n\nyou lose.by an %s AI\n\n", ai_mode_text);
+            printf("oh no...\n\nyou lose.by %s\n\n", ai_mode_text);
             play_lose
         }
         wait_some_time(5);
@@ -723,8 +727,9 @@ void what()
      * 2 = X
     */
 
-    uint16_t time = rands(225, 125);
+    uint16_t time = rands(275, 145);
 
+    clear;
     puts("you open a door");
     sleep(1);
     puts("A room is inside the door");
@@ -742,42 +747,47 @@ void what()
     {
         re_what:
         clear;
+        setbuf(stdin, NULL);
         uint8_t your_ahead = 0;
         uint8_t your_rear = 0;
         uint8_t your_left = 0;
         uint8_t your_right = 0;
 
+        //前
         if((where_player[1] - 1) >= 0 && rooms[(where_player[1] - 1)][where_player[0]] != 2)
         {
             your_ahead = 1;
             printf("\t\t[1]The door leading ahead\n");
         }
-        else if(rooms[(where_player[1] - 1)][where_player[0]] == 2) {printf("\t\tX\n");}
+        else if((where_player[1] - 1) >= 0 && rooms[(where_player[1] - 1)][where_player[0]] == 2) {printf("\t\tX\n");}
         else {putchar('\n');}
+        //左
         if((where_player [0] - 1) >= 0  && rooms[where_player[1]][(where_player[0] - 1)] != 2)
         {
             your_left = 1;
             printf("[2]Go to the door on the left");
         }
-        else if(rooms[where_player[1]][(where_player[0] - 1)] == 2) {putchar('X');}
+        else if((where_player [0] - 1) >= 0  && rooms[where_player[1]][(where_player[0] - 1)] == 2) {putchar('X');}
 
         double s = hypot(abs(where_exit[0] - where_player[0]), abs(where_exit[1] - where_player[1]));
         if(s < (sqrt(2) + 0.01)) {printf("\tI sensed something nearby\t");}
         else {printf("\t\t\t");}
 
+        //右
         if((where_player[0] + 1) < 20 && rooms[where_player[1]][(where_player[0] + 1)] != 2)
         {
             your_right = 1;
             printf("[3]Go to the door on the right\n");
         }
-        else if(rooms[where_player[1]][(where_player[0] + 1)] == 2) {puts("X");}
+        else if((where_player[0] + 1) < 20 && rooms[where_player[1]][(where_player[0] + 1)] == 2) {puts("X");}
         else {putchar('\n');}
+        //後
         if((where_player[1] + 1) < 20 && rooms[(where_player[1] + 1)][where_player[0]] != 2)
         {
             your_rear = 1;
             printf("\t\t[4]To the back door\n");
         }
-        else if(rooms[(where_player[1] + 1)][where_player[0]] == 2) {printf("\t\t\tX\n");}
+        else if((where_player[1] + 1) < 20 && rooms[(where_player[1] + 1)][where_player[0]] == 2) {printf("\t\t\tX\n");}
         else {putchar('\n');}
         fflush(stdout);
         /*
@@ -842,6 +852,8 @@ void what()
         sleep(5);
         clear;
         printf("Overview\n\n%d second remaining\nYou took %d steps\n\n", time, walk);
+
+        discovered_what = 1;
         wait_some_time(10);
     }
     else
@@ -864,21 +876,86 @@ void what()
         printf("Overview\n\n%d second remaining\nYou took %d steps\n\n", time, walk);
         wait_some_time(10);
     }
+    setbuf(stdin, NULL);
     return;
 }
 
-/*
-//Inspired by Baldi's Basic
-static void what_chapter_two()
-{
-    char map[11] = {'#', '#', '#', '#', '#', '^', '#', '#', '#', '#', '#'};
-    int egg_king_distance = rands(30, 17); //Egg king初始距離玩家
-    int stamina = 10; //體力
-    int ammo = 15; //雞蛋初始10顆
-    int distance_exit = rands(105, 95); //初始距離
-    int block = rands(30, 25);
 
-    char *input = calloc(2, sizeof(char));
+
+static void what_chapter_two_print_UI(uint8_t stamina, uint8_t ammo, uint8_t block, uint8_t egg_king_distance, char map[], uint8_t distance_exit) //輸出UI
+{
+    //體力條
+    printf("stamina[");
+    for(uint8_t i = 0; i < 10; i++)
+    {
+        if(i < stamina) {putchar('#');}
+        else {putchar('-');}
+    }
+    printf("] %d%%\n", (stamina * 10));
+
+    //剩餘雞蛋
+    printf("Eggs[");
+    for(uint8_t i = 0; i < 15; i++)
+    {
+        if(i < ammo) {putchar('O');}
+        else {putchar('X');}
+    }
+    printf("] %d\n\n\t\t\t-\n", ammo);
+
+    //玩家可視角
+    for(uint8_t i = 0; i < 11; i++)
+    {
+        char sc;
+        if(block < 6 && i < 5 && (5 - block) == i) {sc = 'X';}
+        else if(distance_exit < 6 && i < 5 && (5 - distance_exit) == i) {sc = '#';}
+        else if(egg_king_distance < 6 && i > 5 && (5 + egg_king_distance) == i) {sc = 'O';}
+        else {sc = map[i];}
+        printf("\t\t\t%c\n", sc);
+    }
+    printf("\t\t\t-\n\n");
+
+    //跑!
+    if(block > 3 && (stamina - 3) >= 0) {puts("[1]Run(-20 stamina)");}
+    else {puts("X");}
+
+    //走
+    if(block > 1) {puts("[2]Walk(+10 stamina)");}
+    else {puts("X");}
+
+    //休息
+    puts("[3]take a rest(+30 stamina)");
+
+    //丟雞蛋!
+    if(ammo > 0) {puts("[4]Throw an egg(-1 Egg, Knockback 5 tiles, +10 stamina)");}
+    else {puts("X");}
+
+    //踢開障礙
+    if(block <= 1) {puts("[5]Kick Obstacle");}
+    else {puts("X");}
+
+    //回頭看一眼
+    if(egg_king_distance > 6)
+    {
+        puts("[6]take a look back");
+    }
+}
+
+//Inspired by Baldi's Basic
+void what_chapter_two()
+{
+    char map[11]; //{' ', ' ', ' ', ' ', ' ', '^', ' ', ' ', ' ', ' ', ' '};
+    for(uint8_t i = 0; i < 11; i++)
+    {
+        if(i == 5) {map[i] = '^';}
+        else {map[i] = ' ';}
+    }
+    uint8_t egg_king_distance = rands(27, 20); //Egg king初始距離玩家
+    uint8_t stamina = 10; //體力
+    uint8_t ammo = 15; //雞蛋初始10顆
+    uint8_t distance_exit = rands(110, 97); //初始距離
+    uint8_t block = rands(30, 25);
+
+    char input;
 
     clear;
     puts("You wake up in a somewhat dark corridor.");
@@ -897,52 +974,85 @@ static void what_chapter_two()
     sleep(5);
 
 
-    while(egg_king_distance >= 0 && distance_exit > 0)
+    while(egg_king_distance > 0 && distance_exit > 0)
     {
-        int can_hit_block = 0;
-        if(block <= 1) {can_hit_block = 1;}
-
-        printf("stamina[");
-        for(int i = 0; i < 10; i++)
+        #define NO_ERROR error = 0
+        uint8_t look_bake = 0;
+        uint8_t error = 1;
+        while(error)
         {
-            if(i < stamina) {putchar('#');}
-            else {putchar('-');}
-        }
-        printf("] %d%%\n", (stamina * 10));
+            setbuf(stdin, NULL);
 
-        printf("Eggs[");
-        for(int i = 0; i < 15; i++)
+            clear;
+            what_chapter_two_print_UI(stamina, ammo, block, egg_king_distance, map, distance_exit);
+
+            /*
+            * 1 = Run -2 stamina
+            * 2 = Walk +1 stamina
+            * 3 = rest +3 stamina
+            * 4 = throw Egg -1 ammo +4 egg_king_distance +1 stamina
+            * 5 = kick block block = rands(max: 30, min: 15)
+            * 6 = look bake
+            */
+            //輸入專區
+            input = getchar();
+            while(getchar() != '\n');
+
+            if(input == '1' && block > 3 && (stamina - 3) >= 0)
+            {
+                stamina -= 2;
+                distance_exit -= 3;
+                egg_king_distance += 3;
+                NO_ERROR;
+            }
+
+            else if(input == '2' && block > 1)
+            {
+                stamina += 1;
+                distance_exit -= 1;
+                egg_king_distance += 1;
+                NO_ERROR;
+            }
+
+            else if(input == '3')
+            {
+                stamina += 3;
+                NO_ERROR;
+            }
+
+            else if(input == '4' && ammo > 0)
+            {
+                ammo -= 1;
+                egg_king_distance += 5;
+                stamina += 1;
+                NO_ERROR;
+            }
+
+            else if(input == '5' && block <= 1)
+            {
+                block = rands(30, 15);
+                NO_ERROR;
+            }
+
+            else if(input == '6' && egg_king_distance > 6)
+            {
+                look_bake = 1;
+                NO_ERROR;
+            }
+        }
+        #undef NO_ERROR
+
+        if(look_bake)
         {
-            if(i < ammo) {putchar('O');}
-            else {putchar('X');}
+            clear;
+            printf("Egg King is about %d meters away", (egg_king_distance + rands(10, (-5))));
         }
-        printf("] %d\n\n@", ammo);
 
-        for(int i = 0; i < 11; i++)
-        {
-            char sc;
-            if((block - 5) == i && i < 5) {sc = 'X';}
-            else if((egg_king_distance + 5) == i && i > 5) {sc = 'O';}
-            else {sc = map[i];}
-            printf("\t\t\t%c\n", sc);
-        }
-        printf("@\n\n");
-
-        if((block - 5) > 3) {puts("[1]Run(-20 stamina)");}
-        else {puts("X");}
-
-        if((block - 5) > 4) {puts("[2]Walk(+10 stamina)");}
-        else {puts("X");}
-
-        puts("[3]take a rest(+30 stamina)");
-        
-        if(ammo > 0) {puts("[4]Throw an egg(-1 Egg, Knockback 3 tiles)");}
-        else {puts("X");}
-
-        if(block == 1) {puts("[5]Kick Obstacle");}
-        else {puts("X");}
-
-        
+        uint8_t egg_king_move = rands(100, 0);
+        if(egg_king_move == 100) {egg_king_distance -= 4;} //1% 衝刺!
+        else if(egg_king_move <= 25 && egg_king_move > 10) {egg_king_distance -= 1;} //15% 走路
+        else if(egg_king_distance > 25 && egg_king_distance < 100) {egg_king_distance -= 2;} //74% 跑過來
+        //10% 走不動了!
     }
+    //V0.4繼續結束後的結局
 }
-*/

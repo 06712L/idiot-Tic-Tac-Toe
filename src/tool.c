@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <stdint.h>
 
 void wait_some_time(int time)
 {
@@ -21,4 +22,4 @@ int check_file(FILE **file)
     return s;
 }
 
-inline int rands(int max, int min) {return rand() % (max - min + 1) + min;}
+inline int32_t rands(int32_t max, int32_t min) {return rand() % (max - min + 1) + min;}
