@@ -10,7 +10,7 @@
 #define ERROR 1
 #define PASS 0
 
-const char *version = "V0.3.3";
+const char *version = "V0.4-alpha.1";
 int32_t sound = UKNOW;
 int32_t ai_mode = UKNOW;
 int32_t discovered_what = UKNOW;
@@ -20,7 +20,7 @@ int32_t discovered_what = UKNOW;
 int main()
 {
     clear;
-    //載入/創建 設定檔 V2.0
+    //載入/創建 設定檔 V2.5
     uint8_t loading[3];
     for(uint8_t i = 0; i < 3; i++) {loading[i] = PASS;}
     //1.檢查設定檔是否存在

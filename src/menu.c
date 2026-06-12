@@ -102,7 +102,7 @@ static void what_menu()
     puts("Password passed");
     sleep(1);
 
-    if(done == 1)
+    if(done == 1 && !discovered_what)
     {
         clear;
         what();
@@ -118,12 +118,13 @@ static void discovered_what_menu()
     {
         clear;
 
-        printf("[1]First time entering the 'border area'\n[#]unknown area\n\n[0]return\n");
+        printf("[1]Welcomed you\n[2]First time entering the 'border area'\n[3]Egg dimension? (DEMO)\n\n[0]return\n");
         input = getchar();
         while(getchar() != '\n');
 
-        if (input == '1') {what();}
-        else if(0) {what_chapter_two();}
+        if(input == '1') {what_menu();}
+        else if (input == '2') {what();}
+        else if(input == '3') {what_chapter_two();}
         else if(input == '0') {return;}
     }
 }

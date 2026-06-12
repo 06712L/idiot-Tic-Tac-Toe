@@ -16,14 +16,20 @@
 
 void tic_tac_toe_game(int mod)
 {
+    #define O 0
+    #define X 1
+    #define NOBODY 2
+    #define TWO_PEOPLE_MODE 0
+    #define AI_MODE 1
+
     #ifdef _WIN32
     char *input = malloc(20 * sizeof(char));
     #endif
     char *ai_input = NULL;
     char *ai_mode_text;
 
-    uint8_t who_player = 2;
-    if(mod == 1)
+    uint8_t who_player = NOBODY;
+    if(mod == AI_MODE)
     {
         ai_input = calloc(4, sizeof(char));
 
@@ -48,11 +54,11 @@ void tic_tac_toe_game(int mod)
 
         who_player = rands(100, 0);
 
-        if(who_player < 50) {who_player = 0;}
-        else {who_player = 1;}
+        if(who_player < 50) {who_player = O;}
+        else {who_player = X;}
     }
 
-    uint8_t who_round = 1;
+    uint8_t who_round = X;
     /*
     *number  player
     * 0    =  O
@@ -84,12 +90,12 @@ void tic_tac_toe_game(int mod)
     }
 
     uint8_t tic[3][3];
-    for(uint8_t i = 0; i < 3; i++) {for(uint8_t j = 0; j < 3; j++) {tic[i][j] = 2;}}
+    for(uint8_t i = 0; i < 3; i++) {for(uint8_t j = 0; j < 3; j++) {tic[i][j] = NOBODY;}}
 
     uint8_t round = 0;
-    uint8_t who_win = 2;
+    uint8_t who_win = NOBODY;
 
-    if(mod == 1)
+    if(mod == AI_MODE)
     {
         puts("you are...");
         sleep(1);
@@ -104,7 +110,7 @@ void tic_tac_toe_game(int mod)
     }
 
 
-    while(round < 9 && who_win == 2)
+    while(round < 9 && who_win == NOBODY)
     {
         re:
         setbuf(stdin, NULL);
@@ -127,7 +133,7 @@ void tic_tac_toe_game(int mod)
             }
             putchar('\n');
         }
-        if(who_round == who_player || mod == 0)
+        if(who_round == who_player || mod == TWO_PEOPLE_MODE)
         {
             printf("\ninput:");
             fflush(stdout);
@@ -138,24 +144,24 @@ void tic_tac_toe_game(int mod)
             getline(&input, &siz_text, stdin);
             #endif
             input[strcspn(input, "\n")] = '\0';
-            int error = 0;
-            if(strlen(input) != 2) {error = 1;}
+            int error = FALSE;
+            if(strlen(input) != 2) {error = TRUE;}
             char px[2] = {input[0], '\0'};
             char py[2] = {input[1], '\0'};
             int8_t x = atoi(px);
             int8_t y = atoi(py);
             x--;
             y--;
-            if(x < 0 || y < 0 || x > 2 || y > 2) {error = 1;}
+            if(x < 0 || y < 0 || x > 2 || y > 2) {error = TRUE;}
 
-            if(tic[y][x] == 2 && error == 0 && x >= 0 && y >= 0 && x < 3 && y < 3)
+            if(tic[y][x] == NOBODY && error == FALSE && x >= 0 && y >= 0 && x < 3 && y < 3)
             {
                 tic[y][x] = who_round;
                 x *= 2;
                 y *= 2;
                 player_ui[y][x] = player_round[who_round];
             }
-            else {error = 1;}
+            else {error = TRUE;}
 
             if(strstr(input, "Egg") != NULL)
             {
@@ -171,9 +177,11 @@ void tic_tac_toe_game(int mod)
                 sleep(1);
                 who_win = who_round;
             }
-            else if(error == 1)
+            else if(error == TRUE)
             {
+                #ifdef __linux__
                 free(input);
+                #endif
                 goto re;
             }
         }
@@ -181,7 +189,7 @@ void tic_tac_toe_game(int mod)
         |
         v
 */
-        else if(mod == 1)
+        else if(mod == AI_MODE)
         {
             int which_mod = 0; //debug
             int which_q = 0; //debug
@@ -203,7 +211,6 @@ void tic_tac_toe_game(int mod)
             printf("\ninput:");
             fflush(stdout);
             sleep(rands(3, 1));
-            ai_check = 0;
             //Zheng-De-AI Pro
 
 
@@ -217,7 +224,7 @@ void tic_tac_toe_game(int mod)
             }
 
             //先手佔領中心
-            else if(tic[1][1] == 2 && round == 0 && ai_check == 0 && ai_mode >= 0)
+            else if(tic[1][1] == NOBODY && round == 0 && ai_check == 0 && ai_mode >= 0)
             {
                 strcpy(ai_input, "22");
                 ai_input[strlen(ai_input)] = '\0';
@@ -604,58 +611,38 @@ void tic_tac_toe_game(int mod)
             }
         }
 
-        int s[3];
-        //橫排
-        for(int i = 0; i < 3; i++)
+        //橫縱
+        for(uint8_t h = 0; h < 2; h++)
         {
-            for(int j = 0; j < 3; j++)
+            for(uint8_t i = 0; i < 3; i++)
             {
-                s[j] = tic[i][j];
-            }
-            if(s[0] != 2 && s[1] != 2 && s[2] != 2)
-            {
-                if(s[0] == 0 && s[1] == 0 && s[2] == 0) {who_win = 0;}
-                else if(s[0] == 1 && s[1] == 1 && s[2] == 1) {who_win = 1;}
-            }
-        }
-
-        //縱排
-        for(int i = 0; i < 3; i++)
-        {
-            for(int j = 0; j < 3; j++)
-            {
-                s[j] = tic[j][i];
-            }
-            if(s[0] != 2 && s[1] != 2 && s[2] != 2)
-            {
-                if(s[0] == 0 && s[1] == 0 && s[2] == 0) {who_win = 0;}
-                else if(s[0] == 1 && s[1] == 1 && s[2] == 1) {who_win = 1;}
+                uint8_t s = 0;
+                for(uint8_t j = 0; j < 3; j++)
+                {
+                    if(h) {if(tic[i][j] == who_round) {s++;}}
+                    else {if(tic[j][i] == who_round) {s++;}}
+                }
+                if(s == 3) {who_win = who_round;}
             }
         }
 
-        //左斜(\)
-        s[0] = tic[0][0];
-        s[1] = tic[1][1];
-        s[2] = tic[2][2];
-        if(s[0] != 2 && s[1] != 2 && s[2] != 2)
+        //斜線
+        for(uint8_t h = 0; h < 2; h++)
         {
-            if(s[0] == 0 && s[1] == 0 && s[2] == 0) {who_win = 0;}
-            else if(s[0] == 1 && s[1] == 1 && s[2] == 1) {who_win = 1;}
+            uint8_t s = 0;
+            uint8_t sx = 2;
+            for(uint8_t i = 0; i < 3; i++)
+            {
+                if(h) {if(tic[i][i] == who_round) {s++;}}
+                else {if(tic[i][sx] == who_round) {s++;}}
+                sx--;
+            }
+            if(s == 3) {who_win = who_round;}
         }
 
-        //右斜(/)
-        s[0] = tic[0][2];
-        s[1] = tic[1][1];
-        s[2] = tic[2][0];
-        if(s[0] != 2 && s[1] != 2 && s[2] != 2)
-        {
-            if(s[0] == 0 && s[1] == 0 && s[2] == 0) {who_win = 0;}
-            else if(s[0] == 1 && s[1] == 1 && s[2] == 1) {who_win = 1;}
-        }
 
         //回合結束
-        if(!who_round) {who_round = 1;}
-        else {who_round = 0;}
+        who_round = !who_round;
         round++;
         setbuf(stdin, NULL);
         play_click
@@ -668,19 +655,19 @@ void tic_tac_toe_game(int mod)
         usleep(180000);
 
     //勝利結算
-    if(who_win == 2)
+    if(who_win == NOBODY)
     {
         printf("Oh no...\n\nyou two are tied.\n\n");
         play_tied
         wait_some_time(5);
     }
-    else if(mod == 0)
+    else if(mod == TWO_PEOPLE_MODE)
     {
         printf("Congratulations!\n\n%c win!!!\n\n", player_round[who_win]);
         play_win
         wait_some_time(5);
     }
-    else if(mod == 1)
+    else if(mod == AI_MODE)
     {
         if(who_win == who_player)
         {
@@ -700,6 +687,13 @@ void tic_tac_toe_game(int mod)
     #endif
     if(mod == 1) {free(ai_input);}
     setbuf(stdin, NULL);
+
+    #undef O 
+    #undef X
+    #undef NOBODY
+    #undef TWO_PEOPLE_MODE
+    #undef AI_MODE
+
     return;
 }
 
@@ -882,7 +876,7 @@ void what()
 
 
 
-static void what_chapter_two_print_UI(uint8_t stamina, uint8_t ammo, uint8_t block, uint8_t egg_king_distance, char map[], uint8_t distance_exit) //輸出UI
+static void what_chapter_two_print_UI(uint8_t stamina, uint8_t ammo, uint8_t block_distance, uint8_t egg_king_distance, char map[], uint8_t distance_exit) //輸出UI
 {
     //體力條
     printf("stamina[");
@@ -906,7 +900,7 @@ static void what_chapter_two_print_UI(uint8_t stamina, uint8_t ammo, uint8_t blo
     for(uint8_t i = 0; i < 11; i++)
     {
         char sc;
-        if(block < 6 && i < 5 && (5 - block) == i) {sc = 'X';}
+        if(block_distance < 6 && i < 5 && (5 - block_distance) == i) {sc = 'X';}
         else if(distance_exit < 6 && i < 5 && (5 - distance_exit) == i) {sc = '#';}
         else if(egg_king_distance < 6 && i > 5 && (5 + egg_king_distance) == i) {sc = 'O';}
         else {sc = map[i];}
@@ -915,11 +909,11 @@ static void what_chapter_two_print_UI(uint8_t stamina, uint8_t ammo, uint8_t blo
     printf("\t\t\t-\n\n");
 
     //跑!
-    if(block > 3 && (stamina - 3) >= 0) {puts("[1]Run(-20 stamina)");}
+    if(block_distance > 2 && (stamina - 2) >= 0) {puts("[1]Run(-20 stamina)");}
     else {puts("X");}
 
     //走
-    if(block > 1) {puts("[2]Walk(+10 stamina)");}
+    if(block_distance > 1) {puts("[2]Walk(+10 stamina)");}
     else {puts("X");}
 
     //休息
@@ -930,7 +924,7 @@ static void what_chapter_two_print_UI(uint8_t stamina, uint8_t ammo, uint8_t blo
     else {puts("X");}
 
     //踢開障礙
-    if(block <= 1) {puts("[5]Kick Obstacle");}
+    if(block_distance <= 1) {puts("[5]Kick Obstacle");}
     else {puts("X");}
 
     //回頭看一眼
@@ -949,11 +943,11 @@ void what_chapter_two()
         if(i == 5) {map[i] = '^';}
         else {map[i] = ' ';}
     }
-    uint8_t egg_king_distance = rands(27, 20); //Egg king初始距離玩家
+    uint8_t egg_king_distance = rands(10, 4); //Egg king初始距離玩家
     uint8_t stamina = 10; //體力
     uint8_t ammo = 15; //雞蛋初始10顆
-    uint8_t distance_exit = rands(110, 97); //初始距離
-    uint8_t block = rands(30, 25);
+    uint8_t distance_exit = rands(125, 100); //初始距離
+    uint8_t block_distance = rands(45, 30);
 
     char input;
 
@@ -984,33 +978,35 @@ void what_chapter_two()
             setbuf(stdin, NULL);
 
             clear;
-            what_chapter_two_print_UI(stamina, ammo, block, egg_king_distance, map, distance_exit);
+            what_chapter_two_print_UI(stamina, ammo, block_distance, egg_king_distance, map, distance_exit);
 
             /*
             * 1 = Run -2 stamina
             * 2 = Walk +1 stamina
             * 3 = rest +3 stamina
             * 4 = throw Egg -1 ammo +4 egg_king_distance +1 stamina
-            * 5 = kick block block = rands(max: 30, min: 15)
+            * 5 = kick block_distance block_distance = rands(max: 30, min: 15)
             * 6 = look bake
             */
             //輸入專區
             input = getchar();
             while(getchar() != '\n');
 
-            if(input == '1' && block > 3 && (stamina - 3) >= 0)
+            if(input == '1' && block_distance > 2 && (stamina - 2) >= 0)
             {
                 stamina -= 2;
-                distance_exit -= 3;
-                egg_king_distance += 3;
+                distance_exit -= 2;
+                egg_king_distance += 2;
+                block_distance -= 2;
                 NO_ERROR;
             }
 
-            else if(input == '2' && block > 1)
+            else if(input == '2' && block_distance > 1)
             {
                 stamina += 1;
                 distance_exit -= 1;
                 egg_king_distance += 1;
+                block_distance -= 1;
                 NO_ERROR;
             }
 
@@ -1023,14 +1019,15 @@ void what_chapter_two()
             else if(input == '4' && ammo > 0)
             {
                 ammo -= 1;
-                egg_king_distance += 5;
+                egg_king_distance += 6;
                 stamina += 1;
                 NO_ERROR;
             }
 
-            else if(input == '5' && block <= 1)
+            else if(input == '5' && block_distance <= 1)
             {
-                block = rands(30, 15);
+                play_kick_door;
+                block_distance = rands(17, 5);
                 NO_ERROR;
             }
 
@@ -1045,14 +1042,48 @@ void what_chapter_two()
         if(look_bake)
         {
             clear;
-            printf("Egg King is about %d meters away", (egg_king_distance + rands(10, (-5))));
+            printf("Egg King is about %d meters away\n", (egg_king_distance + rands(10, (-5))));
+            wait_some_time(3);
         }
 
+        if(stamina > 10) {stamina = 10;}
+
         uint8_t egg_king_move = rands(100, 0);
-        if(egg_king_move == 100) {egg_king_distance -= 4;} //1% 衝刺!
-        else if(egg_king_move <= 25 && egg_king_move > 10) {egg_king_distance -= 1;} //15% 走路
-        else if(egg_king_distance > 25 && egg_king_distance < 100) {egg_king_distance -= 2;} //74% 跑過來
-        //10% 走不動了!
+        if(egg_king_move > 95) {egg_king_distance -= 6;} //5% 衝刺!
+        else if(egg_king_move < 10 && egg_king_move > 3) {egg_king_distance -= 2;} //6% 走路
+        else if(egg_king_distance > 25 && egg_king_distance < 95) {egg_king_distance -= 4;} //86% 跑過來
+        //3% 走不動了!
+        play_click;
     }
-    //V0.4繼續結束後的結局
+
+    if(distance_exit <= 0)
+    {
+        clear;
+        play_kick_door
+        puts("You kicked open the exit door.");
+        usleep(2900000);
+        puts("What the heck? There's a dimensional portal behind the door!");
+        sleep(1);
+        puts("Egg king: Get back here!");
+        sleep(2);
+        puts("Egg king: I'm going to feed you to the Chicken God!");
+        sleep(3);
+        puts("Egg king: We'll meet again!");
+        sleep(1);
+    }
+    else if(egg_king_distance <= 0)
+    {
+        clear;
+        for (uint8_t i = 0; i < 255; i++)
+        {
+            for (uint8_t j = 0; j < 255; j++)
+            {
+                printf("Egg ");
+                fflush(stdout);
+                usleep(100000);
+            }
+            putchar('\n');
+        }
+    }
+    return;
 }
