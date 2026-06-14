@@ -19,26 +19,26 @@ static void what_menu()
     for(int i = 0; i < 5; i++) {what_what[i] = 5;}
     for(int i = 0; i < 5;)
     {
-        int can = 0;
+        int can = FALSE;
         int s = rands(4, 0);
         for(int j = 0; j < 5; j++)
         {
-            if(what_what[j] != s) {can = 1;}
+            if(what_what[j] != s) {can = TRUE;}
             else
             {
-                can = 0;
+                can = FALSE;
                 break;
             }
         }
 
-        if(can == 1)
+        if(can == TRUE)
         {
             what_what[i] = s;
             i++;
         }
     }
 
-    int done = 0;
+    int done = FALSE;
 
     while(!done)
     {
@@ -90,10 +90,10 @@ static void what_menu()
 
         for(int i = 0; i < 5; i++)
         {
-            if(what_what[i] == i) {done = 1;}
+            if(what_what[i] == i) {done = TRUE;}
             else
             {
-                done = 0;
+                done = FALSE;
                 break;
             }
         }
@@ -102,7 +102,7 @@ static void what_menu()
     puts("Password passed");
     sleep(1);
 
-    if(done == 1 && !discovered_what)
+    if(done == TRUE && !discovered_what)
     {
         clear;
         what();
@@ -114,13 +114,13 @@ static void what_menu()
 //維度彩蛋選擇
 static void discovered_what_menu()
 {
-    while(1)
+    while(TRUE)
     {
         clear;
-
         printf("[1]Welcomed you\n[2]First time entering the 'border area'\n[3]Egg dimension? (DEMO)\n\n[0]return\n");
         input = getchar();
         while(getchar() != '\n');
+        play_click;
 
         if(input == '1') {what_menu();}
         else if (input == '2') {what();}
@@ -132,7 +132,7 @@ static void discovered_what_menu()
 //遊戲模式選擇
 static void gamemod_menu()
 {
-    while(1)
+    while(TRUE)
     {
         /*
          * mod
@@ -158,13 +158,13 @@ static void gamemod_menu()
         if(input == '1')
         {
             clear;
-            tic_tac_toe_game(0);
+            tic_tac_toe_game(TWO_PEOPLE_MODE);
         }
 
         else if(input == '2')
         {
             clear;
-            tic_tac_toe_game(1);
+            tic_tac_toe_game(AI_MODE);
         }
 
         else if(input == '8')
@@ -183,26 +183,9 @@ static void set_menu()
     while(1)
     {
         clear;
-        /*
-        * ai mode  number
-        *  idiot  =  0
-        *  ordinary= 1
-        *  expert =  2
-        */
 
-        char *ai_mode_text;
-        switch (ai_mode)
-        {
-            case 0:
-                ai_mode_text = "Mr.HotDog";
-                break;
-            case 1:
-                ai_mode_text = "Mr.Dog";
-                break;
-            case 2:
-                ai_mode_text = "Mr.Egg";
-                break;
-        }
+        char *ai_mode_text = "";
+        ai_mode_name(&ai_mode_text);
         printf("[1]silent mode(%c)\n[2]AI Mode(%s(mode%d))\n[0]return\n", sound ? 'X':'V', ai_mode_text, (ai_mode + 1));
         input = getchar();
         while(getchar() != '\n');

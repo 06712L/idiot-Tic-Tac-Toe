@@ -21,8 +21,8 @@ TARGET = idiot-tic-tac-toe
 SRC_DIR = ./src
 ELF_DIR = elf
 EXE_DIR = exe
-OBJS = ./$(OBJS_DIR)/main.o ./$(OBJS_DIR)/menu.o ./$(OBJS_DIR)/game.o ./$(OBJS_DIR)/tool.o
-OBJSWIN = ./$(OBJS_DIR)/main-win.o ./$(OBJS_DIR)/menu-win.o ./$(OBJS_DIR)/game-win.o ./$(OBJS_DIR)/tool-win.o
+OBJS = ./$(OBJS_DIR)/main.o ./$(OBJS_DIR)/menu.o ./$(OBJS_DIR)/game.o ./$(OBJS_DIR)/tool.o  ./$(OBJS_DIR)/savefile.o
+OBJSWIN = ./$(OBJS_DIR)/main-win.o ./$(OBJS_DIR)/menu-win.o ./$(OBJS_DIR)/game-win.o ./$(OBJS_DIR)/tool-win.o ./$(OBJS_DIR)/savefile-win.o
 
 .PHONY: linux win cleanlinux cleanwin clean
 all: linux
@@ -31,21 +31,21 @@ all: linux
 linux: $(OBJS)
 	@mkdir -p $(ELF_DIR)
 	@cp -n -r ./sound ./$(ELF_DIR)
-	$(CC) $(CFLAGS) $(OBJS) -o ./$(ELF_DIR)/$(TARGET)-$(VERSION) $(LIBS)
+	$(CC) $(CFLAGS) $^ -o ./$(ELF_DIR)/$(TARGET)-$(VERSION) $(LIBS)
 
 
 win: $(OBJSWIN)
 	@mkdir -p $(EXE_DIR)
 	@cp -n -r ./sound ./$(EXE_DIR)
-	$(CCWIN) $(CFLAGS) $(OBJSWIN) -o ./$(EXE_DIR)/$(TARGET)-$(VERSION).exe $(LIBSWIN)
+	$(CCWIN) $(CFLAGS) $^ -o ./$(EXE_DIR)/$(TARGET)-$(VERSION).exe $(LIBSWIN)
 
 
-./$(OBJS_DIR)/%.o: $(SRC_DIR)/%.c
+./$(OBJS_DIR)/%.o: ./$(SRC_DIR)/%.c
 	@mkdir -p $(OBJS_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 
-./$(OBJS_DIR)/%-win.o: $(SRC_DIR)/%.c
+./$(OBJS_DIR)/%-win.o: ./$(SRC_DIR)/%.c
 	@mkdir -p $(OBJS_DIR)
 	$(CCWIN) $(CFLAGS) -c $< -o $@
 

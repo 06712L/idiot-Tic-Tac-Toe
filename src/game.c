@@ -16,11 +16,12 @@
 
 void tic_tac_toe_game(int mod)
 {
-    #define O 0
-    #define X 1
-    #define NOBODY 2
-    #define TWO_PEOPLE_MODE 0
-    #define AI_MODE 1
+    enum
+    {
+        O = 0,
+        X = 1,
+        NOBODY = 2
+    };
 
     #ifdef _WIN32
     char *input = malloc(20 * sizeof(char));
@@ -33,24 +34,7 @@ void tic_tac_toe_game(int mod)
     {
         ai_input = calloc(4, sizeof(char));
 
-        /*
-        * ai mode  number
-        *  idiot  =  0
-        *  ordinary= 1
-        *  expert =  2
-        */
-        switch (ai_mode)
-        {
-            case 0:
-                ai_mode_text = "Mr.HotDog";
-                break;
-            case 1:
-                ai_mode_text = "Mr.Dog";
-                break;
-            case 2:
-                ai_mode_text = "Mr.Egg";
-                break;
-        }
+        ai_mode_name(&ai_mode_text);
 
         who_player = rands(100, 0);
 
@@ -207,7 +191,7 @@ void tic_tac_toe_game(int mod)
             */
 
             int want_egg = rands(100, 0);
-            int ai_check = 0;
+            int ai_check = FALSE;
             printf("\ninput:");
             fflush(stdout);
             sleep(rands(3, 1));
@@ -688,12 +672,6 @@ void tic_tac_toe_game(int mod)
     if(mod == 1) {free(ai_input);}
     setbuf(stdin, NULL);
 
-    #undef O 
-    #undef X
-    #undef NOBODY
-    #undef TWO_PEOPLE_MODE
-    #undef AI_MODE
-
     return;
 }
 
@@ -876,7 +854,23 @@ void what()
 
 
 
-static void what_chapter_two_print_UI(uint8_t stamina, uint8_t ammo, uint8_t block_distance, uint8_t egg_king_distance, char map[], uint8_t distance_exit) //輸出UI
+/*void what_return_home()
+{
+    //構造中...
+    return;
+}*/
+
+#define RUN_distance 3
+#define RUN_stamina 2
+#define WALK_distance 1
+#define WALK_stamina 1
+#define REST_stamina 3
+#define EGG_KING_run 2
+#define EGG_KING_walk 1
+#define EGG_KING_sprint 5
+#define BLOCK_HP 3
+
+static void what_chapter_two_print_UI(uint8_t stamina, uint8_t ammo, uint8_t block_distance, uint8_t egg_king_distance, char map[], uint8_t distance_exit, uint8_t block_hp) //輸出UI
 {
     //體力條
     printf("stamina[");
@@ -885,14 +879,14 @@ static void what_chapter_two_print_UI(uint8_t stamina, uint8_t ammo, uint8_t blo
         if(i < stamina) {putchar('#');}
         else {putchar('-');}
     }
-    printf("] %d%%\n", (stamina * 10));
+    printf("] %d0%%\n", stamina);
 
     //剩餘雞蛋
     printf("Eggs[");
-    for(uint8_t i = 0; i < 15; i++)
+    for(uint8_t i = 0; i < 5; i++)
     {
         if(i < ammo) {putchar('O');}
-        else {putchar('X');}
+        else {putchar(' ');}
     }
     printf("] %d\n\n\t\t\t-\n", ammo);
 
@@ -909,29 +903,39 @@ static void what_chapter_two_print_UI(uint8_t stamina, uint8_t ammo, uint8_t blo
     printf("\t\t\t-\n\n");
 
     //跑!
-    if(block_distance > 2 && (stamina - 2) >= 0) {puts("[1]Run(-20 stamina)");}
+    if(block_distance > RUN_distance && (stamina - RUN_stamina) >= 0) {printf("[1]Run(-%d0 stamina)\n", (RUN_stamina));}
     else {puts("X");}
 
     //走
-    if(block_distance > 1) {puts("[2]Walk(+10 stamina)");}
+    if(block_distance > WALK_distance && stamina > 4) {printf("[2]Walk(+%d0 stamina)\n", (WALK_stamina));}
+    else if(stamina > 0) {puts("[2]Walk");}
     else {puts("X");}
 
     //休息
-    puts("[3]take a rest(+30 stamina)");
+    if(stamina > 6) {printf("[3]take a rest(+%d0 stamina)\n",(REST_stamina));}
+    else {printf("[3]take a rest(+%d0 stamina)\n",(REST_stamina - 2));}
 
     //丟雞蛋!
-    if(ammo > 0) {puts("[4]Throw an egg(-1 Egg, Knockback 5 tiles, +10 stamina)");}
+    if(ammo > 0) {puts("[4]Throw an egg(-1 Egg, That egg needs to be cleaned!)");}
     else {puts("X");}
 
     //踢開障礙
-    if(block_distance <= 1) {puts("[5]Kick Obstacle");}
+    if(block_distance <= 1) {printf("[5]Kick Obstacle(you need kicks %d)\n", (block_hp + 1));}
     else {puts("X");}
 
     //回頭看一眼
-    if(egg_king_distance > 6)
+    if(egg_king_distance > 5)
     {
         puts("[6]take a look back");
     }
+    else {puts("X");}
+}
+
+void look_bake(int egg_king_distance)
+{
+    clear;
+    printf("Egg King is about %d meters away\n", (egg_king_distance + rands(3, (-2))));
+    wait_some_time(3);
 }
 
 //Inspired by Baldi's Basic
@@ -943,11 +947,13 @@ void what_chapter_two()
         if(i == 5) {map[i] = '^';}
         else {map[i] = ' ';}
     }
-    uint8_t egg_king_distance = rands(10, 4); //Egg king初始距離玩家
-    uint8_t stamina = 10; //體力
-    uint8_t ammo = 15; //雞蛋初始10顆
-    uint8_t distance_exit = rands(125, 100); //初始距離
-    uint8_t block_distance = rands(45, 30);
+    int16_t egg_king_distance = rands(9, 5); //Egg king初始距離玩家
+    int8_t stamina = 10; //體力
+    uint8_t ammo = 5; //雞蛋初始5顆
+    int16_t distance_exit = rands(105, 90); //初始距離
+    int8_t block_distance = rands(35, 15);
+    int8_t block_hp = BLOCK_HP;
+    int8_t throw_egg = 0;
 
     char input;
 
@@ -970,89 +976,96 @@ void what_chapter_two()
 
     while(egg_king_distance > 0 && distance_exit > 0)
     {
+        setbuf(stdin, NULL);
         #define NO_ERROR error = 0
-        uint8_t look_bake = 0;
         uint8_t error = 1;
         while(error)
         {
             setbuf(stdin, NULL);
 
             clear;
-            what_chapter_two_print_UI(stamina, ammo, block_distance, egg_king_distance, map, distance_exit);
+            what_chapter_two_print_UI(stamina, ammo, block_distance, egg_king_distance, map, distance_exit, block_hp);
 
             /*
-            * 1 = Run -2 stamina
+            * 1 = Run -3 stamina
             * 2 = Walk +1 stamina
             * 3 = rest +3 stamina
-            * 4 = throw Egg -1 ammo +4 egg_king_distance +1 stamina
-            * 5 = kick block_distance block_distance = rands(max: 30, min: 15)
+            * 4 = throw Egg -1 ammo That egg needs to be cleaned!
+            * 5 = kick block_distance block_distance = rands(max: 15, min: 6)
             * 6 = look bake
             */
             //輸入專區
             input = getchar();
             while(getchar() != '\n');
 
-            if(input == '1' && block_distance > 2 && (stamina - 2) >= 0)
+            if(input == '1' && block_distance > RUN_distance && (stamina - RUN_stamina) >= 0)
             {
-                stamina -= 2;
-                distance_exit -= 2;
-                egg_king_distance += 2;
-                block_distance -= 2;
+                stamina -= RUN_stamina;
+                distance_exit -= RUN_distance;
+                egg_king_distance += RUN_distance;
+                block_distance -= RUN_distance;
                 NO_ERROR;
             }
 
-            else if(input == '2' && block_distance > 1)
+            else if(input == '2' && block_distance > WALK_distance)
             {
-                stamina += 1;
-                distance_exit -= 1;
-                egg_king_distance += 1;
-                block_distance -= 1;
+                if(stamina > 4) {stamina += WALK_stamina;}
+                distance_exit -= WALK_distance;
+                egg_king_distance += WALK_distance;
+                block_distance -= WALK_distance;
                 NO_ERROR;
             }
 
             else if(input == '3')
             {
-                stamina += 3;
+                if(stamina > 6) {stamina += REST_stamina;}
+                else {stamina += (REST_stamina - 2);}
                 NO_ERROR;
             }
 
             else if(input == '4' && ammo > 0)
             {
                 ammo -= 1;
-                egg_king_distance += 6;
-                stamina += 1;
+                throw_egg = 2;
                 NO_ERROR;
             }
 
             else if(input == '5' && block_distance <= 1)
             {
                 play_kick_door;
-                block_distance = rands(17, 5);
+                if(block_hp <= 0)
+                {
+                    block_distance = rands(15, 6);
+                    block_hp = BLOCK_HP;
+                }
+                else {block_hp -= 1;}
                 NO_ERROR;
             }
 
-            else if(input == '6' && egg_king_distance > 6)
+            else if(input == '6' && egg_king_distance > 5)
             {
-                look_bake = 1;
+                look_bake(egg_king_distance);
                 NO_ERROR;
             }
         }
         #undef NO_ERROR
 
-        if(look_bake)
-        {
-            clear;
-            printf("Egg King is about %d meters away\n", (egg_king_distance + rands(10, (-5))));
-            wait_some_time(3);
-        }
-
         if(stamina > 10) {stamina = 10;}
+        if(block_distance >= distance_exit) {rands((block_distance - distance_exit - 1), 5);}
 
-        uint8_t egg_king_move = rands(100, 0);
-        if(egg_king_move > 95) {egg_king_distance -= 6;} //5% 衝刺!
-        else if(egg_king_move < 10 && egg_king_move > 3) {egg_king_distance -= 2;} //6% 走路
-        else if(egg_king_distance > 25 && egg_king_distance < 95) {egg_king_distance -= 4;} //86% 跑過來
-        //3% 走不動了!
+        if(throw_egg == 0)
+        {
+            uint8_t egg_king_move = rands(100, 0);
+            if(egg_king_move < 1) {egg_king_distance -= EGG_KING_sprint;} //1% 衝刺!
+            else if(egg_king_move < 51) {egg_king_distance -= EGG_KING_walk;} //50% 走路
+            else if(egg_king_move < 80) {egg_king_distance -= EGG_KING_run;} //29% 跑過來
+            //20% 走不動了!
+        }
+        else
+        {
+            throw_egg -= 1;
+            if(throw_egg < 0) {throw_egg = 0;}
+        }
         play_click;
     }
 
@@ -1070,20 +1083,30 @@ void what_chapter_two()
         sleep(3);
         puts("Egg king: We'll meet again!");
         sleep(1);
+        //what_return_home();
     }
     else if(egg_king_distance <= 0)
     {
         clear;
-        for (uint8_t i = 0; i < 255; i++)
+        for (uint8_t i = 0; i < 12; i++)
         {
-            for (uint8_t j = 0; j < 255; j++)
+            for (uint8_t j = 0; j < 33; j++)
             {
                 printf("Egg ");
                 fflush(stdout);
-                usleep(100000);
+                usleep(10000);
             }
             putchar('\n');
         }
     }
     return;
 }
+#undef RUN_distance
+#undef RUN_stamina
+#undef WALK_distance
+#undef WALK_stamina
+#undef REST_stamina
+#undef EGG_KING_run
+#undef EGG_KING_walk
+#undef EGG_KING_sprint
+#undef BLOCK_HP

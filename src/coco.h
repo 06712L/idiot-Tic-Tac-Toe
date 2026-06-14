@@ -1,7 +1,6 @@
 #ifndef COCO_H
 #define COCO_H
 
-#include "game.h"
 #include <stdio.h>
 #include <stdint.h>
 
@@ -26,12 +25,13 @@
 #endif
 
 int rands(int32_t max, int32_t min);
-int check_file(FILE **file);
+int check_file(FILE *file);
 void wait_some_time(int time);
+void ai_mode_name(char **ai_mode_text);
 
-extern const char *version;
-extern int32_t sound;
-extern int32_t ai_mode;
-extern int32_t discovered_what;
+extern const char *const version;
+extern int8_t sound;
+extern int8_t ai_mode;
+extern int8_t discovered_what;
 
 #endif

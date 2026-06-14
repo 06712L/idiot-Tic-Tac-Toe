@@ -11,6 +11,7 @@
 *.txt
 callgrind.out.*
 Build.sh
+vgcore.*
 /elf
 /exe
 /oiia*
