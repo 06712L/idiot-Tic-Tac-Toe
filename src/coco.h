@@ -6,6 +6,8 @@
 
 #define TRUE 1
 #define FALSE 0
+#define UNKNOWN 5
+#define bool _Bool
 
 #ifdef _WIN32
 #define clear system("cls")
@@ -15,7 +17,7 @@
 #define play_lose if(sound) {PlaySound(TEXT(".\\sound\\lose.wav"), NULL, SND_FILENAME | SND_ASYNC);}
 #define play_kick_door if(sound) {PlaySound(TEXT(".\\sound\\kick-door.wav"), NULL, SND_FILENAME | SND_ASYNC);}
 
-#else
+#elif __linux__
 #define clear printf("\033[2J\033[H")
 #define play_click if(sound) {system("aplay ./sound/click.wav > /dev/null 2>&1 &");}
 #define play_tied if(sound) {system("aplay ./sound/tied.wav > /dev/null 2>&1 &");}

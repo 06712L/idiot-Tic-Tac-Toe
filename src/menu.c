@@ -197,7 +197,7 @@ static void set_menu()
         }
         if(input == '2')
         {
-            if((ai_mode + 1) > 2) {ai_mode = 0;}
+            if((ai_mode + 1) > 3) {ai_mode = 0;}
             else {ai_mode++;}
         }
         if(input == '0') {return;}

@@ -1,6 +1,8 @@
 #include "game.h"
 #include "coco.h"
+#include <stddef.h>
 #include <string.h>
+#include <sys/types.h>
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -42,7 +44,7 @@ void tic_tac_toe_game(int mod)
         else {who_player = X;}
     }
 
-    uint8_t who_round = X;
+    bool who_round = X;
     /*
     *number  player
     * 0    =  O
@@ -197,370 +199,471 @@ void tic_tac_toe_game(int mod)
             sleep(rands(3, 1));
             //Zheng-De-AI Pro
 
-
-            //ai will Egg!
-            if(want_egg >= 95 && ai_mode >= 2)
+            if(ai_mode < 3)
             {
-                strcpy(ai_input, "Egg");
-                ai_input[strlen(ai_input)] = '\0';
-                ai_check = 1;
-                which_mod = 5;
-            }
-
-            //先手佔領中心
-            else if(tic[1][1] == NOBODY && round == 0 && ai_check == 0 && ai_mode >= 0)
-            {
-                strcpy(ai_input, "22");
-                ai_input[strlen(ai_input)] = '\0';
-                ai_check = 1;
-                which_mod = 1;
-            }
-
-            //第二代攻擊方案
-            if(ai_check == 0 && ai_mode >= 1)
-            {
-                //橫
-                for(int i = 0; i < 3; i++)
+                //ai will Egg!
+                if(want_egg >= 95 && ai_mode >= 2)
                 {
-                    int ss = 0;
-                    for(int j = 0; j < 3; j++) {if(tic[i][j] == who_round && tic[i][j] != who_player) {ss++;}}
-                    
-                    if(ss == 2)
-                    {
-                        int x;
-                        for(int j = 0; j < 3; j++)
-                        {
-                            if(tic[i][j] == 2)
-                            {
-                                x = j;
-                                ai_check = 1;
-                                sprintf(ai_input, "%d%d", (x + 1), (i + 1));
-                                break;
-                            }
-                        }
-                        which_q = 1;
-                        break;
-                    }
+                    strcpy(ai_input, "Egg");
+                    ai_input[strlen(ai_input)] = '\0';
+                    ai_check = 1;
+                    which_mod = 5;
                 }
-                if(ai_check == 0)
+
+                //先手佔領中心
+                if(tic[1][1] == NOBODY && round == 0 && ai_check == 0 && ai_mode >= 0)
                 {
-                    //縱
+                    strcpy(ai_input, "22");
+                    ai_input[strlen(ai_input)] = '\0';
+                    ai_check = 1;
+                    which_mod = 1;
+                }
+
+                //第二代攻擊方案
+                if(ai_check == 0 && ai_mode >= 1)
+                {
+                    //橫
                     for(int i = 0; i < 3; i++)
                     {
                         int ss = 0;
-                        for(int j = 0; j < 3; j++) {if(tic[j][i] == who_round && tic[j][i] != who_player) {ss++;}}
+                        for(int j = 0; j < 3; j++) {if(tic[i][j] == who_round && tic[i][j] != who_player) {ss++;}}
+                        
                         if(ss == 2)
                         {
-                            int y;
-
+                            int x;
                             for(int j = 0; j < 3; j++)
                             {
-                                if(tic[j][i] == 2)
+                                if(tic[i][j] == 2)
                                 {
-                                    y = j;
+                                    x = j;
                                     ai_check = 1;
-                                    sprintf(ai_input, "%d%d",(i + 1), (y + 1));
+                                    sprintf(ai_input, "%d%d", (x + 1), (i + 1));
                                     break;
                                 }
                             }
-                            which_q = 2;
+                            which_q = 1;
                             break;
                         }
                     }
-                }
-                
-                //左斜(\)
-                if(ai_check == 0)
-                {
-                    int ss = 0;
-
-                    for(int i = 0; i < 3; i++)
+                    if(ai_check == 0)
                     {
-                        if(tic[i][i] == who_round && tic[i][i] != who_player) {ss++;}
-                        if(ss == 2) {ai_check = 1;}
-                    }
-                    if(ai_check == 1)
-                    {
+                        //縱
                         for(int i = 0; i < 3; i++)
                         {
-                            if(tic[i][i] == 2)
+                            int ss = 0;
+                            for(int j = 0; j < 3; j++) {if(tic[j][i] == who_round && tic[j][i] != who_player) {ss++;}}
+                            if(ss == 2)
                             {
-                                sprintf(ai_input, "%d%d", (i + 1), (i + 1));
+                                int y;
+
+                                for(int j = 0; j < 3; j++)
+                                {
+                                    if(tic[j][i] == 2)
+                                    {
+                                        y = j;
+                                        ai_check = 1;
+                                        sprintf(ai_input, "%d%d",(i + 1), (y + 1));
+                                        break;
+                                    }
+                                }
+                                which_q = 2;
                                 break;
                             }
                         }
-                        which_q = 3;
                     }
-                }
-                //右斜(/)
-                if (ai_check == 0)
-                {
-                    int sx = 2;
-                    int ss = 0;
+                    
+                    //左斜(\)
+                    if(ai_check == 0)
+                    {
+                        int ss = 0;
 
-                    for(int i = 0; i < 3; i++)
-                    {
-                        if(tic[i][sx] == who_round && tic[i][sx] != who_player) {ss++;}
-                        if(ss == 2) {ai_check = 1;}
-                        sx--;
-                    }
-                    if(ai_check == 1)
-                    {
-                        sx = 2;
                         for(int i = 0; i < 3; i++)
                         {
-                            if(tic[i][sx] == 2)
+                            if(tic[i][i] == who_round && tic[i][i] != who_player) {ss++;}
+                            if(ss == 2) {ai_check = 1;}
+                        }
+                        if(ai_check == 1)
+                        {
+                            for(int i = 0; i < 3; i++)
                             {
-                                sprintf(ai_input, "%d%d", (sx + 1), (i + 1));
-                                break;
+                                if(tic[i][i] == 2)
+                                {
+                                    sprintf(ai_input, "%d%d", (i + 1), (i + 1));
+                                    break;
+                                }
                             }
+                            which_q = 3;
+                        }
+                    }
+                    //右斜(/)
+                    if (ai_check == 0)
+                    {
+                        int sx = 2;
+                        int ss = 0;
+
+                        for(int i = 0; i < 3; i++)
+                        {
+                            if(tic[i][sx] == who_round && tic[i][sx] != who_player) {ss++;}
+                            if(ss == 2) {ai_check = 1;}
                             sx--;
                         }
-                        which_q = 4;
-                    }
-                }
-                
-                which_mod = 2;
-            }
-            //抵禦玩家攻擊
-            if(ai_check == 0 && ai_mode >= 2)
-            {
-                //橫
-                for(int i = 0; i < 3; i++)
-                {
-                    int ss = 0;
-                    for(int j = 0; j < 3; j++) {if(tic[i][j] == who_player) {ss++;}}
-                    if(ss == 2)
-                    {
-                        int x;
-                        for(int j = 0; j < 3; j++)
+                        if(ai_check == 1)
                         {
-                            if(tic[i][j] == 2)
+                            sx = 2;
+                            for(int i = 0; i < 3; i++)
                             {
-                                x = j;
-                                ai_check = 1;
-                                sprintf(ai_input, "%d%d", (x + 1), (i + 1));
-                                break;
+                                if(tic[i][sx] == 2)
+                                {
+                                    sprintf(ai_input, "%d%d", (sx + 1), (i + 1));
+                                    break;
+                                }
+                                sx--;
                             }
+                            which_q = 4;
                         }
-                        which_q = 1;
-                        break;
                     }
+                    
+                    which_mod = 2;
                 }
-                if(ai_check == 0)
+                //抵禦玩家攻擊
+                if(ai_check == 0 && ai_mode >= 2)
                 {
-                    //縱
+                    //橫
                     for(int i = 0; i < 3; i++)
                     {
                         int ss = 0;
-                        for(int j = 0; j < 3; j++) {if(tic[j][i] == who_player) {ss++;}}
+                        for(int j = 0; j < 3; j++) {if(tic[i][j] == who_player) {ss++;}}
                         if(ss == 2)
                         {
-                            int y;
+                            int x;
                             for(int j = 0; j < 3; j++)
                             {
-                                if(tic[j][i] == 2)
+                                if(tic[i][j] == 2)
                                 {
-                                    y = j;
+                                    x = j;
                                     ai_check = 1;
-                                    sprintf(ai_input, "%d%d",(i + 1), (y + 1));
+                                    sprintf(ai_input, "%d%d", (x + 1), (i + 1));
                                     break;
                                 }
                             }
-                            which_q = 2;
+                            which_q = 1;
                             break;
                         }
                     }
-                }
-                //左斜(\)
-                if(ai_check == 0)
-                {
-                    int ss = 0;
-
-                    for(int i = 0; i < 3; i++)
+                    if(ai_check == 0)
                     {
-                        if(tic[i][i] == who_player) {ss++;}
-                        if(ss > 1) {ai_check = 1;}
-                    }
-                    if(ai_check == 1)
-                    {
+                        //縱
                         for(int i = 0; i < 3; i++)
                         {
-                            if(tic[i][i] == 2)
+                            int ss = 0;
+                            for(int j = 0; j < 3; j++) {if(tic[j][i] == who_player) {ss++;}}
+                            if(ss == 2)
                             {
-                                sprintf(ai_input, "%d%d", (i + 1), (i + 1));
+                                int y;
+                                for(int j = 0; j < 3; j++)
+                                {
+                                    if(tic[j][i] == 2)
+                                    {
+                                        y = j;
+                                        ai_check = 1;
+                                        sprintf(ai_input, "%d%d",(i + 1), (y + 1));
+                                        break;
+                                    }
+                                }
+                                which_q = 2;
                                 break;
                             }
                         }
-                        which_q = 3;
                     }
-                }
-                //右斜(/)
-                if(ai_check == 0)
-                {
-                    int sx = 2;
-                    int ss = 0;
+                    //左斜(\)
+                    if(ai_check == 0)
+                    {
+                        int ss = 0;
 
-                    for(int i = 0; i < 3; i++)
-                    {
-                        if(tic[i][sx] == who_player) {ss++;}
-                        if(ss > 1) {ai_check = 1;}
-                        sx--;
-                    }
-                    if(ai_check == 1)
-                    {
-                        sx = 2;
                         for(int i = 0; i < 3; i++)
                         {
-                            if(tic[i][sx] == 2)
+                            if(tic[i][i] == who_player) {ss++;}
+                            if(ss > 1) {ai_check = 1;}
+                        }
+                        if(ai_check == 1)
+                        {
+                            for(int i = 0; i < 3; i++)
                             {
-                                sprintf(ai_input, "%d%d", (sx + 1), (i + 1));
-                                break;
+                                if(tic[i][i] == 2)
+                                {
+                                    sprintf(ai_input, "%d%d", (i + 1), (i + 1));
+                                    break;
+                                }
                             }
+                            which_q = 3;
+                        }
+                    }
+                    //右斜(/)
+                    if(ai_check == 0)
+                    {
+                        int sx = 2;
+                        int ss = 0;
+
+                        for(int i = 0; i < 3; i++)
+                        {
+                            if(tic[i][sx] == who_player) {ss++;}
+                            if(ss > 1) {ai_check = 1;}
                             sx--;
                         }
-                        which_q = 4;
-                    }
-                }
-                which_mod = 3;
-            }
-
-            //第三代攻擊方案
-            if(ai_check == 0 && ai_mode >= 2)
-            {
-                //橫
-                for(int i = 0; i < 3; i++)
-                {
-                    int ss = 0;
-                    int xs = 0;
-                    for(int j = 0; j < 3; j++)
-                    {
-                        if(tic[i][j] == who_round && tic[i][j] != who_player) {ss++;}
-                        else if(tic[i][j] == who_player) {xs++;}
-                    }
-                    
-                    if(ss > 0 && xs < 1)
-                    {
-                        int x;
-                        for(int j = 0; j < 3; j++)
+                        if(ai_check == 1)
                         {
-                            if(tic[i][j] == 2)
+                            sx = 2;
+                            for(int i = 0; i < 3; i++)
                             {
-                                x = j;
-                                ai_check = 1;
-                                sprintf(ai_input, "%d%d", (x + 1), (i + 1));
-                                break;
+                                if(tic[i][sx] == 2)
+                                {
+                                    sprintf(ai_input, "%d%d", (sx + 1), (i + 1));
+                                    break;
+                                }
+                                sx--;
                             }
+                            which_q = 4;
                         }
-                        which_q = 1;
-                        break;
                     }
+                    which_mod = 3;
                 }
 
-                if(ai_check == 0)
+                //第三代攻擊方案
+                if(ai_check == 0 && ai_mode >= 2)
                 {
-                    //縱
+                    //橫
                     for(int i = 0; i < 3; i++)
                     {
                         int ss = 0;
                         int xs = 0;
                         for(int j = 0; j < 3; j++)
                         {
-                            if(tic[j][i] == who_round && tic[j][i] != who_player) {ss++;}
-                            else if(tic[j][i] == who_player) {xs++;}
+                            if(tic[i][j] == who_round && tic[i][j] != who_player) {ss++;}
+                            else if(tic[i][j] == who_player) {xs++;}
                         }
+                        
                         if(ss > 0 && xs < 1)
                         {
-                            int y;
+                            int x;
                             for(int j = 0; j < 3; j++)
                             {
-                                if(tic[j][i] == 2)
+                                if(tic[i][j] == 2)
                                 {
-                                    y = j;
+                                    x = j;
                                     ai_check = 1;
-                                    sprintf(ai_input, "%d%d",(i + 1), (y + 1));
+                                    sprintf(ai_input, "%d%d", (x + 1), (i + 1));
                                     break;
                                 }
                             }
-                            which_q = 2;
+                            which_q = 1;
                             break;
                         }
                     }
-                }
 
-                //左斜(\)
-                if(ai_check == 0)
-                {
-                    int ss = 0;
-                    int xs = 0;
-
-                    for(int i = 0; i < 3; i++)
+                    if(ai_check == 0)
                     {
-                        if(tic[i][i] == who_round && tic[i][i] != who_player) {ss++;}
-                        else if(tic[i][i] == who_player) {xs++;}
-                    }
-                    if(ss > 0 && xs < 1)
-                    {
+                        //縱
                         for(int i = 0; i < 3; i++)
                         {
-                            if(tic[i][i] == 2)
+                            int ss = 0;
+                            int xs = 0;
+                            for(int j = 0; j < 3; j++)
                             {
-                                sprintf(ai_input, "%d%d", (i + 1), (i + 1));
+                                if(tic[j][i] == who_round && tic[j][i] != who_player) {ss++;}
+                                else if(tic[j][i] == who_player) {xs++;}
+                            }
+                            if(ss > 0 && xs < 1)
+                            {
+                                int y;
+                                for(int j = 0; j < 3; j++)
+                                {
+                                    if(tic[j][i] == 2)
+                                    {
+                                        y = j;
+                                        ai_check = 1;
+                                        sprintf(ai_input, "%d%d",(i + 1), (y + 1));
+                                        break;
+                                    }
+                                }
+                                which_q = 2;
                                 break;
                             }
                         }
-                        which_q = 3;
                     }
-                }
 
-                //右斜(/)
-                if (ai_check == 0)
-                {
-                    int sx = 2;
-                    int ss = 0;
-                    int xs = 0;
+                    //左斜(\)
+                    if(ai_check == 0)
+                    {
+                        int ss = 0;
+                        int xs = 0;
 
-                    for(int i = 0; i < 3; i++)
-                    {
-                        if(tic[i][sx] == who_round && tic[i][sx] != who_player) {ss++;}
-                        else if(tic[i][sx] == who_player) {xs++;}
-                        sx--;
-                    }
-                    if(ss > 0 && xs < 1)
-                    {
-                        sx = 2;
                         for(int i = 0; i < 3; i++)
                         {
-                            if(tic[i][sx] == 2)
+                            if(tic[i][i] == who_round && tic[i][i] != who_player) {ss++;}
+                            else if(tic[i][i] == who_player) {xs++;}
+                        }
+                        if(ss > 0 && xs < 1)
+                        {
+                            for(int i = 0; i < 3; i++)
                             {
-                                sprintf(ai_input, "%d%d", (sx + 1), (i + 1));
-                                break;
+                                if(tic[i][i] == 2)
+                                {
+                                    sprintf(ai_input, "%d%d", (i + 1), (i + 1));
+                                    break;
+                                }
                             }
+                            which_q = 3;
+                        }
+                    }
+
+                    //右斜(/)
+                    if (ai_check == 0)
+                    {
+                        int sx = 2;
+                        int ss = 0;
+                        int xs = 0;
+
+                        for(int i = 0; i < 3; i++)
+                        {
+                            if(tic[i][sx] == who_round && tic[i][sx] != who_player) {ss++;}
+                            else if(tic[i][sx] == who_player) {xs++;}
                             sx--;
                         }
-                        which_q = 4;
+                        if(ss > 0 && xs < 1)
+                        {
+                            sx = 2;
+                            for(int i = 0; i < 3; i++)
+                            {
+                                if(tic[i][sx] == 2)
+                                {
+                                    sprintf(ai_input, "%d%d", (sx + 1), (i + 1));
+                                    break;
+                                }
+                                sx--;
+                            }
+                            which_q = 4;
+                        }
                     }
+
+                    which_mod = 6;
                 }
 
-                which_mod = 6;
+                //亂下
+                if(ai_check == 0 && ai_mode >= 0)
+                {
+                    int ok = 0;
+                    while(ok == 0)
+                    {
+                        int x = rands(3, 1);
+                        int y = rands(3, 1);
+
+                        if(tic[y-1][x-1] == 2)
+                        {
+                            sprintf(ai_input, "%d%d",x, y);
+                            ok = 1;
+                            which_mod = 4;
+                        }
+                    }
+                }
             }
 
-            //亂下
-            if(ai_check == 0 && ai_mode >= 0)
+            else if(ai_mode == 3)
             {
-                int ok = 0;
-                while(ok == 0)
+                enum
                 {
-                    int x = rands(3, 1);
-                    int y = rands(3, 1);
+                    WILL_WIN = 10000,
+                    CAN_RESIST = 7500,
+                    CAN_ATTACK = 2000
+                };
 
-                    if(tic[y-1][x-1] == 2)
+                typedef struct po
+                {
+                    uint16_t point;
+                    uint8_t x;
+                    uint8_t y;
+                    struct po *next;
+                }points;
+
+                //初始化點數計載點
+                points *head = malloc(sizeof(points));
+                head -> next = NULL;
+                head -> point = 0;
+                points *tail = head;
+
+                uint8_t count = 0;
+                for(uint8_t y = 0; y < 3; y++)
+                {
+                    for(uint8_t x = 0; x < 3; x++)
                     {
-                        sprintf(ai_input, "%d%d",x, y);
-                        ok = 1;
-                        which_mod = 4;
+                        //檢查是否為空格
+                        if(tic[y][x] == NOBODY)
+                        {
+                            //如果不是第一項則建立新點數計載點
+                            if(count != 0)
+                            {
+                                points *new = calloc(1, sizeof(points));
+                                new -> next = NULL;
+
+                                tail -> next = new;
+                                tail = new;
+                            }
+                            //紀錄位置
+                            tail -> x = x;
+                            tail -> y = y;
+
+                            //建立下棋後的棋盤
+                            uint8_t ai_tic[3][3];
+                            memcpy(ai_tic, tic, sizeof(tic));
+                            ai_tic[y][x] = !who_player;
+
+                            uint16_t *point = &(tail -> point);
+                            //橫縱
+                            for(uint8_t h = 0; h < 2; h++)
+                            {
+                                uint8_t s = 0 /*己方*/, xs = 0/*敵方*/;
+                                for(uint8_t i = 0; i < 3;i++)
+                                {
+                                    if(h) {if(ai_tic[y][i] == !who_player) {s++;} else if(ai_tic[y][i] == who_player) {xs++;}}
+                                    else {if(ai_tic[i][x] == !who_player) {s++;} else if(ai_tic[i][x] == who_player) {xs++;}}
+                                }
+                                if(s == 2 && xs < 1) {*point += WILL_WIN;}
+                                else if(xs > 1 && s < 1) {*point += CAN_RESIST;}
+                                else if(s > 0 && xs < 1) {*point += CAN_ATTACK;}
+                            }
+
+                            //斜線
+                            if(abs(x - y) != 1)
+                            {
+                                for(uint8_t h = 0; h < 2; h++)
+                                {
+                                    uint8_t s = 0 /*己方*/, xs = 0/*敵方*/;
+                                    uint8_t sx = 2;
+                                    for(uint8_t i = 0; i < 3; i++)
+                                    {
+                                        if(h) {if(ai_tic[i][i] == !who_player) {s++;} else if(ai_tic[i][i] == who_player) {xs++;}}
+                                        else {if(ai_tic[i][sx] == !who_player) {s++;} else if(ai_tic[i][sx] == who_player) {xs++;}}
+                                        sx--;
+                                    }
+                                    if(s == 2 && xs < 1) {*point += WILL_WIN;}
+                                    else if(xs > 1 && s < 1) {*point += CAN_RESIST;}
+                                    else if(s > 0 && xs < 1) {*point += CAN_ATTACK;}
+                                }
+                            }
+                            count++;
+                        }
                     }
                 }
+
+                uint16_t max_point = 0;
+                points *best = NULL;
+                points *p = head;
+                for(uint8_t i = 0; i < count; i++)
+                {
+                    if(p -> point > max_point) {best = p;}
+                    p = p -> next;
+                }
+
+                sprintf(ai_input, "%d%d", ((best -> x) + 1), ((best -> y) + 1));
             }
 
             printf("%s", ai_input);
@@ -626,7 +729,7 @@ void tic_tac_toe_game(int mod)
 
 
         //回合結束
-        who_round = !who_round;
+        who_round ^= 1;
         round++;
         setbuf(stdin, NULL);
         play_click
@@ -883,7 +986,7 @@ static void what_chapter_two_print_UI(uint8_t stamina, uint8_t ammo, uint8_t blo
 
     //剩餘雞蛋
     printf("Eggs[");
-    for(uint8_t i = 0; i < 5; i++)
+    for(uint8_t i = 0; i < 10; i++)
     {
         if(i < ammo) {putchar('O');}
         else {putchar(' ');}
@@ -949,7 +1052,7 @@ void what_chapter_two()
     }
     int16_t egg_king_distance = rands(9, 5); //Egg king初始距離玩家
     int8_t stamina = 10; //體力
-    uint8_t ammo = 5; //雞蛋初始5顆
+    uint8_t ammo = 10; //雞蛋初始5顆
     int16_t distance_exit = rands(105, 90); //初始距離
     int8_t block_distance = rands(35, 15);
     int8_t block_hp = BLOCK_HP;
@@ -991,7 +1094,7 @@ void what_chapter_two()
             * 2 = Walk +1 stamina
             * 3 = rest +3 stamina
             * 4 = throw Egg -1 ammo That egg needs to be cleaned!
-            * 5 = kick block_distance block_distance = rands(max: 15, min: 6)
+            * 5 = kick block_distance block_distance = rands(best: 15, min: 6)
             * 6 = look bake
             */
             //輸入專區

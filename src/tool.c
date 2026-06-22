@@ -44,7 +44,7 @@ void ai_mode_name(char **ai_mode_text)
             *ai_mode_text = "Mr.Egg";
         break;
         case 3:
-            *ai_mode_text = "Mr.ColdDog";
+            *ai_mode_text = "Mr.ColdDog-but-DEMO";
             break;
     }
 }

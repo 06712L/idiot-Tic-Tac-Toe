@@ -56,7 +56,7 @@ void boot_loading()
     while(fscanf(fi, "%d", &s) > 0 && si < 3)
     {
         if(si == 0 && s < 2 && s >= 0) {sound = s;}
-        else if(si == 1 && s < 3 && s >= 0) {ai_mode = s;}
+        else if(si == 1 && s < 4 && s >= 0) {ai_mode = s;}
         else if(si == 2 && s < 2 && s >= 0) {discovered_what = s;}
         si++;
     }
