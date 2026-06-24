@@ -6,7 +6,7 @@
 
 void wait_some_time(int time)
 {
-    for(int i = time; i >= 0; i--)
+    for(int i = time; i > 0; i--)
     {
         printf("waiting %d second to leif\r", i);
         fflush(stdout);
@@ -44,7 +44,7 @@ void ai_mode_name(char **ai_mode_text)
             *ai_mode_text = "Mr.Egg";
         break;
         case 3:
-            *ai_mode_text = "Mr.ColdDog";
+            *ai_mode_text = "Mr.ColdDog-but-DEMO";
             break;
     }
 }

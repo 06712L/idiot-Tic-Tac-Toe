@@ -140,7 +140,7 @@ static void gamemod_menu()
          * 1 = ai-vs-human
         */
         clear;
-        printf("[1]Two player mode\n[2]AI vs Human");
+        printf("[1]Two player mode\n[2]AI vs Human\n[3]AI vs AI");
         if(discovered_what)
         {
             char glitch[5] = {'!', '?', '#', '@', '$'};
@@ -165,6 +165,12 @@ static void gamemod_menu()
         {
             clear;
             tic_tac_toe_game(AI_MODE);
+        }
+
+        else if(input == '3')
+        {
+            clear;
+            tic_tac_toe_game(AI_VS_AI_MODE);
         }
 
         else if(input == '8')
@@ -197,7 +203,7 @@ static void set_menu()
         }
         if(input == '2')
         {
-            if((ai_mode + 1) > 2) {ai_mode = 0;}
+            if((ai_mode + 1) > 3) {ai_mode = 0;}
             else {ai_mode++;}
         }
         if(input == '0') {return;}

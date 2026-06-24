@@ -45,7 +45,7 @@
 
 ## 如何下載？
 
-1. 前往[下載頁面](https://github.com/06712L/idiot-Tic-Tac-Toe/releases/tag/V0.4-alpha.2)
+1. 前往[下載頁面](https://github.com/06712L/idiot-Tic-Tac-Toe/releases/tag/V0.4-alpha.3)
 2. 下載對應系統的檔案
 
 ## 支援平台
