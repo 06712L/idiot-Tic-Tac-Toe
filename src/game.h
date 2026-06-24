@@ -7,5 +7,6 @@ void what_chapter_two();
 
 #define TWO_PEOPLE_MODE 0
 #define AI_MODE 1
+#define AI_VS_AI_MODE 2
 
 #endif

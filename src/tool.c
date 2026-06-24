@@ -6,7 +6,7 @@
 
 void wait_some_time(int time)
 {
-    for(int i = time; i >= 0; i--)
+    for(int i = time; i > 0; i--)
     {
         printf("waiting %d second to leif\r", i);
         fflush(stdout);
