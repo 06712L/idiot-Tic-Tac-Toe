@@ -34,7 +34,7 @@ void tic_tac_toe_game(int mod)
     uint8_t who_player = NOBODY;
     if(mod == AI_MODE)
     {
-        ai_input = calloc(4, sizeof(char));
+        ai_input = calloc(8, sizeof(char));
 
         ai_mode_name(&ai_mode_text);
 
@@ -659,7 +659,11 @@ void tic_tac_toe_game(int mod)
                 points *p = head;
                 for(uint8_t i = 0; i < count; i++)
                 {
-                    if(p -> point > max_point) {best = p;}
+                    if(p -> point > max_point)
+                    {
+                        best = p;
+                        max_point = p -> point;
+                    }
                     p = p -> next;
                 }
 
