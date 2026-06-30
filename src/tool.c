@@ -4,11 +4,11 @@
 #include <unistd.h>
 #include <stdint.h>
 
-void wait_some_time(int time)
+void wait_some_time(uint32_t time)
 {
-    for(int i = time; i > 0; i--)
+    for(uint32_t i = time; i > 0; i--)
     {
-        printf("waiting %d second to leif\r", i);
+        printf("Wait %d seconds to leave.\r", i);
         fflush(stdout);
         sleep(1);
     }
@@ -30,7 +30,7 @@ void ai_mode_name(char **ai_mode_text)
     *  idiot  =  0
     *  ordinary= 1
     *  expert =  2
-    *  win!   =  3
+    *  minmax   =  3
     */
     switch (ai_mode)
     {
@@ -47,4 +47,5 @@ void ai_mode_name(char **ai_mode_text)
             *ai_mode_text = "Mr.ColdDog-but-DEMO";
             break;
     }
+    return;
 }
