@@ -117,7 +117,7 @@ static void discovered_what_menu()
     while(TRUE)
     {
         clear;
-        printf("[1]Welcomed you\n[2]First time entering the 'border area'\n[3]Egg dimension? (DEMO)\n\n[0]return\n");
+        printf("[1]Welcomed you\n[2]First time entering the 'border area'\n[3]Egg dimension?\n\n[0]return\n");
         input = getchar();
         while(getchar() != '\n');
         play_click;
@@ -216,7 +216,8 @@ static void about_menu()
     while(1)
     {
         clear;
-        printf("Version:\t%s\nDevelopers:\t06712L (Blue Cat)\ntranslator:\tGoogle Translate\n[0]return\n", version);
+        printf("Version:\t%s\nDevelopers:\t06712L (A penguin)\ntranslator:\tGoogle Translate\n[0]return\n", version);
+        //I use sublime text 4, btw; haha
         input = getchar();
         while(getchar() != '\n');
         play_click
