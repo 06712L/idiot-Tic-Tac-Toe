@@ -46,7 +46,7 @@ This is a meaningless Tic-Tac-Toe project. It has no GUI, and it's entirely in E
 
 ## How to Download?
 
-1. Go to the [Download Page](https://github.com/06712L/idiot-Tic-Tac-Toe/releases/tag/V0.4-beta.1)
+1. Go to the [Download Page](https://github.com/06712L/idiot-Tic-Tac-Toe/releases/tag/V0.4)
 2. Download the file for your operating system
 
 ## Supported Platforms

@@ -43,7 +43,7 @@ It's not just Tic-Tac-Toe
 
 ## How to WHAT?
 
-1. Go to the [WHAT?](https://github.com/06712L/idiot-Tic-Tac-Toe/releases/tag/V0.4-beta.1)
+1. Go to the [WHAT?](https://github.com/06712L/idiot-Tic-Tac-Toe/releases/tag/V0.4)
 2. Download the WHAT for your WHAT?
 3. Try
 
