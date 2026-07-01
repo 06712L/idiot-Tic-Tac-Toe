@@ -15,7 +15,7 @@
 #define play_tied if(sound) {PlaySound(TEXT(".\\sound\\tied.wav"), NULL, SND_FILENAME | SND_ASYNC);}
 #define play_win if(sound) {PlaySound(TEXT(".\\sound\\winner.wav"), NULL, SND_FILENAME | SND_ASYNC);}
 #define play_lose if(sound) {PlaySound(TEXT(".\\sound\\lose.wav"), NULL, SND_FILENAME | SND_ASYNC);}
-#define play_kick_door if(sound) {PlaySound(TEXT(".\\sound\\kick-door.wav"), NULL, SND_FILENAME | SND_ASYNC);}
+#define play_kick if(sound) {PlaySound(TEXT(".\\sound\\kick.wav"), NULL, SND_FILENAME | SND_ASYNC);}
 
 #elif __linux__
 #define clear printf("\033[2J\033[H")
@@ -23,12 +23,12 @@
 #define play_tied if(sound) {system("aplay ./sound/tied.wav > /dev/null 2>&1 &");}
 #define play_win if(sound) {system("aplay ./sound/winner.wav > /dev/null 2>&1 &");}
 #define play_lose if(sound) {system("aplay ./sound/lose.wav > /dev/null 2>&1 &");}
-#define play_kick_door if(sound) {system("aplay ./sound/kick-door.wav > /dev/null 2>&1 &");}
+#define play_kick if(sound) {system("aplay ./sound/kick.wav > /dev/null 2>&1 &");}
 #endif
 
 int rands(int32_t max, int32_t min);
 int check_file(FILE *file);
-void wait_some_time(int time);
+void wait_some_time(uint32_t time);
 void ai_mode_name(char **ai_mode_text);
 
 extern const char *const version;

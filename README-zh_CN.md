@@ -17,7 +17,8 @@
 
 - [x] 井字棋核心
     - [x] 双人模式
-    - [x] AI vs 人类模式
+    - [x] AI vs 人类 模式
+    - [x] AI vs AI 模式
     - [ ] 联机对战模式 *(没有服务器，我也不想做)*
 - [x] 菜单
     - [x] 模式选择
@@ -45,7 +46,7 @@
 
 ## 如何下载？
 
-1. 前往[下载页面](https://github.com/06712L/idiot-Tic-Tac-Toe/releases/tag/V0.4-alpha.3)
+1. 前往[下载页面](https://github.com/06712L/idiot-Tic-Tac-Toe/releases/tag/V0.4)
 2. 下载对应系统的文件
 
 ## 支持平台

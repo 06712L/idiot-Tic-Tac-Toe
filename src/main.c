@@ -7,12 +7,10 @@
 #define ERROR 1
 #define PASS 0
 
-const char *const version = "V0.4-alpha.3";
+const char *const version = "V0.4";
 int8_t sound = UNKNOWN;
 int8_t ai_mode = UNKNOWN;
 int8_t discovered_what = UNKNOWN;
-
-
 
 int main()
 {

@@ -18,6 +18,7 @@ This is a meaningless Tic-Tac-Toe project. It has no GUI, and it's entirely in E
 - [x] Tic-Tac-Toe Core
     - [x] Two-Player Mode
     - [x] AI vs Human Mode
+    - [x] AI vs AI Mode 
     - [ ] Online Multiplayer Mode *(no server and I don't want to make one)*
 - [x] Menu
     - [x] Mode Selection
@@ -45,7 +46,7 @@ This is a meaningless Tic-Tac-Toe project. It has no GUI, and it's entirely in E
 
 ## How to Download?
 
-1. Go to the [Download Page](https://github.com/06712L/idiot-Tic-Tac-Toe/releases/tag/V0.4-alpha.3)
+1. Go to the [Download Page](https://github.com/06712L/idiot-Tic-Tac-Toe/releases/tag/V0.4)
 2. Download the file for your operating system
 
 ## Supported Platforms
