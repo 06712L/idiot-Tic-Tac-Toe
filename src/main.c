@@ -12,8 +12,6 @@ int8_t sound = UNKNOWN;
 int8_t ai_mode = UNKNOWN;
 int8_t discovered_what = UNKNOWN;
 
-
-
 int main()
 {
     clear;

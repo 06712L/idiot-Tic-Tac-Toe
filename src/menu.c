@@ -216,7 +216,8 @@ static void about_menu()
     while(1)
     {
         clear;
-        printf("Version:\t%s\nDevelopers:\t06712L (Blue Cat)\ntranslator:\tGoogle Translate\n[0]return\n", version);
+        printf("Version:\t%s\nDevelopers:\t06712L (A penguin)\ntranslator:\tGoogle Translate\n[0]return\n", version);
+        //I use sublime text 4, btw; haha
         input = getchar();
         while(getchar() != '\n');
         play_click

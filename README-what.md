@@ -4,14 +4,14 @@
 <h1>WHAT?</h1>
 <h3>what?</h3>
 
-A very WHAT? Tic-Tac-Toe game
+A very WHAT? ~~Tic-Tac-Toe~~ game
 </div>
 
 [[简体中文]](https://github.com/06712L/idiot-Tic-Tac-Toe/blob/main/README-zh_CN.md) [[繁體中文]](https://github.com/06712L/idiot-Tic-Tac-Toe/blob/main/README-zh_HK.md) [[English]](https://github.com/06712L/idiot-Tic-Tac-Toe/blob/main/README.md) [[what]](https://github.com/06712L/idiot-Tic-Tac-Toe/blob/main/README-what.md)
 
 ## Introduction
 
-This WHAT project is WHAT. It has WHAT, and it is entirely in WHAT, so it is recommended to download only if you understand basic WHAT.
+It's not just Tic-Tac-Toe
 
 ## Implemented Features
 
@@ -19,41 +19,40 @@ This WHAT project is WHAT. It has WHAT, and it is entirely in WHAT, so it is rec
     - [x] WHAT?
     - [x] WHAT?
     - [x] WHAT?
+    - [x] WHAT?
 - [x] WHAT?
     - [x] WHAT?
     - [x] WHAT?
         - [x] WHAT?
         - [x] WHAT?
-        - [x] WHAT? 
+        - [x] WHAT?
     - [x] WHAT?
     - [x] WHAT?
 - [x] WHAT?
 
 ## Features
 
-- WHAT?
-- WHAT?
-- WHAT?
-- Something is happening...
-- egg egg egg egg egg egg egg egg
+- You will find it
+- **8** and **Egg**
 
-## How to WHAT??
+## You need this
 
 <br />
-<img src="./art/readme-how/how-to-play.jpg" width="250">
+<img src="./art/note-1.jpg" width="500">
 <br />
 
 ## How to WHAT?
 
 1. Go to the [WHAT?](https://github.com/06712L/idiot-Tic-Tac-Toe/releases/tag/V0.4-beta.1)
 2. Download the WHAT for your WHAT?
+3. Try
 
 ## Supported Platforms
 
 - Linux *(WHAT?)*
 - Windows *(WHAT?)*
 
-## How to WHAT?
+## You don't need this
 
 ### Makefile
 
@@ -67,4 +66,4 @@ This WHAT project is WHAT. It has WHAT, and it is entirely in WHAT, so it is rec
 
 ### CMake
 
-WHAT?
+#### **NO**

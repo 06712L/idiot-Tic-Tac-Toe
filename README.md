@@ -18,6 +18,7 @@ This is a meaningless Tic-Tac-Toe project. It has no GUI, and it's entirely in E
 - [x] Tic-Tac-Toe Core
     - [x] Two-Player Mode
     - [x] AI vs Human Mode
+    - [x] AI vs AI Mode 
     - [ ] Online Multiplayer Mode *(no server and I don't want to make one)*
 - [x] Menu
     - [x] Mode Selection

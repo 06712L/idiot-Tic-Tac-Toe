@@ -16,147 +16,96 @@
 #define _DEFAULT_SOURCE
 #endif
 
-static void greedy(uint8_t who_round, uint8_t who_player, uint8_t tic[3][3], char **ai_input)
+enum
 {
-    enum
-    {
-        CAN_WIN = 25000,
-        CAN_RESIST = 7500,
-        CAN_ATTACK = 1000,
-        NOBODY = 2
-    };
+    O = 0,
+    X = 1,
+    NOBODY = 2
+};
 
-    typedef struct po
-    {
-        uint16_t point;
-        uint8_t x;
-        uint8_t y;
-        struct po *next;
-    }points;
-
-    //初始化點數計載點
-    points *head = malloc(sizeof(points));
-    head -> next = NULL;
-    head -> point = 0;
-    head -> x = UNKNOWN;
-    head -> y = UNKNOWN;
-    points *tail = head;
-
-    bool first = true;
-    for(uint8_t y = 0; y < 3; y++)
-    {
-        for(uint8_t x = 0; x < 3; x++)
-        {
-            //檢查是否為空格idiot-Tic-Tac-Toe
-            if(tic[y][x] == NOBODY)
-            {
-                //如果不是第一項則建立新點數計載點
-                if(!first)
-                {
-                    points *new = calloc(1, sizeof(points));
-                    new -> next = NULL;
-
-                    tail -> next = new;
-                    tail = new;
-                }
-                //紀錄位置
-                tail -> x = x;
-                tail -> y = y;
-
-                //建立下棋後的棋盤
-                uint8_t ai_tic[3][3];
-                memcpy(ai_tic, tic, (sizeof(*tic) * 3));
-                ai_tic[y][x] = who_round;
-
-                uint16_t *point = &(tail -> point);
-                //橫縱
-                for(uint8_t h = 0; h < 2; h++)
-                {
-                    uint8_t s = 0 /*己方*/, xs = 0/*敵方*/;
-                    for(uint8_t i = 0; i < 3;i++)
-                    {
-                        if(h)
-                        {
-                            if(ai_tic[y][i] == who_round) {s++;}
-                            else if(ai_tic[y][i] == who_player) {xs++;}
-                        }
-                        else
-                        {
-                            if(ai_tic[i][x] == who_round && ai_tic[i][x] != NOBODY) {s++;}
-                            else if(ai_tic[i][x] == who_player && ai_tic[i][x] != NOBODY) {xs++;}
-                        }
-                    }
-                    if(s == 3) {*point += CAN_WIN;}
-                    else if(xs == 2) {*point += CAN_RESIST;}
-                    else if(s > 1 && xs < 1) {*point += CAN_ATTACK;}
-                }
-
-                //斜線
-                if(abs(x - y) != 1)
-                {
-                    for(uint8_t h = 0; h < 2; h++)
-                    {
-                        uint8_t s = 0 /*己方*/, xs = 0/*敵方*/;
-                        uint8_t sx = 2;
-                        for(uint8_t i = 0; i < 3; i++)
-                        {
-                            if(h)
-                            {
-                                if(ai_tic[i][i] == who_round && ai_tic[i][i] != NOBODY) {s++;}
-                                else if(ai_tic[i][i] == who_player && ai_tic[i][i] != NOBODY) {xs++;}
-                            }
-                            else
-                            {
-                                if(ai_tic[i][sx] == who_round && ai_tic[i][sx] != NOBODY) {s++;}
-                                else if(ai_tic[i][sx] == who_player && ai_tic[i][sx] != NOBODY) {xs++;}
-                            }
-                            sx--;
-                        }
-                        if(s == 3) {*point += CAN_WIN;}
-                        else if(xs == 2) {*point += CAN_RESIST;}
-                        else if(s > 1 && xs < 1) {*point += CAN_ATTACK;}
-                    }
-                }
-                first = false;
+//by Qwen AI
+//0 = O Win, 1 = X Win, 2 = NOBODY, 3 = tied
+static uint8_t check_winner(uint8_t board[3][3]) {
+    // 橫縱
+    for(uint8_t h = 0; h < 2; h++) {
+        for(uint8_t i = 0; i < 3; i++) {
+            uint8_t s_o = 0, s_x = 0;
+            for(uint8_t j = 0; j < 3; j++) {
+                uint8_t val = h ? board[i][j] : board[j][i];
+                if(val == 0) s_o++;
+                else if(val == 1) s_x++;
             }
+            if(s_o == 3) return 0;
+            if(s_x == 3) return 1;
         }
     }
 
-    if(!first && tail -> x != UNKNOWN && tail -> y != UNKNOWN)
-    {
-        uint16_t max_point = 0;
-        points *best = head;
-        points *p = head;
-        while(p != NULL)
-        {
-            if(p -> point > max_point)
-            {
-                best = p;
-                max_point = p -> point;
-            }
-            p = p -> next;
+    // 斜線
+    for(uint8_t h = 0; h < 2; h++) {
+        uint8_t s_o = 0, s_x = 0;
+        uint8_t sx = 2;
+        for(uint8_t i = 0; i < 3; i++) {
+            uint8_t val = h ? board[i][i] : board[i][sx];
+            if(val == 0) s_o++;
+            else if(val == 1) s_x++;
+            sx--;
         }
-        sprintf(*ai_input, "%d%d", ((best -> x) + 1), ((best -> y) + 1));
+        if(s_o == 3) return 0;
+        if(s_x == 3) return 1;
     }
 
-    points *p = head;
-    while(p != NULL)
-    {
-        points *next_p = p -> next;
-        free(p);
-        p = next_p;
+    // 檢查是否還有空格 (還沒結束)
+    for(uint8_t i = 0; i < 3; i++) {
+        for(uint8_t j = 0; j < 3; j++) {
+            if(board[i][j] == 2) return 2;
+        }
     }
-    return;
+
+    return 3;
+}
+
+//by Qwen AI
+// is_maximizing: true = AI round, false = Opponent
+static int minimax(uint8_t board[3][3], bool is_maximizing, uint8_t ai_player, uint8_t human_player) {
+    uint8_t winner = check_winner(board);
+
+    if (winner == ai_player) return 10;      // AI Win
+    if (winner == human_player) return -10;  // Opponent Win
+    if (winner == 3) return 0;               // tied
+
+    if (is_maximizing) {
+        int best_score = -1000;
+        for (uint8_t y = 0; y < 3; y++) {
+            for (uint8_t x = 0; x < 3; x++) {
+                if (board[y][x] == 2) {
+                    board[y][x] = ai_player;
+                    int score = minimax(board, false, ai_player, human_player);
+                    board[y][x] = 2;
+
+                    if (score > best_score) best_score = score;
+                }
+            }
+        }
+        return best_score;
+    } else {
+        int best_score = 1000;
+        for (uint8_t y = 0; y < 3; y++) {
+            for (uint8_t x = 0; x < 3; x++) {
+                if (board[y][x] == 2) {
+                    board[y][x] = human_player;
+                    int score = minimax(board, true, ai_player, human_player);
+                    board[y][x] = 2;
+
+                    if (score < best_score) best_score = score;
+                }
+            }
+        }
+        return best_score;
+    }
 }
 
 void tic_tac_toe_game(int mod)
 {
-    enum
-    {
-        O = 0,
-        X = 1,
-        NOBODY = 2
-    };
 
     #ifdef _WIN32
     char *input = malloc(20 * sizeof(char));
@@ -275,7 +224,7 @@ void tic_tac_toe_game(int mod)
             y--;
             if(x < 0 || y < 0 || x > 2 || y > 2) {error = TRUE;}
 
-            if(tic[y][x] == NOBODY && error == FALSE && x >= 0 && y >= 0 && x < 3 && y < 3)
+            if(x >= 0 && y >= 0 && x < 3 && y < 3 && tic[y][x] == NOBODY && error == FALSE)
             {
                 tic[y][x] = who_round;
                 x *= 2;
@@ -301,7 +250,7 @@ void tic_tac_toe_game(int mod)
             else if(error == TRUE)
             {
                 #ifdef __linux__
-                free(input);
+                if(mod != AI_VS_AI_MODE) {free(input);}
                 #endif
                 goto re;
             }
@@ -702,154 +651,31 @@ void tic_tac_toe_game(int mod)
                 }
             }
 
+            //by Qwen AI
             else if(ai_mode == 3)
             {
-                enum
-                {
-                    WILL_WIN = 25000,
-                    WILL_LOSE = (-20000),
-                    WILL_TIDE = 10000
-                };
+                int best_score = -1000;
+                int best_x = -1, best_y = -1;
 
-                typedef struct po
-                {
-                    int16_t point;
-                    uint8_t x;
-                    uint8_t y;
-                    struct po *next;
-                }points;
+                for (uint8_t y = 0; y < 3; y++) {
+                    for (uint8_t x = 0; x < 3; x++) {
+                        if (tic[y][x] == NOBODY) {
+                            tic[y][x] = who_round;
 
-                //初始化點數計載點
-                points *head = malloc(sizeof(points));
-                head -> next = NULL;
-                head -> point = 0;
-                points *tail = head;
+                            int score = minimax(tic, false, who_round, who_player);
 
-                bool first = true;
-                for(uint8_t y = 0; y < 3; y++)
-                {
-                    for(uint8_t x = 0; x < 3; x++)
-                    {
-                    //檢查是否為空格
-                        if(tic[y][x] == NOBODY)
-                        {
-                            //如果不是第一項則建立新點數計載點
-                            if(!first)
-                            {
-                                points *new = calloc(1, sizeof(points));
-                                new -> next = NULL;
+                            tic[y][x] = NOBODY;
 
-                                tail -> next = new;
-                                tail = new;
+                            if (score > best_score) {
+                                best_score = score;
+                                best_x = x;
+                                best_y = y;
                             }
-                            //紀錄位置
-                            tail -> x = x;
-                            tail -> y = y;
-
-                            //建立下棋後的棋盤
-                            uint8_t ai_tic[3][3];
-                            memcpy(ai_tic, tic, (sizeof(*tic) * 3));
-                            ai_tic[y][x] = who_round;
-                            //建立虛擬誰的回合
-                            bool ai_who_round = who_round;
-                            //簡寫point
-                            int16_t *point = &(tail -> point);
-
-
-                            //模擬回合
-                            for(uint8_t ai_round = round; ai_round < 9 && tail -> point == 0; ai_round++)
-                            {
-                                char *s_ai_input = calloc(8, sizeof(char));
-                                greedy(ai_who_round, who_player, ai_tic, &s_ai_input);
-
-                                //處理輸入
-                                char px[2] = {s_ai_input[0], '\0'};
-                                char py[2] = {s_ai_input[1], '\0'};
-                                int x = atoi(px);
-                                int y = atoi(py);
-                                x--;
-                                y--;
-                                ai_tic[y][x] = ai_who_round;
-
-                                //橫縱
-                                for(uint8_t h = 0; h < 2; h++)
-                                {
-                                    uint8_t s = 0 /*己方*/, xs = 0/*敵方*/;
-                                    for(uint8_t i = 0; i < 3;i++)
-                                    {
-                                        if(h)
-                                        {
-                                            if(ai_tic[y][i] == who_round) {s++;}
-                                            else if(ai_tic[y][i] == who_player) {xs++;}
-                                        }
-                                        else
-                                        {
-                                            if(ai_tic[i][x] == who_round && ai_tic[i][x] != NOBODY) {s++;}
-                                            else if(ai_tic[i][x] == who_player && ai_tic[i][x] != NOBODY) {xs++;}
-                                        }
-                                    }
-                                    if(s == 3) {*point = WILL_WIN;}
-                                    else if(xs == 3) {*point = WILL_LOSE;}
-                                }
-
-                                //斜線
-                                for(uint8_t h = 0; h < 2; h++)
-                                {
-                                    uint8_t s = 0 /*己方*/, xs = 0/*敵方*/;
-                                    uint8_t sx = 2;
-                                    for(uint8_t i = 0; i < 3; i++)
-                                    {
-                                        if(h)
-                                        {
-                                            if(ai_tic[i][i] == who_round && ai_tic[i][i] != NOBODY) {s++;}
-                                            else if(ai_tic[i][i] == who_player && ai_tic[i][i] != NOBODY) {xs++;}
-                                        }
-                                        else
-                                        {
-                                            if(ai_tic[i][sx] == who_round && ai_tic[i][sx] != NOBODY) {s++;}
-                                            else if(ai_tic[i][sx] == who_player && ai_tic[i][sx] != NOBODY) {xs++;}
-                                        }
-                                        sx--;
-                                    }
-                                    if(s == 3) {*point = WILL_WIN;}
-                                    else if(xs == 3) {*point = WILL_LOSE;}
-                                }
-
-                                //回合結束
-                                ai_who_round = !ai_who_round;
-                            }
-                            if(*point == 0) {*point = WILL_TIDE;}
-                            first = false;
                         }
                     }
                 }
 
-                points *best = NULL;
-                if(!first && tail -> x != UNKNOWN && tail -> y != UNKNOWN)
-                {
-                    int16_t max_point = 0;
-
-                    points *p = head;
-                    while(p != NULL)
-                    {
-                        if(p -> point > max_point)
-                        {
-                            best = p;
-                            max_point = p -> point;
-                        }
-                        p = p -> next;
-                    }
-                    sprintf(ai_input, "%d%d", ((best -> x) + 1), ((best -> y) + 1));
-                }
-
-
-                points *p = head;
-                while(p != NULL)
-                {
-                    points *next_p = p -> next;
-                    free(p);
-                    p = next_p;
-                }
+                sprintf(ai_input, "%d%d", best_x + 1, best_y + 1);
             }
 
             printf("%s", ai_input);
@@ -920,7 +746,7 @@ void tic_tac_toe_game(int mod)
         setbuf(stdin, NULL);
         play_click
         #ifdef __linux__
-        free(input);
+        if(mod != AI_VS_AI_MODE) {free(input);}
         #endif
     }
 
@@ -958,7 +784,7 @@ void tic_tac_toe_game(int mod)
     #ifdef _WIN32
     free(input);
     #endif
-    if(mod == 1) {free(ai_input);}
+    if(mod >= 1) {free(ai_input);}
     setbuf(stdin, NULL);
 
     return;

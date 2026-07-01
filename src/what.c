@@ -5,6 +5,10 @@
 #include <unistd.h>
 #include <math.h>
 #include <string.h>
+#ifdef _WIN32
+#include <windows.h>
+#include <mmsystem.h>
+#endif
 
 //Inspired by Gravity Falls
 void what()
@@ -175,6 +179,7 @@ void what()
             usleep(10000);
         }
         sleep(1);
+        clear;
         printf("Overview\n\n%d second remaining\nYou took %d steps\n\n", time, walk);
         wait_some_time(10);
     }
