@@ -117,7 +117,7 @@ static void discovered_what_menu()
     while(TRUE)
     {
         clear;
-        printf("[1]Welcomed you\n[2]First time entering the 'border area'\n[3]Egg dimension? (DEMO)\n\n[0]return\n");
+        printf("[1]Welcomed you\n[2]First time entering the 'border area'\n[3]Egg dimension?\n\n[0]return\n");
         input = getchar();
         while(getchar() != '\n');
         play_click;

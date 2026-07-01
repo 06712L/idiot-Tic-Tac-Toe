@@ -154,8 +154,6 @@ void what()
         usleep(800000);
         puts("My God! That egg knocked you out!");
         sleep(2);
-        puts("To be continued");
-        sleep(5);
         clear;
         printf("Overview\n\n%d second remaining\nYou took %d steps\n\n", time, walk);
 
